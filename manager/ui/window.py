@@ -30,23 +30,7 @@ class Window(QMainWindow):
 
     # ^ ==============================================================
     # v Tables =======================================================
-    def init_files_table(self, data_list):
-        # Look at checkboxes values
-
-        softwares_whitelist = ['Maya']
-        file_list = []
-
-        # Show files if their software is in the whitelist
-        for data in data_list:
-            for software in softwares_whitelist:
-                if data[0][1] == software:
-                    file_list = file_list + data
-
-        # Turn the table to a non-editable one
-        self.t_resume.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
-        # Add new rows
-        self.t_resume.setRowCount(len(file_list))
-
+    def fill_table(self, file_list):
         # Fill table
         for i in range(len(file_list)):
             qt_tab_item_name = QTableWidgetItem(file_list[i][0])
@@ -57,13 +41,42 @@ class Window(QMainWindow):
             self.t_resume.setItem(i, 1, qt_tab_item_type)
             self.t_resume.setItem(i, 2, qt_tab_item_address)
 
+
+    def get_whitelisted_files(self):
+        # Look at checkboxes values
+
+
+        softwares_whitelist = ['Maya']
+        file_list = []
+
+        # Show files if their software is in the whitelist
+        for data in data_list:
+            for software in softwares_whitelist:
+                if data[0][1] == software:
+                    file_list = file_list + data
+
+        return file_list
+
+
+    def init_files_table(self, data_list):
+        # Turn the table to a non-editable one
+        self.t_resume.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
+
+        # Only get the files from whitelisted softwares
+        file_list = self.get_whitelisted_files()
+
+        # Add new rows
+        self.t_resume.setRowCount(len(file_list))
+        # Fill rows
+        self.fill_table(file_list)
         # Resize table automatically
         self.t_resume.resizeColumnsToContents()
 
     # ^ Tables =======================================================
 
-# v ==============================================================
-# v Create data list =============================================
+# v =============================================================╗
+# v Create data list                                             ║
+
 # From pipeline_path, get all Maya and Houdini files and store them in a list
 # along with their type (Maya or Houdini file) and path (from pipeline_path)
 
@@ -111,9 +124,10 @@ def get_file_name_from_path(f_path):
     return file_name
 
 
-# ^ Create data list =============================================
-# ^ ==============================================================
-
+# ^ Create data list                                             ║
+# ^ =============================================================╝
+# v =============================================================╗
+# v Main                                                         ║
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication()
@@ -125,4 +139,5 @@ if __name__ == '__main__':
 
     app.exec_()
 
-
+# v Main                                                         ║
+# ^ =============================================================╝
