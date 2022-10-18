@@ -30,13 +30,24 @@ class Window(QMainWindow):
 
     # ^ ==============================================================
     # v Tables =======================================================
-    def init_files_table(self, file_list):
+    def init_files_table(self, data_list):
+        # Look at checkboxes values
+
+        softwares_whitelist = ['Maya']
+        file_list = []
+
+        # Show files if their software is in the whitelist
+        for data in data_list:
+            for software in softwares_whitelist:
+                if data[0][1] == software:
+                    file_list = file_list + data
+
         # Turn the table to a non-editable one
         self.t_resume.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
         # Add new rows
         self.t_resume.setRowCount(len(file_list))
 
-        # Fill the table
+        # Fill table
         for i in range(len(file_list)):
             qt_tab_item_name = QTableWidgetItem(file_list[i][0])
             qt_tab_item_type = QTableWidgetItem(file_list[i][1])
@@ -45,6 +56,9 @@ class Window(QMainWindow):
             self.t_resume.setItem(i, 0, qt_tab_item_name)
             self.t_resume.setItem(i, 1, qt_tab_item_type)
             self.t_resume.setItem(i, 2, qt_tab_item_address)
+
+        # Resize table automatically
+        self.t_resume.resizeColumnsToContents()
 
     # ^ Tables =======================================================
 
@@ -59,7 +73,7 @@ def init_data_list():
     mb_datas = init_data_from_ext_and_soft("*.mb", "Maya")
     hipnc_datas = init_data_from_ext_and_soft("*.hipnc", "Houdini")
 
-    data_list = ma_datas + mb_datas + hipnc_datas
+    data_list = [ma_datas, mb_datas, hipnc_datas]
 
     return data_list
 
@@ -94,8 +108,6 @@ def get_file_name_from_path(f_path):
     # get the last element of the list
     file_name = split_path[len(split_path) - 1]
 
-    print (file_name)
-
     return file_name
 
 
@@ -112,3 +124,5 @@ if __name__ == '__main__':
     w.init_files_table(data_list)
 
     app.exec_()
+
+
