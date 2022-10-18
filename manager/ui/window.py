@@ -1,3 +1,4 @@
+import glob
 from pathlib import Path
 
 import Qt
@@ -5,6 +6,7 @@ from Qt import QtWidgets, QtCompat
 from Qt.QtWidgets import QMainWindow, QApplication, QTableWidget, QTableWidgetItem
 
 ui_path = Path(__file__).parent / "qt" / "window.ui"
+pipeline_path = Path('D:/TD4/Paul/Pipeline/MMOVIE')
 
 class Window(QMainWindow):
     def __init__(self):
@@ -28,21 +30,85 @@ class Window(QMainWindow):
 
     # ^ ==============================================================
     # v Tables =======================================================
-    def init_files_table(self, fileList):
-        self.t_resume.setRowCount(len(fileList))
+    def init_files_table(self, file_list):
+        # Turn the table to a non-editable one
+        self.t_resume.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
+        # Add new rows
+        self.t_resume.setRowCount(len(file_list))
 
-        for i in range(len(fileList)):
-            qt_table_widget_item = QTableWidgetItem(fileList[i])
-            self.t_resume.setItem(i, 0, qt_table_widget_item)
+        # Fill the table
+        for i in range(len(file_list)):
+            qt_tab_item_name = QTableWidgetItem(file_list[i][0])
+            qt_tab_item_type = QTableWidgetItem(file_list[i][1])
+            qt_tab_item_address = QTableWidgetItem(file_list[i][2])
+
+            self.t_resume.setItem(i, 0, qt_tab_item_name)
+            self.t_resume.setItem(i, 1, qt_tab_item_type)
+            self.t_resume.setItem(i, 2, qt_tab_item_address)
 
     # ^ Tables =======================================================
+
+# v ==============================================================
+# v Create data list =============================================
+# From pipeline_path, get all Maya and Houdini files and store them in a list
+# along with their type (Maya or Houdini file) and path (from pipeline_path)
+
+
+def init_data_list():
+    ma_datas = init_data_from_ext_and_soft("*.ma", "Maya")
+    mb_datas = init_data_from_ext_and_soft("*.mb", "Maya")
+    hipnc_datas = init_data_from_ext_and_soft("*.hipnc", "Houdini")
+
+    data_list = ma_datas + mb_datas + hipnc_datas
+
+    return data_list
+
+
+def init_data_from_ext_and_soft(extension, software):
+    # Get paths from extension
+    paths_list = get_path_from_extension(extension)
+    data_list = []
+
+    # Get according names and set right software name
+    for path in paths_list:
+        file_name = get_file_name_from_path(path)
+        data_list.append([file_name, software, path])
+
+    return data_list
+
+
+def get_path_from_extension(extension):
+    paths_list = []
+
+    for item in Path(pipeline_path).rglob(extension):
+        paths_list.append(str(item))
+
+    return paths_list
+
+
+def get_file_name_from_path(f_path):
+    # find the correct path ==============================
+    # remove the extension ===============
+    # split the path
+    split_path = f_path.split("\\")
+    # get the last element of the list
+    file_name = split_path[len(split_path) - 1]
+
+    print (file_name)
+
+    return file_name
+
+
+# ^ Create data list =============================================
+# ^ ==============================================================
+
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication()
     w = Window()
     w.show()
 
-    dataList = ["MayaFile1", "MayaFile2", "MayaFile3", "MayaFile4"]
-    w.init_files_table(dataList)
+    data_list = init_data_list()
+    w.init_files_table(data_list)
 
     app.exec_()
