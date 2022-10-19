@@ -6,42 +6,51 @@ from pathlib import Path
 
 # From pipeline_path, get all Maya and Houdini files and store them in a list
 # along with their type (Maya or Houdini file) and path (from pipeline_path)
-def init_data_list(project_name, soft_keys_list = ["Maya"]):
+
+
+def init_data_list(project_name, soft_programs=[""]):
     """
     Get files from the right project and right software along with the software they come from and their path
 
     :param project_name: Give the production name, not the folder name
-    :param soft_keys_list: Needs a list of software
+    :param soft_programs: Needs a list of software
     :return: yield a list
     """
+    project_path = Path(conf.pipeline_path) / conf.projects.get(project_name)
+
     data_list = []
+    soft_files = []
 
-    ma_datas = init_data_from_ext_and_soft("*.ma", "Maya")
-    mb_datas = init_data_from_ext_and_soft("*.mb", "Maya")
-    hipnc_datas = init_data_from_ext_and_soft("*.hipnc", "Houdini")
+    for software in soft_programs:
+        # Get files addresses
+        files_addresses = list(get_file_addresses(project_path, software))
 
+        for file_address in files_addresses:
+            # Get file name
+            file_name = get_file_name_from_path(file_address)
+            # Create the data
+            file_datas = [file_name, software, file_address]
+            # Add the data to the data list
+            data_list.append(file_datas)
 
     return data_list
 
 
-def get_file_addresses(project_name, soft_keys_list = ["Maya"]):
+def get_file_addresses(project_path, software):
     """
     Get files addresses from the right project and right software
 
-    :param project_name: Give the production name, not the folder name
-    :param soft_keys_list: Needs a list of software
+    :param project_path: Path to the folder containing the project
+    :param software: Needs a software
     :return: yield a generator
     """
-    project_path = Path(conf.pipeline_path) / conf.projects.get(project_name)
     print(f"Project path: {project_path}")
     generators = []
     extensions = []
 
     # Get selected software extensions
-    for soft_keys in soft_keys_list:
-        extensions.extend(conf.software_programs.get(soft_keys))
-
-    print(f"Allowed extensions: {extensions}")
+    extensions.extend(conf.software_programs.get(software))
+    # print(f"Allowed extensions: {extensions}")
 
     # Get files that have one of the allowed extensions
     for ext in extensions:
@@ -58,16 +67,17 @@ def get_file_addresses(project_name, soft_keys_list = ["Maya"]):
 
 
 def get_file_name_from_path(f_path):
-    # split the path
-    split_path = f_path.split("\\")
-    # get the last element of the list
+    # Convert the path to a string
+    f_path_str = str(f_path)
+    # Split the path
+    split_path = f_path_str.split("\\")
+    # Get the last element of the list
     file_name = split_path[len(split_path) - 1]
 
     return file_name
 
-
-# v To ref =============================================
-def init_data_list():
+# v Previous version ===================================
+"""def init_data_list():
     ma_datas = init_data_from_ext_and_soft("*.ma", "Maya")
     mb_datas = init_data_from_ext_and_soft("*.mb", "Maya")
     hipnc_datas = init_data_from_ext_and_soft("*.hipnc", "Houdini")
@@ -109,8 +119,8 @@ def get_file_name_from_path(f_path):
 
     return file_name
 
-
-# ^ To ref =============================================
+"""
+# ^ Previous version ===================================
 
 # ^ Create data list                                             ║
 # ^ =============================================================╝
@@ -118,7 +128,7 @@ def get_file_name_from_path(f_path):
 # v Tests                                                        ║
 
 if __name__ == '__main__':
-    data_list = list(get_file_addresses("micromovie", ["Maya"]))
+    data_list = list(init_data_list("micromovie", ["Maya", "Houdini"]))
     print(data_list)
 
 # ^ Tests                                                        ║

@@ -7,6 +7,7 @@ from Qt.QtWidgets import QMainWindow, QApplication, QTableWidget, QTableWidgetIt
 
 # import manager.conf.conf_ui as conf_ui
 from manager import conf
+from manager import core
 
 class Window(QMainWindow):
     def __init__(self):
@@ -136,7 +137,7 @@ if __name__ == '__main__':
     w = Window()
     w.show()
 
-    data_list = init_data_list()
+    data_list = list(core.init_data_list("micromovie", ["Maya", "Houdini"]))
     w.init_files_table(data_list)
 
     app.exec_()
