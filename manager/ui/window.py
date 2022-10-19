@@ -8,14 +8,11 @@ from Qt.QtWidgets import QMainWindow, QApplication, QTableWidget, QTableWidgetIt
 # import manager.conf.conf_ui as conf_ui
 from manager import conf
 
-ui_path = Path(__file__).parent / "qt" / "window.ui"
-pipeline_path = Path('D:/TD4/Paul/Pipeline/MMOVIE')
-
 class Window(QMainWindow):
     def __init__(self):
         super(Window, self).__init__() # super is the keyword to ask for a parent
         print("init done")
-        QtCompat.loadUi(str(ui_path), self)
+        QtCompat.loadUi(str(conf.ui_path), self)
         self.connect()
         self.le_demo.setText("Bip")
         self.setWindowTitle(conf.app_name)
@@ -47,14 +44,14 @@ class Window(QMainWindow):
 
     def get_whitelisted_files(self):
         # Look at checkboxes values
-
-
-        softwares_whitelist = ['Maya']
+        print(conf.software_programs.keys())
+        #                     v conf.software_programs.get('Maya')
+        software_whitelist = ['Maya']
         file_list = []
 
         # Show files if their software is in the whitelist
         for data in data_list:
-            for software in softwares_whitelist:
+            for software in software_whitelist:
                 if data[0][1] == software:
                     file_list = file_list + data
 
@@ -65,7 +62,7 @@ class Window(QMainWindow):
         # Turn the table to a non-editable one
         self.t_resume.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
 
-        # Only get the files from whitelisted softwares
+        # Only get the files from whitelisted software
         file_list = self.get_whitelisted_files()
 
         # Add new rows
@@ -110,7 +107,9 @@ def init_data_from_ext_and_soft(extension, software):
 def get_path_from_extension(extension):
     paths_list = []
 
-    for item in Path(pipeline_path).rglob(extension):
+    project_path = Path(conf.pipeline_path) / conf.projects.get('micromovie')
+
+    for item in project_path.rglob(extension):
         paths_list.append(str(item))
 
     return paths_list
