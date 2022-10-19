@@ -6,10 +6,34 @@ from pathlib import Path
 
 # From pipeline_path, get all Maya and Houdini files and store them in a list
 # along with their type (Maya or Houdini file) and path (from pipeline_path)
+def init_data_list(project_name, soft_keys_list = ["Maya"]):
+    """
+    Get files from the right project and right software along with the software they come from and their path
 
-# give project_name as
-def get_files(project_name, soft_keys_list):
+    :param project_name: Give the production name, not the folder name
+    :param soft_keys_list: Needs a list of software
+    :return: yield a list
+    """
+    data_list = []
+
+    ma_datas = init_data_from_ext_and_soft("*.ma", "Maya")
+    mb_datas = init_data_from_ext_and_soft("*.mb", "Maya")
+    hipnc_datas = init_data_from_ext_and_soft("*.hipnc", "Houdini")
+
+
+    return data_list
+
+
+def get_file_addresses(project_name, soft_keys_list = ["Maya"]):
+    """
+    Get files addresses from the right project and right software
+
+    :param project_name: Give the production name, not the folder name
+    :param soft_keys_list: Needs a list of software
+    :return: yield a generator
+    """
     project_path = Path(conf.pipeline_path) / conf.projects.get(project_name)
+    print(f"Project path: {project_path}")
     generators = []
     extensions = []
 
@@ -17,7 +41,7 @@ def get_files(project_name, soft_keys_list):
     for soft_keys in soft_keys_list:
         extensions.extend(conf.software_programs.get(soft_keys))
 
-    print(soft_keys)
+    print(f"Allowed extensions: {extensions}")
 
     # Get files that have one of the allowed extensions
     for ext in extensions:
@@ -31,6 +55,15 @@ def get_files(project_name, soft_keys_list):
     for g in generators:
         for f in g:
             yield f
+
+
+def get_file_name_from_path(f_path):
+    # split the path
+    split_path = f_path.split("\\")
+    # get the last element of the list
+    file_name = split_path[len(split_path) - 1]
+
+    return file_name
 
 
 # v To ref =============================================
@@ -69,8 +102,6 @@ def get_path_from_extension(extension):
 
 
 def get_file_name_from_path(f_path):
-    # find the correct path ==============================
-    # remove the extension ===============
     # split the path
     split_path = f_path.split("\\")
     # get the last element of the list
@@ -83,11 +114,11 @@ def get_file_name_from_path(f_path):
 
 # ^ Create data list                                             ║
 # ^ =============================================================╝
-# v =============================s================================╗
+# v =============================================================╗
 # v Tests                                                        ║
 
 if __name__ == '__main__':
-    data_list = list(get_files("micromovie", ["Maya", "Houdini"]))
+    data_list = list(get_file_addresses("micromovie", ["Maya"]))
     print(data_list)
 
 # ^ Tests                                                        ║

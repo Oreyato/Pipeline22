@@ -18,8 +18,8 @@ projects = {
 # ^ Projects ====================================================
 # v Software and extensions =====================================
 software_programs = {
-    "Maya": [".ma", ".mb"],
-    "Houdini": [".hipnc"]
+    "Maya": ["ma", "mb"],
+    "Houdini": ["hipnc"]
 }
 
 # ^ Software and extensions =====================================
