@@ -19,7 +19,9 @@ projects = {
 # v Software and extensions =====================================
 software_programs = {
     "Maya": ["ma", "mb"],
-    "Houdini": ["hipnc"]
+    "Houdini": ["hipnc"],
+    "Nuke": ["nk"],
+    "Photoshop": ["psd"]
 }
 
 # ^ Software and extensions =====================================

@@ -44,7 +44,6 @@ def get_file_addresses(project_path, software):
     :param software: Needs a software
     :return: yield a generator
     """
-    print(f"Project path: {project_path}")
     generators = []
     extensions = []
 
@@ -129,7 +128,6 @@ def get_file_name_from_path(f_path):
 
 if __name__ == '__main__':
     data_list = list(init_data_list("micromovie", ["Maya", "Houdini"]))
-    print(data_list)
 
 # ^ Tests                                                        ║
 # ^ =============================================================╝
