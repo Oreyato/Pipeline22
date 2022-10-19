@@ -5,6 +5,9 @@ import Qt
 from Qt import QtWidgets, QtCompat
 from Qt.QtWidgets import QMainWindow, QApplication, QTableWidget, QTableWidgetItem
 
+# import manager.conf.conf_ui as conf_ui
+from manager import conf
+
 ui_path = Path(__file__).parent / "qt" / "window.ui"
 pipeline_path = Path('D:/TD4/Paul/Pipeline/MMOVIE')
 
@@ -15,7 +18,7 @@ class Window(QMainWindow):
         QtCompat.loadUi(str(ui_path), self)
         self.connect()
         self.le_demo.setText("Bip")
-        self.setWindowTitle("Pipeline22")
+        self.setWindowTitle(conf.app_name)
 
     def connect(self):
         self.pb_open.clicked.connect(self.do_open)
@@ -139,5 +142,5 @@ if __name__ == '__main__':
 
     app.exec_()
 
-# v Main                                                         ║
+# ^ Main                                                         ║
 # ^ =============================================================╝
