@@ -14,12 +14,10 @@ class Window(QMainWindow):
         super(Window, self).__init__() # super is the keyword to ask for a parent
         QtCompat.loadUi(str(conf.ui_path), self)
 
-        self.le_demo.setText("Bip")
         self.setWindowTitle(conf.app_name)
 
-        current_layout = self
+        self.software_checkboxes = []
         self.init_checkboxes(self)
-
         self.connect()
 
         self.engine = engine.get()
@@ -27,6 +25,9 @@ class Window(QMainWindow):
     def connect(self):
         self.pb_open.clicked.connect(self.do_open)
         self.pb_build.clicked.connect(self.do_build)
+
+        for i in range(len(self.software_checkboxes)):
+            self.software_checkboxes[i].clicked.connect(self.do_soft_cb_click)
 
     # v Buttons click ================================================
     def do_open(self):
@@ -46,12 +47,17 @@ class Window(QMainWindow):
         software_names = list(conf.software_programs.keys())
         # Remplace it's caption
         self.pl_software.setText("All")
+        # Add it in the list
+        self.software_checkboxes.append(self.pl_software)
 
         # Create other buttons
         for i in range(len(software_names)):
             new_box = QtWidgets.QCheckBox(software_names[i], self)
             soft_programs_layout.layout().addWidget(new_box)
+            self.software_checkboxes.append(new_box)
 
+    def do_soft_cb_click(self):
+        print('Click on "All"')
 
     # ^ Checkboxes ===================================================
     # v Tables =======================================================
@@ -81,15 +87,24 @@ class Window(QMainWindow):
     # ^ Tables =======================================================
 
 # v =============================================================╗
-# v Main                                                         ║
+# v Launch                                                       ║
 
-if __name__ == '__main__':
-    app = QtWidgets.QApplication()
+def open_window():
     w = Window()
     w.show()
 
     data_list = list(core.init_data_list("micromovie", ["Maya", "Houdini"]))
     w.init_files_table(data_list)
+
+# v Launch                                                       ║
+# ^ =============================================================╝
+# v =============================================================╗
+# v Main                                                         ║
+
+if __name__ == '__main__':
+    app = QtWidgets.QApplication()
+
+    open_window()
 
     app.exec_()
 
