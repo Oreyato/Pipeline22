@@ -21,7 +21,8 @@ software_programs = {
     "Maya": ["ma", "mb"],
     "Houdini": ["hipnc"],
     "Nuke": ["nk"],
-    "Photoshop": ["psd"]
+    "Photoshop": ["psd"],
+    "AfterEffects": ["ae"]
 }
 
 # ^ Software and extensions =====================================

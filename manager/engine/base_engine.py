@@ -7,7 +7,7 @@ class BaseEngine:
 
     # Override what the object returns when printed
     def __str__(self):
-        return f"[{__class__.__name__}]"
+        return f"[{self.__class__.__name__}]"
 
     def open_file_from_path(file_path):
         print(f'Open file at: {file_path}')

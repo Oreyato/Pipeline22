@@ -18,9 +18,11 @@ class Window(QMainWindow):
 
         self.software_checkboxes = []
         self.init_checkboxes(self)
+        self.software_names = []
         self.connect()
 
         self.engine = engine.get()
+        self.engine.open_file_from_path('D:/TD4/Paul/Pipeline/MMOVIE/shots/sq010/sh010/animation/v001/sh010_work.ma')
 
     def connect(self):
         self.pb_open.clicked.connect(self.do_open)
@@ -57,10 +59,40 @@ class Window(QMainWindow):
             self.software_checkboxes.append(new_box)
 
     def do_soft_cb_click(self):
-        print('Click on "All"')
+        check_box = self.sender()
+        check_box_text = check_box.text()
+        check_box_status = check_box.isChecked()
+
+        # If it has been checked, add the software to the list
+        if check_box_status:
+            self.software_names.append(check_box_text)
+            print(f'Add {check_box_text} to software_names list')
+        else:
+            self.rm_software_names_elem(str(check_box_text))
+
+        if check_box_text == "All" and check_box_status:
+            print('Clicked on "All"')
+            # Fill the software_names all software names from the config file
+            ### Il va falloir faire une loop parce que là, ça met des clés de dico et ce n'est pas ce qu'on veut
+            self.software_names = conf.software_programs.keys()
+            # Fill the software_names list with the previous variable
+
+
+        new_data = list(core.init_data_list("micromovie", self.software_names))
+        self.init_files_table(new_data)
 
     # ^ Checkboxes ===================================================
     # v Tables =======================================================
+    def rm_software_names_elem(self, software_name):
+        if len(self.software_names) > 0:
+            elem_to_rm_index = self.software_names.index(str(software_name))
+            self.software_names.pop(elem_to_rm_index)
+            print(f'Remove {software_name} from software_names list')
+
+        else:
+            print('Can\'t remove an element from an empty list')
+
+
     def fill_table(self, data_list):
         # Fill table
         for i in range(len(data_list)):
@@ -93,7 +125,9 @@ def open_window():
     w = Window()
     w.show()
 
-    data_list = list(core.init_data_list("micromovie", ["Maya", "Houdini"]))
+    w.software_names.append("Maya")
+
+    data_list = list(core.init_data_list("micromovie", w.software_names))
     w.init_files_table(data_list)
 
 # v Launch                                                       ║
