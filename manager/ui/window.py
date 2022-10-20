@@ -6,8 +6,8 @@ from Qt import QtWidgets, QtCompat
 from Qt.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QApplication, QTableWidget, QTableWidgetItem, QCheckBox
 
 # import manager.conf.conf_ui as conf_ui
-from manager import conf
-from manager import core
+from manager import conf, core, engine
+
 
 class Window(QMainWindow):
     def __init__(self):
@@ -17,10 +17,12 @@ class Window(QMainWindow):
         self.le_demo.setText("Bip")
         self.setWindowTitle(conf.app_name)
 
-        self.connect()
-
         current_layout = self
         self.init_checkboxes(self)
+
+        self.connect()
+
+        self.engine = engine.get()
 
     def connect(self):
         self.pb_open.clicked.connect(self.do_open)
