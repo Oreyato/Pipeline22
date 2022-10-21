@@ -27,7 +27,11 @@ class Window(QMainWindow):
 
     def connect(self):
         self.pb_open.clicked.connect(self.do_open)
+        self.pb_reference.clicked.connect(self.do_reference)
+        self.pb_import.clicked.connect(self.do_import)
         self.pb_build.clicked.connect(self.do_build)
+        self.pb_quit.clicked.connect(self.do_quit)
+
         self.t_resume.clicked.connect(self.select_whole_row)
 
         for i in range(len(self.software_checkboxes)):
@@ -35,24 +39,35 @@ class Window(QMainWindow):
 
     # v Buttons click ================================================
     def do_open(self):
-        # Get current row
-        current_row = self.t_resume.currentRow()
+        # Get current cell
+        active_cell = self.t_resume.currentItem()
 
         # Check if a row is selected
-        if current_row is not None:
+        if active_cell is not None:
+            # Get current row
+            current_row = self.t_resume.currentRow()
             # Get the "Full Address" column
             path_column = self.t_resume.indexFromItem(self.t_resume.findItems("D:", QtCore.Qt.MatchContains)[0]).column()
             # Get the selected row linked address
             address = self.t_resume.item(current_row, path_column).text()
+            print(address)
             # Open file
             self.engine.open_file_from_path(address)
         # If not, returns an error - a window would be better
         else:
             print('Please select an item before clicking the \"Open\" button')
 
+    def do_reference(self):
+        print("Clicked on \"Reference\" button")
+
+    def do_import(self):
+        print("Clicked on \"Import\" button")
 
     def do_build(self):
         print("Clicked on \"Build\" button")
+
+    def do_quit(self):
+        app.exit()
 
     # ^ ==============================================================
     # v Checkboxes ===================================================
@@ -125,6 +140,8 @@ class Window(QMainWindow):
         self.init_files_table(updt_data)
 
     # ^ Checkboxes ===================================================
+
+    # ^ Checkboxes ===================================================
     # v Tables =======================================================
     def select_whole_row(self):
         # Get current row
@@ -180,6 +197,5 @@ if __name__ == '__main__':
     open_window()
 
     app.exec_()
-
 # ^ Main                                                         ║
 # ^ =============================================================╝
