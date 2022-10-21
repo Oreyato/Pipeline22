@@ -15,15 +15,25 @@ class Window(QMainWindow):
         super(Window, self).__init__() # super is the keyword to ask for a parent
         QtCompat.loadUi(str(conf.ui_path), self)
 
+        # Set window title
         self.setWindowTitle(conf.app_name)
 
-        self.software_checkboxes = []
-        self.init_checkboxes(self)
-        self.software_names = []
-        self.connect()
-
+        # Get running engine
         self.engine = engine.get()
         print(self.engine)
+
+        # Create a list that will contain software to show
+        self.software_names = []
+
+        # Init check boxes
+        self.software_checkboxes = []
+        self.init_checkboxes(self)
+
+        # Init dynamic buttons
+        self.buttons = []
+        self.init_dyn_buttons()
+
+        self.connect()
 
     def connect(self):
         # Click somewhere on the table
@@ -32,11 +42,9 @@ class Window(QMainWindow):
         for i in range(len(self.software_checkboxes)):
             self.software_checkboxes[i].clicked.connect(self.do_soft_cb_click)
 
-        # Click one of the dynamic buttons - NOT DYNAMIC RN
-        self.pb_open.clicked.connect(self.do_open)
-        self.pb_reference.clicked.connect(self.do_reference)
-        self.pb_import.clicked.connect(self.do_import)
-        self.pb_build.clicked.connect(self.do_build)
+        # Click one of the dynamic buttons
+        for i, button in enumerate(self.buttons):
+            self.buttons[i].clicked.connect(self.do_click_on_dyn_button)
 
         # Click on "Quit" button
         self.pb_quit.clicked.connect(self.do_quit)
@@ -72,6 +80,37 @@ class Window(QMainWindow):
 
     def do_quit(self):
         app.exit()
+
+    def init_dyn_buttons(self):
+        print("Init buttons")
+        # Get placeholder lay-out
+        buttons_layout = self.pl_button.parentWidget()
+
+        # Get all possible buttons
+        buttons_names = self.engine.implement
+        print(buttons_names)
+
+        # Get the first button name
+        first_button_caption = buttons_names[0]
+        # Remplace its caption
+        self.pl_button.setText(first_button_caption)
+        # Put the name to low case and add the prefix
+        first_button_name = f"cb_{first_button_caption.lower()}"
+        # Remplace its name
+        self.pl_button.setObjectName(first_button_name)
+        # Add it in the list
+        self.buttons.append(self.pl_button)
+
+        # Create other buttons
+        for i in range(len(buttons_names)-1):
+            new_button_name = f"cb_{buttons_names[i+1].lower()}"
+            new_button = QtWidgets.QPushButton(new_button_name, self)
+            new_button.setText(buttons_names[i+1])
+            buttons_layout.layout().addWidget(new_button)
+            self.buttons.append(new_button)
+
+    def do_click_on_dyn_button(self):
+        print("Clicked on dynamic button")
 
     # ^ Buttons ======================================================
     # v Checkboxes ===================================================

@@ -30,11 +30,11 @@ def get():
 
     if software_name == "python":
         from manager.engine.os_pck.os_engine import OSEngine
-        selected = OSEngine
+        selected = OSEngine()
 
     elif software_name == "maya":
         from manager.engine.maya.maya_engine import MayaEngine
-        selected = MayaEngine
+        selected = MayaEngine()
 
 
     print(f'Selected engine: {selected}')
