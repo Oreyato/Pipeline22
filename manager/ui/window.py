@@ -26,18 +26,22 @@ class Window(QMainWindow):
         print(self.engine)
 
     def connect(self):
+        # Click somewhere on the table
+        self.t_resume.clicked.connect(self.select_whole_row)
+        # Click one of the dynamic checkboxes
+        for i in range(len(self.software_checkboxes)):
+            self.software_checkboxes[i].clicked.connect(self.do_soft_cb_click)
+
+        # Click one of the dynamic buttons - NOT DYNAMIC RN
         self.pb_open.clicked.connect(self.do_open)
         self.pb_reference.clicked.connect(self.do_reference)
         self.pb_import.clicked.connect(self.do_import)
         self.pb_build.clicked.connect(self.do_build)
+
+        # Click on "Quit" button
         self.pb_quit.clicked.connect(self.do_quit)
 
-        self.t_resume.clicked.connect(self.select_whole_row)
-
-        for i in range(len(self.software_checkboxes)):
-            self.software_checkboxes[i].clicked.connect(self.do_soft_cb_click)
-
-    # v Buttons click ================================================
+    # v Buttons ======================================================
     def do_open(self):
         # Get current cell
         active_cell = self.t_resume.currentItem()
@@ -69,7 +73,7 @@ class Window(QMainWindow):
     def do_quit(self):
         app.exit()
 
-    # ^ ==============================================================
+    # ^ Buttons ======================================================
     # v Checkboxes ===================================================
     def init_checkboxes(self, current_layout):
         # Get placeholder lay-out
@@ -138,8 +142,6 @@ class Window(QMainWindow):
         updt_data = list(core.init_data_list("micromovie", self.software_names))
         # Update the table
         self.init_files_table(updt_data)
-
-    # ^ Checkboxes ===================================================
 
     # ^ Checkboxes ===================================================
     # v Tables =======================================================
