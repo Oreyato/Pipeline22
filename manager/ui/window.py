@@ -3,11 +3,12 @@ from pathlib import Path
 
 import Qt
 from Qt import QtWidgets, QtCompat
-from Qt.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QApplication, QTableWidget, QTableWidgetItem, QCheckBox
+from Qt.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QApplication, QTableWidget, QTableWidgetItem, QCheckBox, QLineEdit, QPushButton, QTableWidgetItem
 
 # import manager.conf.conf_ui as conf_ui
 from manager import conf, core, engine
 
+from PySide2 import QtGui, QtCore
 
 class Window(QMainWindow):
     def __init__(self):
@@ -22,19 +23,32 @@ class Window(QMainWindow):
         self.connect()
 
         self.engine = engine.get()
-        self.engine.open_file_from_path('D:/TD4/Paul/Pipeline/MMOVIE/shots/sq010/sh010/animation/v001/sh010_work.ma')
 
     def connect(self):
         self.pb_open.clicked.connect(self.do_open)
         self.pb_build.clicked.connect(self.do_build)
+        self.t_resume.clicked.connect(self.select_whole_row)
 
         for i in range(len(self.software_checkboxes)):
             self.software_checkboxes[i].clicked.connect(self.do_soft_cb_click)
 
     # v Buttons click ================================================
     def do_open(self):
-        print("Clicked on \"Open\" button")
-        print(f"Line edit: {self.le_demo.text()}")
+        # Get current row
+        current_row = self.t_resume.currentRow()
+
+        # Check if a row is selected
+        if current_row is not None:
+            # Get the "Full Address" column
+            path_column = self.t_resume.indexFromItem(self.t_resume.findItems("D:", QtCore.Qt.MatchContains)[0]).column()
+            # Get the selected row linked address
+            address = self.t_resume.item(current_row, path_column).text()
+            # Open file
+            self.engine.open_file_from_path(address)
+        # If not, returns an error - a window would be better
+        else:
+            print('Please select an item before clicking the \"Open\" button')
+
 
     def do_build(self):
         print("Clicked on \"Build\" button")
@@ -60,6 +74,13 @@ class Window(QMainWindow):
             soft_programs_layout.layout().addWidget(new_box)
             self.software_checkboxes.append(new_box)
 
+    def rm_software_names_elem(self, software_name):
+        if len(self.software_names) > 0:
+            elem_to_rm_index = self.software_names.index(str(software_name))
+            self.software_names.pop(elem_to_rm_index)
+        # Shouldn't happen, but we'll print it just in case
+        else:
+            print('Can\'t remove an element from an empty list')
 
     def do_soft_cb_click(self):
         check_box = self.sender()
@@ -104,13 +125,11 @@ class Window(QMainWindow):
 
     # ^ Checkboxes ===================================================
     # v Tables =======================================================
-    def rm_software_names_elem(self, software_name):
-        if len(self.software_names) > 0:
-            elem_to_rm_index = self.software_names.index(str(software_name))
-            self.software_names.pop(elem_to_rm_index)
-        # Shouldn't happen, but we'll print it just in case
-        else:
-            print('Can\'t remove an element from an empty list')
+    def select_whole_row(self):
+        # Get current row
+        current_row = self.t_resume.currentRow()
+        # Select current row
+        self.t_resume.selectRow(current_row)
 
     def fill_table(self, data_list):
         # Fill table

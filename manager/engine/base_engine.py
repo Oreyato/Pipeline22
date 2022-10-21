@@ -1,4 +1,4 @@
-
+import os
 
 class BaseEngine:
 
@@ -11,7 +11,7 @@ class BaseEngine:
 
     def open_file_from_path(file_path):
         print(f'Open file at: {file_path}')
-
+        os.startfile(file_path)
 
 # Create a "main" to test the class
 if __name__ == "__main__":
