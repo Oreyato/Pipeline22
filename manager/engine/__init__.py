@@ -1,6 +1,4 @@
 from manager.engine.base_engine import BaseEngine
-from manager.engine.maya.maya_engine import MayaEngine
-from manager.engine.os_pck.os_engine import OSEngine
 
 import sys
 
@@ -31,8 +29,11 @@ def get():
     selected = BaseEngine
 
     if software_name == "python":
+        from manager.engine.os_pck.os_engine import OSEngine
         selected = OSEngine
+
     elif software_name == "maya":
+        from manager.engine.maya.maya_engine import MayaEngine
         selected = MayaEngine
 
 

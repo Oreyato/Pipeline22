@@ -23,6 +23,7 @@ class Window(QMainWindow):
         self.connect()
 
         self.engine = engine.get()
+        print(self.engine)
 
     def connect(self):
         self.pb_open.clicked.connect(self.do_open)
