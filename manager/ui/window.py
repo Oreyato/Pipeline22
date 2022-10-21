@@ -47,8 +47,10 @@ class Window(QMainWindow):
 
         # Get all possible software
         software_names = list(conf.software_programs.keys())
-        # Remplace it's caption
+        # Remplace its caption
         self.pl_software.setText("All")
+        # Remplace its name
+        self.pl_software.setObjectName("cb_all_none")
         # Add it in the list
         self.software_checkboxes.append(self.pl_software)
 
@@ -58,28 +60,47 @@ class Window(QMainWindow):
             soft_programs_layout.layout().addWidget(new_box)
             self.software_checkboxes.append(new_box)
 
+
     def do_soft_cb_click(self):
         check_box = self.sender()
         check_box_text = check_box.text()
         check_box_status = check_box.isChecked()
 
-        # If it has been checked, add the software to the list
-        if check_box_status:
+        if check_box.objectName() == "cb_all_none":
+            # If the "All" check box is checked
+            if check_box_status and check_box_text == "All":
+                # Empty software_names list
+                self.software_names.clear()
+                # Check all check boxes
+                for check_box in self.software_checkboxes:
+                    check_box.setChecked(True)
+                # Fill the software_names all software names from the config file
+                for key in conf.software_programs.keys():
+                    self.software_names.append(str(key))
+                # Change its text to "None"
+                self.sender().setText("None")
+                # Uncheck it
+                self.sender().setChecked(False)
+            # If the "None" check box is checked
+            elif check_box_text == "None":
+                # Empty software_names list
+                self.software_names.clear()
+                # Uncheck all check boxes
+                for check_box in self.software_checkboxes:
+                    check_box.setChecked(False)
+                # Change its text to "All"
+                self.sender().setText("All")
+        # If another check box has been checked, add the software to the list
+        elif check_box_status:
             self.software_names.append(check_box_text)
-            print(f'Add {check_box_text} to software_names list')
+        # Otherwise, remove it
         else:
             self.rm_software_names_elem(str(check_box_text))
 
-        if check_box_text == "All" and check_box_status:
-            print('Clicked on "All"')
-            # Fill the software_names all software names from the config file
-            ### Il va falloir faire une loop parce que là, ça met des clés de dico et ce n'est pas ce qu'on veut
-            self.software_names = conf.software_programs.keys()
-            # Fill the software_names list with the previous variable
-
-
-        new_data = list(core.init_data_list("micromovie", self.software_names))
-        self.init_files_table(new_data)
+        # Update the data
+        updt_data = list(core.init_data_list("micromovie", self.software_names))
+        # Update the table
+        self.init_files_table(updt_data)
 
     # ^ Checkboxes ===================================================
     # v Tables =======================================================
@@ -87,11 +108,9 @@ class Window(QMainWindow):
         if len(self.software_names) > 0:
             elem_to_rm_index = self.software_names.index(str(software_name))
             self.software_names.pop(elem_to_rm_index)
-            print(f'Remove {software_name} from software_names list')
-
+        # Shouldn't happen, but we'll print it just in case
         else:
             print('Can\'t remove an element from an empty list')
-
 
     def fill_table(self, data_list):
         # Fill table
@@ -103,7 +122,6 @@ class Window(QMainWindow):
             self.t_resume.setItem(i, 0, qt_tab_item_name)
             self.t_resume.setItem(i, 1, qt_tab_item_type)
             self.t_resume.setItem(i, 2, qt_tab_item_address)
-
 
     def init_files_table(self, data_list):
         # Turn the table to a non-editable one
@@ -120,12 +138,13 @@ class Window(QMainWindow):
 
 # v =============================================================╗
 # v Launch                                                       ║
-
 def open_window():
     w = Window()
     w.show()
 
+    # Harcoded init test
     w.software_names.append("Maya")
+    w.software_checkboxes[1].setChecked(True)
 
     data_list = list(core.init_data_list("micromovie", w.software_names))
     w.init_files_table(data_list)
