@@ -1,12 +1,12 @@
 from manager import conf
 from pathlib import Path
 
+
 # v =============================================================╗
 # v Create data list                                             ║
 
 # From pipeline_path, get all Maya and Houdini files and store them in a list
 # along with their type (Maya or Houdini file) and path (from pipeline_path)
-
 
 def init_data_list(project_name, soft_programs=[""]):
     """
@@ -81,7 +81,7 @@ def get_file_name_from_path(f_path):
 # v Tests                                                        ║
 
 if __name__ == '__main__':
-    data_list = list(init_data_list("micromovie", ["Maya", "Houdini"]))
+    data_list = list(init_data_list("micromovie", ["Maya"]))
 
 # ^ Tests                                                        ║
 # ^ =============================================================╝
