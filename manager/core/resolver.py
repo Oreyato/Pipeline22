@@ -4,17 +4,18 @@ import lucidity
 from manager import conf
 from pathlib import Path
 
-from manager.core.fs import file_search
+from manager.core.fs import file_search as fsea
 
 
-# project_path = Path(conf.pipeline_path) / conf.projects.get(project_name)
-project_path = Path(conf.pipeline_path) / "MMOVIE"
-print(f"Project path: {project_path}")
+# v Templates ===================================================╗
+#                                                                ║
 
-# v Templates ===================================================
+project_name = conf.projects.get("micromovie")
+
+project_path = Path(conf.pipeline_path) / project_name
+
 root = lucidity.Template('root', str(project_path).replace(os.sep, "/"))
-resolver = {}
-resolver[root.name] = root
+resolver = {root.name: root}
 
 general_template = lucidity.Template('general',
                                      '{@root}/{type}',
@@ -26,7 +27,12 @@ assets_template = lucidity.Template('asset',
 shots_template = lucidity.Template('shot',
                                    '{@root}/{type}/sq{sqNb}/sh{shNb}/{task}/v{versionNb}/sh{shNb}_{state}.{ext}',
                                    template_resolver=resolver)
-# ^ Templates ===================================================
+
+#                                                                ║
+# ^ Templates ===================================================╝
+# v =============================================================╗
+# v Parse and format functions                                   ║
+
 
 def parse(pathP):
     """
@@ -34,7 +40,6 @@ def parse(pathP):
 
     :return: data
     """
-    print('v======= INSIDE PARSE =======v')
     path = pathP
 
     type = general_template.parse(path)
@@ -46,7 +51,6 @@ def parse(pathP):
         data = shots_template.parse(path)
         return data
 
-    print('^======= INSIDE PARSE =======^')
     pass
 
 
@@ -66,21 +70,77 @@ def format(dataP):
 
     pass
 
+
+# v Parse and format functions                                   ║
+# ^ =============================================================╝
+# v =============================================================╗
+# v Functions                                                    ║
+
+# def update_templates(project_nameP):
+#     new_project_name = conf.projects.get(project_nameP)
+#
+#     if project_name is not new_project_name:
+#         project_name = new_project_name
+#
+#         project_path = Path(conf.pipeline_path) / project_name
+#         print(f"Project path: {project_path}")
+#
+#         root = lucidity.Template('root', str(project_path).replace(os.sep, "/"))
+#         resolver = {}
+#         resolver[root.name] = root
+#
+#         general_template = lucidity.Template('general',
+#                                              '{@root}/{type}',
+#                                              template_resolver=resolver)
+#
+#         assets_template = lucidity.Template('asset',
+#                                             '{@root}/{type}/{category}/{name}/{task}/v{versionNb}/{name}_{state}.{ext}',
+#                                             template_resolver=resolver)
+#         shots_template = lucidity.Template('shot',
+#                                            '{@root}/{type}/sq{sqNb}/sh{shNb}/{task}/v{versionNb}/sh{shNb}_{state}.{ext}',
+#                                            template_resolver=resolver)
+#
+#     pass
+
+
+def get_entities(project_name, soft_programs=[""]):
+    """
+    Get files from the right project and right software along with the software they come from and their path
+
+    :param project_name: Give the production name, not the folder name
+    :param filtersP: Filter what entities you want
+    :return: yield a list
+    """
+    project_path = Path(conf.pipeline_path) / conf.projects.get(project_name)
+    project_path = str(project_path).replace(os.sep, "/")
+
+    entities = []
+
+    for software in soft_programs:
+        # Get files addresses
+        files_addresses = list(fsea.get_file_addresses(project_path, software))
+
+        for file_address in files_addresses:
+            # Parse data
+            data = parse(str(file_address).replace(os.sep, "/"))
+            # Create the data
+            file_datas = [data, software]
+            # Add the data to the data list
+            entities.append(file_datas)
+
+    return entities
+
+
+# v Functions                                                    ║
+# ^ =============================================================╝
 # v =============================================================╗
 # v Tests                                                        ║
 
+
 if __name__ == '__main__':
-    fileAPath = 'D:/TD4/Paul/Pipeline/MMOVIE/assets/locations/desert/modeling/v001/desert_work.hipnc'
-    print(fileAPath)
 
-    fileAData = parse(fileAPath)
-    print(fileAData)
-    fileBData = parse('D:/TD4/Paul/Pipeline/MMOVIE/shots/sq010/sh010/animation/v001/sh010_work.ma')
-    print(fileBData)
+    print(f'Entities: {get_entities("micromovie", ["Maya"])}')
 
-    fileAPath = format(fileAData)
-    print(fileAPath)
-    print(format(fileBData))
 
 # ^ Tests                                                        ║
 # ^ =============================================================╝
