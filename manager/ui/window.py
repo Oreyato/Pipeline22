@@ -115,7 +115,7 @@ class Window(QMainWindow):
     # ^ Buttons ======================================================
     # v Checkboxes ===================================================
     def init_checkboxes(self, current_layout):
-        # Get placeholder lay-out
+        # Get placeholder layout
         soft_programs_layout = self.pl_software.parentWidget()
 
         # Get all possible software
