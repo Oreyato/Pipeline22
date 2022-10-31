@@ -75,52 +75,6 @@ def get_file_name_from_path(f_path):
 
     return file_name
 
-# v Previous version ===================================
-"""def init_data_list():
-    ma_datas = init_data_from_ext_and_soft("*.ma", "Maya")
-    mb_datas = init_data_from_ext_and_soft("*.mb", "Maya")
-    hipnc_datas = init_data_from_ext_and_soft("*.hipnc", "Houdini")
-
-    data_list = [ma_datas, mb_datas, hipnc_datas]
-
-    return data_list
-
-
-def init_data_from_ext_and_soft(extension, software):
-    # Get paths from extension
-    paths_list = get_path_from_extension(extension)
-    data_list = []
-
-    # Get according names and set right software name
-    for path in paths_list:
-        file_name = get_file_name_from_path(path)
-        data_list.append([file_name, software, path])
-
-    return data_list
-
-
-def get_path_from_extension(extension):
-    paths_list = []
-
-    project_path = Path(conf.pipeline_path) / conf.projects.get('micromovie')
-
-    for item in project_path.rglob(extension):
-        paths_list.append(str(item))
-
-    return paths_list
-
-
-def get_file_name_from_path(f_path):
-    # split the path
-    split_path = f_path.split("\\")
-    # get the last element of the list
-    file_name = split_path[len(split_path) - 1]
-
-    return file_name
-
-"""
-# ^ Previous version ===================================
-
 # ^ Create data list                                             ║
 # ^ =============================================================╝
 # v =============================================================╗
