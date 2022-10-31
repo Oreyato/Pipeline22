@@ -3,7 +3,7 @@ import os
 class BaseEngine:
 
     def __init__(self):
-        self.implement = []
+        self.implement = ["Open"]
 
     # Override what the object returns when printed
     def __str__(self):

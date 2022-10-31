@@ -4,7 +4,7 @@ import maya.cmds as cmds
 class MayaEngine(BaseEngine):
 
     def __init__(self):
-        self.implement = []
+        self.implement = ["Open", "Reference", "Import"]
 
     def open_file_from_path(file_path):
         print(f'Open file from Maya at: {file_path}')
