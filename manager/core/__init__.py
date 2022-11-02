@@ -1,1 +1,1 @@
-from manager.core.fs import *
+from manager.core.resolver import *

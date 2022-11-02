@@ -178,7 +178,7 @@ class Window(QMainWindow):
             self.rm_software_names_elem(str(check_box_text))
 
         # Update the data
-        updt_data = list(core.init_data_list("micromovie", self.software_names))
+        updt_data = list(core.get_entities("micromovie", self.software_names))
         # Update the table
         self.init_files_table(updt_data)
 
@@ -193,13 +193,60 @@ class Window(QMainWindow):
     def fill_table(self, data_list):
         # Fill table
         for i in range(len(data_list)):
-            qt_tab_item_name = QTableWidgetItem(data_list[i][0])
-            qt_tab_item_type = QTableWidgetItem(data_list[i][1])
-            qt_tab_item_address = QTableWidgetItem(str(data_list[i][2]))
+            # Get the current dictionary
+            dict_from_list = data_list[i][0]
+            # Get type
+            item_type = dict_from_list["type"]
 
-            self.t_resume.setItem(i, 0, qt_tab_item_name)
-            self.t_resume.setItem(i, 1, qt_tab_item_type)
-            self.t_resume.setItem(i, 2, qt_tab_item_address)
+            if item_type == 'assets':
+                # Init the elements
+                qt_tab_item_type = QTableWidgetItem(dict_from_list["type"])
+                qt_tab_item_category = QTableWidgetItem(dict_from_list["category"])
+                qt_tab_item_name = QTableWidgetItem(dict_from_list["name"])
+                qt_tab_item_task = QTableWidgetItem(dict_from_list["task"])
+                qt_tab_item_version_nb = QTableWidgetItem(dict_from_list["versionNb"])
+                qt_tab_item_state = QTableWidgetItem(dict_from_list["state"])
+
+                file_name = f'{dict_from_list["name"]}_{dict_from_list["state"]}.{dict_from_list["ext"]}'
+                qt_tab_item_file_name = QTableWidgetItem(file_name)
+
+                qt_tab_item_software = QTableWidgetItem(data_list[i][1])
+                qt_tab_item_address = QTableWidgetItem(core.format(dict_from_list))
+
+                # Fill the table with the elements
+                self.t_resume.setItem(i, 0, qt_tab_item_type)
+                self.t_resume.setItem(i, 1, qt_tab_item_category)
+                self.t_resume.setItem(i, 2, qt_tab_item_name)
+                self.t_resume.setItem(i, 3, qt_tab_item_task)
+                self.t_resume.setItem(i, 4, qt_tab_item_version_nb)
+                self.t_resume.setItem(i, 5, qt_tab_item_state)
+                self.t_resume.setItem(i, 6, qt_tab_item_file_name)
+
+                '''
+                self.t_resume.setItem(i, 1, qt_tab_item_software)
+                self.t_resume.setItem(i, 2, qt_tab_item_address)
+                '''
+
+            if item_type == 'shots':
+                # Init the elements
+                qt_tab_item_type = QTableWidgetItem(dict_from_list["type"])
+                qt_tab_item_sq_nb = QTableWidgetItem(f'sq{dict_from_list["sqNb"]}')
+                qt_tab_item_sh_nb = QTableWidgetItem(f'sh{dict_from_list["shNb"]}')
+                qt_tab_item_task = QTableWidgetItem(dict_from_list["task"])
+                qt_tab_item_version_nb = QTableWidgetItem(f'v{dict_from_list["versionNb"]}')
+                qt_tab_item_state = QTableWidgetItem(dict_from_list["state"])
+
+                file_name = f'sh{dict_from_list["shNb"]}_{dict_from_list["state"]}.{dict_from_list["ext"]}'
+                qt_tab_item_file_name = QTableWidgetItem(file_name)
+
+                # Fill the table with the elements
+                self.t_resume.setItem(i, 0, qt_tab_item_type)
+                self.t_resume.setItem(i, 1, qt_tab_item_sq_nb)
+                self.t_resume.setItem(i, 2, qt_tab_item_sh_nb)
+                self.t_resume.setItem(i, 3, qt_tab_item_task)
+                self.t_resume.setItem(i, 4, qt_tab_item_version_nb)
+                self.t_resume.setItem(i, 5, qt_tab_item_state)
+                self.t_resume.setItem(i, 6, qt_tab_item_file_name)
 
     def init_files_table(self, data_list):
         # Turn the table to a non-editable one
@@ -207,6 +254,17 @@ class Window(QMainWindow):
 
         # Add new rows
         self.t_resume.setRowCount(len(data_list))
+
+        # TEMP =================================
+        # Add new columns
+        self.t_resume.setColumnCount(len(data_list[2][0].keys()))  # <-- temp
+
+        # Prepare columns names
+        labels = ["Type", "Category", "Name", "Task", "Vers. nb", "State", "File name"]
+        # Rename columns
+        self.t_resume.setHorizontalHeaderLabels(labels)
+        # ======================================
+
         # Fill rows
         self.fill_table(data_list)
         # Resize table automatically
@@ -224,7 +282,7 @@ def open_window():
     w.software_names.append("Maya")
     w.software_checkboxes[1].setChecked(True)
 
-    data_list = list(core.init_data_list("micromovie", w.software_names))
+    data_list = list(core.get_entities("micromovie", w.software_names))
     w.init_files_table(data_list)
 
 # v Launch                                                       ║
