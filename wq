@@ -1,0 +1,200 @@
+[33mcommit b70ed88bbe895fb54dc7c1988d5e64559c6b0faa[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Merge: 7949843 822a2c0
+Author: Oreyato <75834639+Oreyato@users.noreply.github.com>
+Date:   Wed Nov 2 11:37:26 2022 +0100
+
+    Window now handle the new get_entities system
+    
+    Ref window
+
+[33mcommit 822a2c09ea86bb2669e0d2323459cbe72768fe2d[m[33m ([m[1;31morigin/refWindow[m[33m)[m
+Author: oreyato <oreyato.pro@gmail.com>
+Date:   Wed Nov 2 11:35:36 2022 +0100
+
+    ref: window now handle the new get_entities
+
+[33mcommit b58fef6d5e59774b11fb3bcfabceb84383d72506[m
+Author: oreyato <oreyato.pro@gmail.com>
+Date:   Wed Nov 2 10:39:06 2022 +0100
+
+    ref: window
+
+[33mcommit b3167f803cd460460e02c28de3188cf6978ff2f0[m
+Author: oreyato <oreyato.pro@gmail.com>
+Date:   Wed Nov 2 10:17:59 2022 +0100
+
+    wip: ref window
+
+[33mcommit 79498431a3a26a7c593d381d2f09430f06c3be06[m
+Merge: ac5a3f2 d53ef49
+Author: Oreyato <75834639+Oreyato@users.noreply.github.com>
+Date:   Mon Oct 31 16:56:58 2022 +0100
+
+    Merge pull request #2 from Oreyato/lucidity
+    
+    Add resolver
+
+[33mcommit d53ef49dc1491cf086e200c3d8dec7cc755e01c9[m[33m ([m[1;31morigin/lucidity[m[33m)[m
+Author: oreyato <oreyato.pro@gmail.com>
+Date:   Mon Oct 31 16:56:04 2022 +0100
+
+    ref: better resolver
+
+[33mcommit 634b6752309b73ce6f76875e2d82ee10fa005e31[m
+Author: oreyato <oreyato.pro@gmail.com>
+Date:   Mon Oct 31 16:17:59 2022 +0100
+
+    ref: better resolver
+
+[33mcommit f6032b43c8531440c20138a8e5ab87a1da1c53e1[m
+Author: oreyato <oreyato.pro@gmail.com>
+Date:   Mon Oct 31 14:23:44 2022 +0100
+
+    feat: parse and format functions
+
+[33mcommit ac5a3f2d5284c5f0dc6d553d138d7d358e45c720[m
+Merge: e96a8b1 0cc1c35
+Author: Oreyato <75834639+Oreyato@users.noreply.github.com>
+Date:   Mon Oct 31 11:38:24 2022 +0100
+
+    Merge pull request #1 from Oreyato/dynamicButtons
+    
+    Dynamic buttons
+
+[33mcommit 0cc1c35f1c1c6f464c4ad61d6924dc8489ecf747[m[33m ([m[1;31morigin/dynamicButtons[m[33m)[m
+Author: oreyato <oreyato.pro@gmail.com>
+Date:   Mon Oct 31 11:37:52 2022 +0100
+
+    prepare merge with main
+
+[33mcommit 82651f3e38a07aa3501709a86fff844d252fae45[m
+Author: oreyato <oreyato.pro@gmail.com>
+Date:   Fri Oct 21 17:07:23 2022 +0200
+
+    feat: dynamic buttons creation - ok
+
+[33mcommit e96a8b1144e5fab4a8ff7270b7788d6416e952b2[m
+Author: oreyato <oreyato.pro@gmail.com>
+Date:   Fri Oct 21 15:50:33 2022 +0200
+
+    feat: dynamic buttons
+
+[33mcommit 664b75591832be92b17b41936e53edd899976997[m
+Author: oreyato <oreyato.pro@gmail.com>
+Date:   Fri Oct 21 15:27:52 2022 +0200
+
+    feat: dynamic buttons
+
+[33mcommit 32ff5da20e391e85ee0b58b3158357ad6f22da22[m
+Author: oreyato <oreyato.pro@gmail.com>
+Date:   Fri Oct 21 13:04:19 2022 +0200
+
+    feat: manage Maya/OS
+
+[33mcommit 79aaf5f310f8387f5aff88171ed5c276ef3af84d[m
+Author: oreyato <oreyato.pro@gmail.com>
+Date:   Fri Oct 21 12:43:33 2022 +0200
+
+    feat: open files with default software
+
+[33mcommit 23d4d85e8ff75563c67b33df6883387e0354e787[m
+Author: oreyato <oreyato.pro@gmail.com>
+Date:   Fri Oct 21 10:54:50 2022 +0200
+
+    feat: all-none button
+
+[33mcommit f09d58d3ea802b67a4e38ae29337ebb734a17ca4[m
+Author: oreyato <oreyato.pro@gmail.com>
+Date:   Thu Oct 20 17:06:51 2022 +0200
+
+    feat: all button - bugged
+
+[33mcommit e8369c7e6b8886706b46c78aa424df8c6704614c[m
+Author: oreyato <oreyato.pro@gmail.com>
+Date:   Thu Oct 20 15:03:08 2022 +0200
+
+    feat: simple software factory
+
+[33mcommit 9a6994782a8290bed6f058935dd709e77e81b1cf[m
+Author: oreyato <oreyato.pro@gmail.com>
+Date:   Thu Oct 20 10:05:04 2022 +0200
+
+    feat: implement base engine
+
+[33mcommit c51d1cdc326ba82406e516180ab7183faf33edc1[m
+Author: oreyato <oreyato.pro@gmail.com>
+Date:   Wed Oct 19 16:59:34 2022 +0200
+
+    feat: dynamic software buttons creation
+
+[33mcommit 2f03711f596702d16879a5816f3e95ceec622299[m
+Author: oreyato <oreyato.pro@gmail.com>
+Date:   Wed Oct 19 15:09:58 2022 +0200
+
+    ref: import init_data_list from fs
+
+[33mcommit c74eeb418dfd65cc8f97e968a2fd97f5756f071f[m
+Author: oreyato <oreyato.pro@gmail.com>
+Date:   Wed Oct 19 14:30:28 2022 +0200
+
+    ref: file system and config
+
+[33mcommit 46c0167f7eaa6ac54a84fb74e307a65a4e234d87[m
+Author: oreyato <oreyato.pro@gmail.com>
+Date:   Wed Oct 19 13:02:18 2022 +0200
+
+    ref: file system and config
+
+[33mcommit 6835c3d93d7e10a58efcb76c1c8983558713975b[m
+Author: oreyato <oreyato.pro@gmail.com>
+Date:   Wed Oct 19 12:40:46 2022 +0200
+
+    ref: file system and config
+
+[33mcommit de16d745aa54b382473a8511eafc7f91198e83f6[m
+Author: oreyato <oreyato.pro@gmail.com>
+Date:   Wed Oct 19 11:33:22 2022 +0200
+
+    ref: file system and config
+
+[33mcommit cdf607b40a664d1ca255308ba25977468bce1f67[m
+Author: oreyato <oreyato.pro@gmail.com>
+Date:   Tue Oct 18 17:02:58 2022 +0200
+
+    feat: softwares whitelist
+
+[33mcommit c18bd429d3029c86edd434da5e86779bc1e1d158[m
+Author: oreyato <oreyato.pro@gmail.com>
+Date:   Tue Oct 18 16:46:54 2022 +0200
+
+    feat: softwares whitelist
+
+[33mcommit a2c2e7cf834d6851c3305c6775294ef9c8b5f17c[m
+Author: oreyato <oreyato.pro@gmail.com>
+Date:   Tue Oct 18 16:06:43 2022 +0200
+
+    feat: fill table
+
+[33mcommit fafd6e455df0ae9e5b908f2d1798f8d404e3c316[m
+Author: oreyato <oreyato.pro@gmail.com>
+Date:   Tue Oct 18 13:04:29 2022 +0200
+
+    feat: files table
+
+[33mcommit 13ef3c716afb506a1af6d2780bad351e2de65a44[m
+Author: Oreyato <75834639+Oreyato@users.noreply.github.com>
+Date:   Tue Oct 18 11:20:45 2022 +0200
+
+    Create README.md
+
+[33mcommit 150d467794fba71da29caba7e751f5ec35eafa2d[m
+Author: oreyato <oreyato.pro@gmail.com>
+Date:   Tue Oct 18 11:20:25 2022 +0200
+
+    updt window.py
+
+[33mcommit 082b19f09e667a2bbed7a6524111582f684ce05a[m
+Author: oreyato <oreyato.pro@gmail.com>
+Date:   Tue Oct 18 10:57:42 2022 +0200
+
+    init

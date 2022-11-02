@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>677</width>
-    <height>430</height>
+    <width>857</width>
+    <height>596</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,9 +19,59 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <layout class="QVBoxLayout" name="verticalLayout">
+     <layout class="QVBoxLayout" name="Window_vLayout">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <layout class="QHBoxLayout" name="drop_down_hLayout">
+        <item>
+         <widget class="QComboBox" name="projectName_cb">
+          <item>
+           <property name="text">
+            <string>&lt;Project&gt;</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>micromovie</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="type_cb">
+          <item>
+           <property name="text">
+            <string>&lt;Type&gt;</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>assets</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>shots</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="softwares_cb_hLayout">
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_5">
           <item>
@@ -139,7 +189,7 @@
        </spacer>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_8">
+       <layout class="QHBoxLayout" name="bottom_buttons_hLayout">
         <item>
          <widget class="QWidget" name="lt_button" native="true">
           <layout class="QHBoxLayout" name="horizontalLayout">
@@ -193,7 +243,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>677</width>
+     <width>857</width>
      <height>21</height>
     </rect>
    </property>
