@@ -10,12 +10,15 @@ asset_file_pattern = 'assets/*/*/*/v*/*.{ext}'
 general_file_pattern = '{type}/*/*/{task}/v*/*_{state}.{ext}'
 
 # ^ Paths =======================================================
-# v Projects ====================================================
+# v Projects and types ==========================================
 projects = {
+    "<Project>": "Placeholder",
     "micromovie": "MMOVIE"
 }
 
-# ^ Projects ====================================================
+types = ["<Type>", "assets", "shots"]
+
+# ^ Projects and types ==========================================
 # v Software and extensions =====================================
 software_programs = {
     "Maya": ["ma", "mb"],

@@ -23,26 +23,34 @@
       <item>
        <layout class="QHBoxLayout" name="drop_down_hLayout">
         <item>
-         <widget class="QComboBox" name="projectName_cb">
+         <widget class="QComboBox" name="projects_cb">
+          <property name="editable">
+           <bool>false</bool>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <property name="placeholderText">
+           <string/>
+          </property>
           <item>
            <property name="text">
-            <string>&lt;Project&gt;</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>micromovie</string>
+            <string>test_project</string>
            </property>
           </item>
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="type_cb">
-          <item>
-           <property name="text">
-            <string>&lt;Type&gt;</string>
-           </property>
-          </item>
+         <widget class="QComboBox" name="types_cb">
+          <property name="editable">
+           <bool>false</bool>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <property name="placeholderText">
+           <string/>
+          </property>
           <item>
            <property name="text">
             <string>assets</string>

@@ -3,16 +3,18 @@ from pathlib import Path
 
 import Qt
 from Qt import QtWidgets, QtCompat
-from Qt.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QApplication, QTableWidget, QTableWidgetItem, QCheckBox, QLineEdit, QPushButton, QTableWidgetItem
+from Qt.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QApplication, QTableWidget, QTableWidgetItem, \
+    QCheckBox, QLineEdit, QPushButton, QTableWidgetItem
 
 # import manager.conf.conf_ui as conf_ui
 from manager import conf, core, engine
 
 from PySide2 import QtGui, QtCore
 
+
 class Window(QMainWindow):
     def __init__(self):
-        super(Window, self).__init__() # super is the keyword to ask for a parent
+        super(Window, self).__init__()  # super is the keyword to ask for a parent
         QtCompat.loadUi(str(conf.ui_path), self)
 
         # Set UserRole variable
@@ -27,6 +29,13 @@ class Window(QMainWindow):
 
         # Create a list that will contain software to show
         self.software_names = []
+        # Populate it with all possible software
+        for software in conf.software_programs:
+            self.software_names.append(software)
+
+        # Init drop down menus
+        self.software_dropdowns = []
+        self.init_dropdowns()
 
         # Init check boxes
         self.software_checkboxes = []
@@ -39,8 +48,13 @@ class Window(QMainWindow):
         self.connect()
 
     def connect(self):
+        # Click on one of the dropdown menus for project and type
+        self.projects_cb.currentIndexChanged.connect(self.are_dropdowns_set)
+        self.types_cb.currentIndexChanged.connect(self.are_dropdowns_set)
+
         # Click somewhere on the table
         self.t_resume.clicked.connect(self.select_whole_row)
+
         # Click one of the dynamic checkboxes
         for i in range(len(self.software_checkboxes)):
             self.software_checkboxes[i].clicked.connect(self.do_soft_cb_click)
@@ -52,70 +66,37 @@ class Window(QMainWindow):
         # Click on "Quit" button
         self.pb_quit.clicked.connect(self.do_quit)
 
-    # v Buttons ======================================================
-    def do_open(self):
-        # Get current cell
-        active_cell = self.t_resume.currentItem()
+    # v Dropdown menus ===============================================
+    def init_dropdowns(self):
+        # Projects ==============================
+        # Clear the test variables
+        self.projects_cb.clear()
+        # Set a placeholder text
+        # self.projects_cb.setPlaceholderText("<Project>")
+        # Get all possible projects
+        projects = list(conf.projects.keys())
+        # Add it to the projects combo box
+        self.projects_cb.addItems(projects)
+        # Set index to the placeholder
+        # self.projects_cb.setCurrentIndex(-1)
 
-        # Check if a row is selected
-        if active_cell is not None:
-            # Get current row
-            current_row = self.t_resume.currentRow()
-            # Get the "Full Address" column
-            path_column = self.t_resume.indexFromItem(self.t_resume.findItems("D:", QtCore.Qt.MatchContains)[0]).column()
-            # Get the selected row linked address
-            address = self.t_resume.item(current_row, path_column).text()
-            print(address)
-            # Open file
-            self.engine.open_file_from_path(address)
-        # If not, returns an error - a window would be better
-        else:
-            print('Please select an item before clicking the \"Open\" button')
+        # Types == ==============================
+        # Clear the test variables
+        self.types_cb.clear()
+        # Get all possible types
+        types = conf.types
+        # Add it to the types combo box
+        self.types_cb.addItems(types)
 
-    def do_reference(self):
-        print("Clicked on \"Reference\" button")
+    def are_dropdowns_set(self):
+        print(self.projects_cb.currentText())
 
-    def do_import(self):
-        print("Clicked on \"Import\" button")
+        # Check if both the project and the type have been set
+        if self.projects_cb.currentIndex() is not 0 and self.types_cb.currentIndex() is not 0:
+            data_list = list(core.get_entities(self.projects_cb.currentText(), self.software_names))
+            self.init_files_table(data_list)
 
-    def do_build(self):
-        print("Clicked on \"Build\" button")
-
-    def do_quit(self):
-        app.exit()
-
-    def init_dyn_buttons(self):
-        print("Init buttons")
-        # Get placeholder lay-out
-        buttons_layout = self.pl_button.parentWidget()
-
-        # Get all possible buttons
-        buttons_names = self.engine.implement
-        print(buttons_names)
-
-        # Get the first button name
-        first_button_caption = buttons_names[0]
-        # Remplace its caption
-        self.pl_button.setText(first_button_caption)
-        # Put the name to low case and add the prefix
-        first_button_name = f"cb_{first_button_caption.lower()}"
-        # Remplace its name
-        self.pl_button.setObjectName(first_button_name)
-        # Add it in the list
-        self.buttons.append(self.pl_button)
-
-        # Create other buttons
-        for i in range(len(buttons_names)-1):
-            new_button_name = f"cb_{buttons_names[i+1].lower()}"
-            new_button = QtWidgets.QPushButton(new_button_name, self)
-            new_button.setText(buttons_names[i+1])
-            buttons_layout.layout().addWidget(new_button)
-            self.buttons.append(new_button)
-
-    def do_click_on_dyn_button(self):
-        print("Clicked on dynamic button")
-
-    # ^ Buttons ======================================================
+    # ^ Dropdown menus ===============================================
     # v Checkboxes ===================================================
     def init_checkboxes(self, current_layout):
         # Get placeholder layout
@@ -133,6 +114,7 @@ class Window(QMainWindow):
         # Create other buttons
         for i in range(len(software_names)):
             new_box = QtWidgets.QCheckBox(software_names[i], self)
+            new_box.setChecked(True)
             soft_programs_layout.layout().addWidget(new_box)
             self.software_checkboxes.append(new_box)
 
@@ -186,6 +168,71 @@ class Window(QMainWindow):
         self.init_files_table(updt_data)
 
     # ^ Checkboxes ===================================================
+    # v Buttons ======================================================
+    def do_open(self):
+        # Get current cell
+        active_cell = self.t_resume.currentItem()
+
+        # Check if a row is selected
+        if active_cell is not None:
+            # Get current row
+            current_row = self.t_resume.currentRow()
+            # Get the "Full Address" column
+            path_column = self.t_resume.indexFromItem(
+                self.t_resume.findItems("D:", QtCore.Qt.MatchContains)[0]).column()
+            # Get the selected row linked address
+            address = self.t_resume.item(current_row, path_column).text()
+            print(address)
+            # Open file
+            self.engine.open_file_from_path(address)
+        # If not, returns an error - a window would be better
+        else:
+            print('Please select an item before clicking the \"Open\" button')
+
+    def do_reference(self):
+        print("Clicked on \"Reference\" button")
+
+    def do_import(self):
+        print("Clicked on \"Import\" button")
+
+    def do_build(self):
+        print("Clicked on \"Build\" button")
+
+    def do_quit(self):
+        app.exit()
+
+    def init_dyn_buttons(self):
+        print("Init buttons")
+        # Get placeholder lay-out
+        buttons_layout = self.pl_button.parentWidget()
+
+        # Get all possible buttons
+        buttons_names = self.engine.implement
+        print(buttons_names)
+
+        # Get the first button name
+        first_button_caption = buttons_names[0]
+        # Remplace its caption
+        self.pl_button.setText(first_button_caption)
+        # Put the name to low case and add the prefix
+        first_button_name = f"cb_{first_button_caption.lower()}"
+        # Remplace its name
+        self.pl_button.setObjectName(first_button_name)
+        # Add it in the list
+        self.buttons.append(self.pl_button)
+
+        # Create other buttons
+        for i in range(len(buttons_names) - 1):
+            new_button_name = f"cb_{buttons_names[i + 1].lower()}"
+            new_button = QtWidgets.QPushButton(new_button_name, self)
+            new_button.setText(buttons_names[i + 1])
+            buttons_layout.layout().addWidget(new_button)
+            self.buttons.append(new_button)
+
+    def do_click_on_dyn_button(self):
+        print("Clicked on dynamic button")
+
+    # ^ Buttons ======================================================
     # v Tables =======================================================
     def add_table_widget_item(self, parent, sid, label, row, column=1):
         item = QtWidgets.QTableWidgetItem()
@@ -195,7 +242,6 @@ class Window(QMainWindow):
         parent.setItem(row, column, item)
 
         return item
-
 
     def select_whole_row(self):
         # Get current row
@@ -292,18 +338,12 @@ class Window(QMainWindow):
 
     # ^ Tables =======================================================
 
+
 # v =============================================================╗
 # v Launch                                                       ║
 def open_window():
     w = Window()
     w.show()
-
-    # Harcoded init test
-    w.software_names.append("Maya")
-    w.software_checkboxes[1].setChecked(True)
-
-    data_list = list(core.get_entities("micromovie", w.software_names))
-    w.init_files_table(data_list)
 
 # v Launch                                                       ║
 # ^ =============================================================╝
