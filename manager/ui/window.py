@@ -15,6 +15,9 @@ class Window(QMainWindow):
         super(Window, self).__init__() # super is the keyword to ask for a parent
         QtCompat.loadUi(str(conf.ui_path), self)
 
+        # Set UserRole variable
+        self.UserRole = QtCore.Qt.UserRole
+
         # Set window title
         self.setWindowTitle(conf.app_name)
 
@@ -184,6 +187,16 @@ class Window(QMainWindow):
 
     # ^ Checkboxes ===================================================
     # v Tables =======================================================
+    def add_table_widget_item(self, parent, sid, label, row, column=1):
+        item = QtWidgets.QTableWidgetItem()
+
+        item.setData(self.UserRole, sid)
+        item.setText(str(label))
+        parent.setItem(row, column, item)
+
+        return item
+
+
     def select_whole_row(self):
         # Get current row
         current_row = self.t_resume.currentRow()
@@ -194,24 +207,29 @@ class Window(QMainWindow):
         # Fill table
         for i in range(len(data_list)):
             # Get the current dictionary
-            dict_from_list = data_list[i][0]
+            entity = data_list[i][0]
             # Get type
-            item_type = dict_from_list["type"]
+            item_type = entity["type"]
 
             if item_type == 'assets':
                 # Init the elements
-                qt_tab_item_type = QTableWidgetItem(dict_from_list["type"])
-                qt_tab_item_category = QTableWidgetItem(dict_from_list["category"])
-                qt_tab_item_name = QTableWidgetItem(dict_from_list["name"])
-                qt_tab_item_task = QTableWidgetItem(dict_from_list["task"])
-                qt_tab_item_version_nb = QTableWidgetItem(dict_from_list["versionNb"])
-                qt_tab_item_state = QTableWidgetItem(dict_from_list["state"])
+                qt_tab_item_type = QTableWidgetItem(entity["type"])
+                qt_tab_item_category = QTableWidgetItem(entity["category"])
+                qt_tab_item_name = QTableWidgetItem(entity["name"])
+                qt_tab_item_task = QTableWidgetItem(entity["task"])
+                qt_tab_item_version_nb = QTableWidgetItem(f'v{entity["versionNb"]}')
+                qt_tab_item_state = QTableWidgetItem(entity["state"])
 
-                file_name = f'{dict_from_list["name"]}_{dict_from_list["state"]}.{dict_from_list["ext"]}'
-                qt_tab_item_file_name = QTableWidgetItem(file_name)
+                # Last item storing the full entity but showing a string
+                file_name = f'{entity["name"]}_{entity["state"]}.{entity["ext"]}'
+                last_item = QTableWidgetItem()
+                last_item.setData(self.UserRole, entity)
+                last_item.setText(file_name)
+                # To access the data:
+                # last_item.data(UserRole)
 
                 qt_tab_item_software = QTableWidgetItem(data_list[i][1])
-                qt_tab_item_address = QTableWidgetItem(core.format(dict_from_list))
+                qt_tab_item_address = QTableWidgetItem(core.format(entity))
 
                 # Fill the table with the elements
                 self.t_resume.setItem(i, 0, qt_tab_item_type)
@@ -220,7 +238,7 @@ class Window(QMainWindow):
                 self.t_resume.setItem(i, 3, qt_tab_item_task)
                 self.t_resume.setItem(i, 4, qt_tab_item_version_nb)
                 self.t_resume.setItem(i, 5, qt_tab_item_state)
-                self.t_resume.setItem(i, 6, qt_tab_item_file_name)
+                self.t_resume.setItem(i, 6, last_item)
 
                 '''
                 self.t_resume.setItem(i, 1, qt_tab_item_software)
@@ -229,15 +247,18 @@ class Window(QMainWindow):
 
             if item_type == 'shots':
                 # Init the elements
-                qt_tab_item_type = QTableWidgetItem(dict_from_list["type"])
-                qt_tab_item_sq_nb = QTableWidgetItem(f'sq{dict_from_list["sqNb"]}')
-                qt_tab_item_sh_nb = QTableWidgetItem(f'sh{dict_from_list["shNb"]}')
-                qt_tab_item_task = QTableWidgetItem(dict_from_list["task"])
-                qt_tab_item_version_nb = QTableWidgetItem(f'v{dict_from_list["versionNb"]}')
-                qt_tab_item_state = QTableWidgetItem(dict_from_list["state"])
+                qt_tab_item_type = QTableWidgetItem(entity["type"])
+                qt_tab_item_sq_nb = QTableWidgetItem(f'sq{entity["sqNb"]}')
+                qt_tab_item_sh_nb = QTableWidgetItem(f'sh{entity["shNb"]}')
+                qt_tab_item_task = QTableWidgetItem(entity["task"])
+                qt_tab_item_version_nb = QTableWidgetItem(f'v{entity["versionNb"]}')
+                qt_tab_item_state = QTableWidgetItem(entity["state"])
 
-                file_name = f'sh{dict_from_list["shNb"]}_{dict_from_list["state"]}.{dict_from_list["ext"]}'
-                qt_tab_item_file_name = QTableWidgetItem(file_name)
+                # Last item storing the full entity
+                file_name = f'sh{entity["shNb"]}_{entity["state"]}.{entity["ext"]}'
+                last_item = QTableWidgetItem()
+                last_item.setData(self.UserRole, entity)
+                last_item.setText(file_name)
 
                 # Fill the table with the elements
                 self.t_resume.setItem(i, 0, qt_tab_item_type)
@@ -246,7 +267,7 @@ class Window(QMainWindow):
                 self.t_resume.setItem(i, 3, qt_tab_item_task)
                 self.t_resume.setItem(i, 4, qt_tab_item_version_nb)
                 self.t_resume.setItem(i, 5, qt_tab_item_state)
-                self.t_resume.setItem(i, 6, qt_tab_item_file_name)
+                self.t_resume.setItem(i, 6, last_item)
 
     def init_files_table(self, data_list):
         # Turn the table to a non-editable one
@@ -257,8 +278,7 @@ class Window(QMainWindow):
 
         # TEMP =================================
         # Add new columns
-        self.t_resume.setColumnCount(len(data_list[2][0].keys()))  # <-- temp
-
+        self.t_resume.setColumnCount(len(data_list[0][0].keys()))  # <-- temp, raises an error
         # Prepare columns names
         labels = ["Type", "Category", "Name", "Task", "Vers. nb", "State", "File name"]
         # Rename columns
