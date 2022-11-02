@@ -195,16 +195,58 @@ class Window(QMainWindow):
         for i in range(len(data_list)):
             # Get the current dictionary
             dict_from_list = data_list[i][0]
+            # Get type
+            item_type = dict_from_list["type"]
 
-            # Init the elements
-            qt_tab_item_name = QTableWidgetItem(str(dict_from_list))
-            qt_tab_item_type = QTableWidgetItem(data_list[i][1])
-            qt_tab_item_address = QTableWidgetItem(str(dict_from_list))
+            if item_type == 'assets':
+                # Init the elements
+                qt_tab_item_type = QTableWidgetItem(dict_from_list["type"])
+                qt_tab_item_category = QTableWidgetItem(dict_from_list["category"])
+                qt_tab_item_name = QTableWidgetItem(dict_from_list["name"])
+                qt_tab_item_task = QTableWidgetItem(dict_from_list["task"])
+                qt_tab_item_version_nb = QTableWidgetItem(dict_from_list["versionNb"])
+                qt_tab_item_state = QTableWidgetItem(dict_from_list["state"])
 
-            # Fill the table with the elements
-            self.t_resume.setItem(i, 0, qt_tab_item_name)
-            self.t_resume.setItem(i, 1, qt_tab_item_type)
-            self.t_resume.setItem(i, 2, qt_tab_item_address)
+                file_name = f'{dict_from_list["name"]}_{dict_from_list["state"]}.{dict_from_list["ext"]}'
+                qt_tab_item_file_name = QTableWidgetItem(file_name)
+
+                qt_tab_item_software = QTableWidgetItem(data_list[i][1])
+                qt_tab_item_address = QTableWidgetItem(core.format(dict_from_list))
+
+                # Fill the table with the elements
+                self.t_resume.setItem(i, 0, qt_tab_item_type)
+                self.t_resume.setItem(i, 1, qt_tab_item_category)
+                self.t_resume.setItem(i, 2, qt_tab_item_name)
+                self.t_resume.setItem(i, 3, qt_tab_item_task)
+                self.t_resume.setItem(i, 4, qt_tab_item_version_nb)
+                self.t_resume.setItem(i, 5, qt_tab_item_state)
+                self.t_resume.setItem(i, 6, qt_tab_item_file_name)
+
+                '''
+                self.t_resume.setItem(i, 1, qt_tab_item_software)
+                self.t_resume.setItem(i, 2, qt_tab_item_address)
+                '''
+
+            if item_type == 'shots':
+                # Init the elements
+                qt_tab_item_type = QTableWidgetItem(dict_from_list["type"])
+                qt_tab_item_sq_nb = QTableWidgetItem(f'sq{dict_from_list["sqNb"]}')
+                qt_tab_item_sh_nb = QTableWidgetItem(f'sh{dict_from_list["shNb"]}')
+                qt_tab_item_task = QTableWidgetItem(dict_from_list["task"])
+                qt_tab_item_version_nb = QTableWidgetItem(f'v{dict_from_list["versionNb"]}')
+                qt_tab_item_state = QTableWidgetItem(dict_from_list["state"])
+
+                file_name = f'sh{dict_from_list["shNb"]}_{dict_from_list["state"]}.{dict_from_list["ext"]}'
+                qt_tab_item_file_name = QTableWidgetItem(file_name)
+
+                # Fill the table with the elements
+                self.t_resume.setItem(i, 0, qt_tab_item_type)
+                self.t_resume.setItem(i, 1, qt_tab_item_sq_nb)
+                self.t_resume.setItem(i, 2, qt_tab_item_sh_nb)
+                self.t_resume.setItem(i, 3, qt_tab_item_task)
+                self.t_resume.setItem(i, 4, qt_tab_item_version_nb)
+                self.t_resume.setItem(i, 5, qt_tab_item_state)
+                self.t_resume.setItem(i, 6, qt_tab_item_file_name)
 
     def init_files_table(self, data_list):
         # Turn the table to a non-editable one
@@ -212,8 +254,17 @@ class Window(QMainWindow):
 
         # Add new rows
         self.t_resume.setRowCount(len(data_list))
+
+        # TEMP =================================
         # Add new columns
         self.t_resume.setColumnCount(len(data_list[2][0].keys()))  # <-- temp
+
+        # Prepare columns names
+        labels = ["Type", "Category", "Name", "Task", "Vers. nb", "State", "File name"]
+        # Rename columns
+        self.t_resume.setHorizontalHeaderLabels(labels)
+        # ======================================
+
         # Fill rows
         self.fill_table(data_list)
         # Resize table automatically
