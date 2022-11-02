@@ -193,10 +193,15 @@ class Window(QMainWindow):
     def fill_table(self, data_list):
         # Fill table
         for i in range(len(data_list)):
-            qt_tab_item_name = QTableWidgetItem(data_list[i][0])
-            qt_tab_item_type = QTableWidgetItem(data_list[i][1])
-            qt_tab_item_address = QTableWidgetItem(str(data_list[i][2]))
+            # Get the current dictionary
+            dict_from_list = data_list[i][0]
 
+            # Init the elements
+            qt_tab_item_name = QTableWidgetItem(str(dict_from_list))
+            qt_tab_item_type = QTableWidgetItem(data_list[i][1])
+            qt_tab_item_address = QTableWidgetItem(str(dict_from_list))
+
+            # Fill the table with the elements
             self.t_resume.setItem(i, 0, qt_tab_item_name)
             self.t_resume.setItem(i, 1, qt_tab_item_type)
             self.t_resume.setItem(i, 2, qt_tab_item_address)
@@ -207,6 +212,8 @@ class Window(QMainWindow):
 
         # Add new rows
         self.t_resume.setRowCount(len(data_list))
+        # Add new columns
+        self.t_resume.setColumnCount(len(data_list[2][0].keys()))  # <-- temp
         # Fill rows
         self.fill_table(data_list)
         # Resize table automatically
