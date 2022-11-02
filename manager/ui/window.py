@@ -89,11 +89,12 @@ class Window(QMainWindow):
         self.types_cb.addItems(types)
 
     def are_dropdowns_set(self):
-        print(self.projects_cb.currentText())
-
         # Check if both the project and the type have been set
         if self.projects_cb.currentIndex() is not 0 and self.types_cb.currentIndex() is not 0:
-            data_list = list(core.get_entities(self.projects_cb.currentText(), self.software_names))
+            current_project = self.projects_cb.currentText()
+            current_type = self.types_cb.currentText()
+
+            data_list = list(core.get_entities(current_project, self.software_names, current_type))
             self.init_files_table(data_list)
 
     # ^ Dropdown menus ===============================================
@@ -163,7 +164,7 @@ class Window(QMainWindow):
             self.rm_software_names_elem(str(check_box_text))
 
         # Update the data
-        updt_data = list(core.get_entities("micromovie", self.software_names))
+        updt_data = list(core.get_entities("micromovie", self.software_names, self.types_cb.currentText()))
         # Update the table
         self.init_files_table(updt_data)
 
@@ -202,13 +203,11 @@ class Window(QMainWindow):
         app.exit()
 
     def init_dyn_buttons(self):
-        print("Init buttons")
         # Get placeholder lay-out
         buttons_layout = self.pl_button.parentWidget()
 
         # Get all possible buttons
         buttons_names = self.engine.implement
-        print(buttons_names)
 
         # Get the first button name
         first_button_caption = buttons_names[0]
@@ -322,11 +321,21 @@ class Window(QMainWindow):
         # Add new rows
         self.t_resume.setRowCount(len(data_list))
 
-        # TEMP =================================
-        # Add new columns
-        self.t_resume.setColumnCount(len(data_list[0][0].keys()))  # <-- temp, raises an error
-        # Prepare columns names
-        labels = ["Type", "Category", "Name", "Task", "Vers. nb", "State", "File name"]
+        # Change columns by type ===============
+        # Prepare columns name variable
+        labels = []
+        # Get selected type
+        selected_type = self.types_cb.currentText()
+
+        if selected_type == conf.types[1]:
+            # Prepare columns names
+            labels = ["Category", "Name", "Task", "Vers. nb", "State", "File name"]
+        elif selected_type == conf.types[2]:
+            # Prepare columns names
+            labels = ["Sequence nb", "Shot nb", "Task", "Vers. nb", "State", "File name"]
+
+        # Get the right number of columns
+        self.t_resume.setColumnCount(len(labels))
         # Rename columns
         self.t_resume.setHorizontalHeaderLabels(labels)
         # ======================================

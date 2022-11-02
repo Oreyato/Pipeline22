@@ -36,7 +36,7 @@ def init_data_list(project_name, soft_programs=[""]):
     return data_list
 
 
-def get_file_addresses(project_path, software):
+def get_file_addresses(project_path, software, selected_type='asset'):
     """
     Get files addresses from the right project and right software
 
@@ -53,12 +53,14 @@ def get_file_addresses(project_path, software):
 
     # Get files that have one of the allowed extensions
     for ext in extensions:
-        shot_pattern = conf.shot_file_pattern.format(ext=ext)
-        found = Path(project_path).rglob(shot_pattern)
-        generators.append(found)
-        asset_pattern = conf.asset_file_pattern.format(ext=ext)
-        found = Path(project_path).rglob(asset_pattern)
-        generators.append(found)
+        if selected_type == conf.types[1]:
+            asset_pattern = conf.asset_file_pattern.format(ext=ext)
+            found = Path(project_path).rglob(asset_pattern)
+            generators.append(found)
+        elif selected_type == conf.types[2]:
+            shot_pattern = conf.shot_file_pattern.format(ext=ext)
+            found = Path(project_path).rglob(shot_pattern)
+            generators.append(found)
 
     for g in generators:
         for f in g:

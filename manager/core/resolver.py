@@ -103,7 +103,7 @@ def format(dataP):
 #     pass
 
 
-def get_entities(project_name, soft_programs=[""]):
+def get_entities(project_name, soft_programs=[""], selected_type='asset'):
     """
     Get files from the right project and right software along with the software they come from
 
@@ -118,7 +118,7 @@ def get_entities(project_name, soft_programs=[""]):
 
     for software in soft_programs:
         # Get files addresses
-        files_addresses = list(fsea.get_file_addresses(project_path, software))
+        files_addresses = list(fsea.get_file_addresses(project_path, software, selected_type))
 
         for file_address in files_addresses:
             # Parse data
