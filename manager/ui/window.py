@@ -178,7 +178,7 @@ class Window(QMainWindow):
             self.rm_software_names_elem(str(check_box_text))
 
         # Update the data
-        updt_data = list(core.init_data_list("micromovie", self.software_names))
+        updt_data = list(core.get_entities("micromovie", self.software_names))
         # Update the table
         self.init_files_table(updt_data)
 
@@ -224,7 +224,7 @@ def open_window():
     w.software_names.append("Maya")
     w.software_checkboxes[1].setChecked(True)
 
-    data_list = list(core.init_data_list("micromovie", w.software_names))
+    data_list = list(core.get_entities("micromovie", w.software_names))
     w.init_files_table(data_list)
 
 # v Launch                                                       ║

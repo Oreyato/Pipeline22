@@ -105,7 +105,7 @@ def format(dataP):
 
 def get_entities(project_name, soft_programs=[""]):
     """
-    Get files from the right project and right software along with the software they come from and their path
+    Get files from the right project and right software along with the software they come from
 
     :param project_name: Give the production name, not the folder name
     :param filtersP: Filter what entities you want
