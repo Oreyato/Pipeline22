@@ -11,7 +11,8 @@ from manager import conf, core, engine
 
 from PySide2 import QtGui, QtCore
 
-
+# v =============================================================╗
+# v Window class                                                 ║
 class Window(QMainWindow):
     def __init__(self):
         super(Window, self).__init__()  # super is the keyword to ask for a parent
@@ -66,6 +67,7 @@ class Window(QMainWindow):
         # Click on "Quit" button
         self.pb_quit.clicked.connect(self.do_quit)
 
+    #region Dropdown menus ==========================================
     # v Dropdown menus ===============================================
     def init_dropdowns(self):
         # Projects ==============================
@@ -91,13 +93,18 @@ class Window(QMainWindow):
     def are_dropdowns_set(self):
         # Check if both the project and the type have been set
         if self.projects_cb.currentIndex() is not 0 and self.types_cb.currentIndex() is not 0:
+            # Get the content of the two combo boxes
             current_project = self.projects_cb.currentText()
             current_type = self.types_cb.currentText()
 
+            # Retrieve the data corresponding to the content found above
             data_list = list(core.get_entities(current_project, self.software_names, current_type))
+            # Update the table
             self.init_files_table(data_list)
 
     # ^ Dropdown menus ===============================================
+    #endregion =======================================================
+    #region Checkboxes ===============================================
     # v Checkboxes ===================================================
     def init_checkboxes(self, current_layout):
         # Get placeholder layout
@@ -106,7 +113,7 @@ class Window(QMainWindow):
         # Get all possible software
         software_names = list(conf.software_programs.keys())
         # Remplace its caption
-        self.pl_software.setText("All")
+        self.pl_software.setText("None")
         # Remplace its name
         self.pl_software.setObjectName("cb_all_none")
         # Add it in the list
@@ -114,9 +121,13 @@ class Window(QMainWindow):
 
         # Create other buttons
         for i in range(len(software_names)):
+            # Create the new checkbox
             new_box = QtWidgets.QCheckBox(software_names[i], self)
+            # Set it checked
             new_box.setChecked(True)
+            # Add it under the right layout
             soft_programs_layout.layout().addWidget(new_box)
+            # Add it in the software checkboxes list
             self.software_checkboxes.append(new_box)
 
     def rm_software_names_elem(self, software_name):
@@ -169,6 +180,8 @@ class Window(QMainWindow):
         self.init_files_table(updt_data)
 
     # ^ Checkboxes ===================================================
+    # endregion ======================================================
+    # region Buttons =================================================
     # v Buttons ======================================================
     def do_open(self):
         # Get current cell
@@ -232,9 +245,11 @@ class Window(QMainWindow):
         print("Clicked on dynamic button")
 
     # ^ Buttons ======================================================
+    # endregion ======================================================
+    #region Tables ===================================================
     # v Tables =======================================================
     def add_table_widget_item(self, parent, sid, label, row, column=1):
-        item = QtWidgets.QTableWidgetItem()
+        item = QtWidgets.QTableWidgetItem() #todo test
 
         item.setData(self.UserRole, sid)
         item.setText(str(label))
@@ -346,8 +361,10 @@ class Window(QMainWindow):
         self.t_resume.resizeColumnsToContents()
 
     # ^ Tables =======================================================
+    # endregion ======================================================
 
-
+# v Window class                                                 ║
+# ^ =============================================================╝
 # v =============================================================╗
 # v Launch                                                       ║
 def open_window():
@@ -365,5 +382,6 @@ if __name__ == '__main__':
     open_window()
 
     app.exec_()
+
 # ^ Main                                                         ║
 # ^ =============================================================╝
