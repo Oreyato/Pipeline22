@@ -18,6 +18,11 @@ projects = {
 
 types = ["<Type>", "assets", "shots"]
 
+table_labels = {
+    "assets": ["Category", "Name", "Task", "Vers. nb", "State", "File name"],
+    "shots": ["Sequence nb", "Shot nb", "Task", "Vers. nb", "State", "File name"]
+}
+
 # ^ Projects and types ==========================================
 # v Software and extensions =====================================
 software_programs = {

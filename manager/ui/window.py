@@ -74,7 +74,7 @@ class Window(QMainWindow):
         # Clear the test variables
         self.projects_cb.clear()
         # Set a placeholder text
-        # self.projects_cb.setPlaceholderText("<Project>")
+        # self.projects_cb.setPlaceholderText("<Project>") #<-- Placeholders don't seem to work in this version
         # Get all possible projects
         projects = list(conf.projects.keys())
         # Add it to the projects combo box
@@ -131,18 +131,26 @@ class Window(QMainWindow):
             self.software_checkboxes.append(new_box)
 
     def rm_software_names_elem(self, software_name):
+        # Before removing anything, makes sure that the list isn't empty
         if len(self.software_names) > 0:
+            # Search for the element to remove in the software_names list and get its index
             elem_to_rm_index = self.software_names.index(str(software_name))
+            # Remove the element from the software_names list
             self.software_names.pop(elem_to_rm_index)
+
         # Shouldn't happen, but we'll print it just in case
         else:
             print('Can\'t remove an element from an empty list')
 
     def do_soft_cb_click(self):
+        # Store the sender (the checkbox that was clicked) in a variable
         check_box = self.sender()
+        # Store its text in a variable
         check_box_text = check_box.text()
+        # Store its status (checked or not) in a variable
         check_box_status = check_box.isChecked()
 
+        # Verify if the "All/None" checkbox is checked
         if check_box.objectName() == "cb_all_none":
             # If the "All" check box is checked
             if check_box_status and check_box_text == "All":
@@ -175,7 +183,7 @@ class Window(QMainWindow):
             self.rm_software_names_elem(str(check_box_text))
 
         # Update the data
-        updt_data = list(core.get_entities("micromovie", self.software_names, self.types_cb.currentText()))
+        updt_data = list(core.get_entities(self.projects_cb.currentText(), self.software_names, self.types_cb.currentText()))
         # Update the table
         self.init_files_table(updt_data)
 
@@ -192,8 +200,7 @@ class Window(QMainWindow):
             # Get current row
             current_row = self.t_resume.currentRow()
             # Get the "Full Address" column
-            path_column = self.t_resume.indexFromItem(
-                self.t_resume.findItems("D:", QtCore.Qt.MatchContains)[0]).column()
+            path_column = self.t_resume.indexFromItem(self.t_resume.findItems("D:", QtCore.Qt.MatchContains)[0]).column()
             # Get the selected row linked address
             address = self.t_resume.item(current_row, path_column).text()
             print(address)
@@ -235,10 +242,15 @@ class Window(QMainWindow):
 
         # Create other buttons
         for i in range(len(buttons_names) - 1):
+            # Prepare the new button's name
             new_button_name = f"cb_{buttons_names[i + 1].lower()}"
+            # Create the button and set its name
             new_button = QtWidgets.QPushButton(new_button_name, self)
+            # Set the button's displayed text
             new_button.setText(buttons_names[i + 1])
+            # Add the button under the right layout
             buttons_layout.layout().addWidget(new_button)
+            # Add the button to the buttons list
             self.buttons.append(new_button)
 
     def do_click_on_dyn_button(self):
@@ -249,10 +261,14 @@ class Window(QMainWindow):
     #region Tables ===================================================
     # v Tables =======================================================
     def add_table_widget_item(self, parent, sid, label, row, column=1):
+        # Create a table widget item
         item = QtWidgets.QTableWidgetItem() #todo test
 
+        # Set its hidden data
         item.setData(self.UserRole, sid)
+        # Set its displayed text
         item.setText(str(label))
+        # Place it in the table at the right position
         parent.setItem(row, column, item)
 
         return item
@@ -273,7 +289,6 @@ class Window(QMainWindow):
 
             if item_type == 'assets':
                 # Init the elements
-                qt_tab_item_type = QTableWidgetItem(entity["type"])
                 qt_tab_item_category = QTableWidgetItem(entity["category"])
                 qt_tab_item_name = QTableWidgetItem(entity["name"])
                 qt_tab_item_task = QTableWidgetItem(entity["task"])
@@ -292,13 +307,12 @@ class Window(QMainWindow):
                 qt_tab_item_address = QTableWidgetItem(core.format(entity))
 
                 # Fill the table with the elements
-                self.t_resume.setItem(i, 0, qt_tab_item_type)
-                self.t_resume.setItem(i, 1, qt_tab_item_category)
-                self.t_resume.setItem(i, 2, qt_tab_item_name)
-                self.t_resume.setItem(i, 3, qt_tab_item_task)
-                self.t_resume.setItem(i, 4, qt_tab_item_version_nb)
-                self.t_resume.setItem(i, 5, qt_tab_item_state)
-                self.t_resume.setItem(i, 6, last_item)
+                self.t_resume.setItem(i, 0, qt_tab_item_category)
+                self.t_resume.setItem(i, 1, qt_tab_item_name)
+                self.t_resume.setItem(i, 2, qt_tab_item_task)
+                self.t_resume.setItem(i, 3, qt_tab_item_version_nb)
+                self.t_resume.setItem(i, 4, qt_tab_item_state)
+                self.t_resume.setItem(i, 5, last_item)
 
                 '''
                 self.t_resume.setItem(i, 1, qt_tab_item_software)
@@ -307,7 +321,6 @@ class Window(QMainWindow):
 
             if item_type == 'shots':
                 # Init the elements
-                qt_tab_item_type = QTableWidgetItem(entity["type"])
                 qt_tab_item_sq_nb = QTableWidgetItem(f'sq{entity["sqNb"]}')
                 qt_tab_item_sh_nb = QTableWidgetItem(f'sh{entity["shNb"]}')
                 qt_tab_item_task = QTableWidgetItem(entity["task"])
@@ -321,42 +334,34 @@ class Window(QMainWindow):
                 last_item.setText(file_name)
 
                 # Fill the table with the elements
-                self.t_resume.setItem(i, 0, qt_tab_item_type)
-                self.t_resume.setItem(i, 1, qt_tab_item_sq_nb)
-                self.t_resume.setItem(i, 2, qt_tab_item_sh_nb)
-                self.t_resume.setItem(i, 3, qt_tab_item_task)
-                self.t_resume.setItem(i, 4, qt_tab_item_version_nb)
-                self.t_resume.setItem(i, 5, qt_tab_item_state)
-                self.t_resume.setItem(i, 6, last_item)
+                self.t_resume.setItem(i, 0, qt_tab_item_sq_nb)
+                self.t_resume.setItem(i, 1, qt_tab_item_sh_nb)
+                self.t_resume.setItem(i, 2, qt_tab_item_task)
+                self.t_resume.setItem(i, 3, qt_tab_item_version_nb)
+                self.t_resume.setItem(i, 4, qt_tab_item_state)
+                self.t_resume.setItem(i, 5, last_item)
 
     def init_files_table(self, data_list):
         # Turn the table to a non-editable one
+        # todo We should need to do it just once
         self.t_resume.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
 
-        # Add new rows
-        self.t_resume.setRowCount(len(data_list))
-
         # Change columns by type ===============
-        # Prepare columns name variable
-        labels = []
         # Get selected type
         selected_type = self.types_cb.currentText()
-
-        if selected_type == conf.types[1]:
-            # Prepare columns names
-            labels = ["Category", "Name", "Task", "Vers. nb", "State", "File name"]
-        elif selected_type == conf.types[2]:
-            # Prepare columns names
-            labels = ["Sequence nb", "Shot nb", "Task", "Vers. nb", "State", "File name"]
-
+        # Get the columns labels (from the conf file) that correspond to the selected type
+        labels = conf.table_labels[selected_type]
         # Get the right number of columns
         self.t_resume.setColumnCount(len(labels))
         # Rename columns
         self.t_resume.setHorizontalHeaderLabels(labels)
         # ======================================
 
+        # Add new rows
+        self.t_resume.setRowCount(len(data_list))
         # Fill rows
         self.fill_table(data_list)
+
         # Resize table automatically
         self.t_resume.resizeColumnsToContents()
 
