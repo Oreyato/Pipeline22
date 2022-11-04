@@ -191,68 +191,9 @@
       </item>
       <item>
        <layout class="QHBoxLayout" name="entity_lists_layout">
-        <item>
-         <layout class="QVBoxLayout" name="entity_part_list_layout">
-          <item>
-           <widget class="QLabel" name="entity_part_label">
-            <property name="text">
-             <string>TextLabel</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QListWidget" name="entity_part_list_widget">
-            <property name="alternatingRowColors">
-             <bool>true</bool>
-            </property>
-            <item>
-             <property name="text">
-              <string>TestA</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>TestB</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QVBoxLayout" name="entity_part_list_layout_2">
-          <item>
-           <widget class="QLabel" name="entity_part_label_2">
-            <property name="text">
-             <string>TextLabel</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QListWidget" name="entity_part_list_widget_2">
-            <property name="alternatingRowColors">
-             <bool>true</bool>
-            </property>
-            <item>
-             <property name="text">
-              <string>TestA</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>TestB</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-         </layout>
-        </item>
+        <property name="spacing">
+         <number>6</number>
+        </property>
        </layout>
       </item>
       <item>

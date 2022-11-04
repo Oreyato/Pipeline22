@@ -57,8 +57,32 @@ class EntityPartList(QtWidgets.QWidget):
         # Alternate row colors
         entity_part_list.setAlternatingRowColors(True)
 
-        # Populate the list ====================
+        # Remove duplicates ====================
+        # Prepare the lists
+        unique_values = []
+        unique_entities = []
+
+        # Browse the entities list
         for entity in self.entities:
+            # Keep track of the existence or not of a value
+            exist = False
+            # Get the entity value corresponding to the label
+            dict_value = entity[self.label]
+
+            # Browse the list that stores all known values
+            for unique_value in unique_values:
+                # If the value already exists
+                if dict_value == unique_value:
+                    exist = True
+            # If the value is not one of the already known values
+            if not exist:
+                # Add it to the know values list
+                unique_values.append(dict_value)
+                # Add the entity to the unique entities list
+                unique_entities.append(entity)
+
+        # Populate the list ====================
+        for entity in unique_entities:
             # Create the item to store in the list
             list_item = QListWidgetItem()
             # Store the entity inside

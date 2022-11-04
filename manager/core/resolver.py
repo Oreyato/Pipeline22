@@ -4,7 +4,7 @@ import lucidity
 from manager import conf
 from pathlib import Path
 
-from manager.core.fs import file_search as fsea
+from manager.core.fs import file_search as fsearch
 
 
 # v Templates ===================================================╗
@@ -118,7 +118,7 @@ def get_entities(project_name, soft_programs=[""], selected_type='asset'):
 
     for software in soft_programs:
         # Get files addresses
-        files_addresses = list(fsea.get_file_addresses(project_path, software, selected_type))
+        files_addresses = list(fsearch.get_file_addresses(project_path, software, selected_type))
 
         for file_address in files_addresses:
             # Parse data

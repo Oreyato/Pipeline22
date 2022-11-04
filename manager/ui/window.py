@@ -262,14 +262,28 @@ class Window(QMainWindow):
     # region List widgets ============================================
     # v List widgets =================================================
     def init_list_widget(self, data_list):
+        # ~ layout.indexOf() see documentation
 
-        # Create list widgets
-        list_widget = EntityPartList("TestA", self, self.UserRole)
+        # Get keys
+        keys = data_list[0][0].keys()
+        # Get the parent layout
+        parent_layout = self.entity_lists_layout
 
-        # Put them under the right layout
-        self.entity_lists_layout.addWidget(list_widget)
+        # Get <all> entities - TEMP
+        entities = []
+        for data in data_list:
+            entities.append(data[0])
 
-        pass
+        for key in keys:
+            # Create list widgets
+            list_widget = EntityPartList(key, self, self.UserRole, entities)
+
+            # Put them under the right layout
+            parent_layout.addWidget(list_widget)
+
+        # Change layout spacing
+        self.entity_lists_layout.setSpacing(2)  # doesn't work
+        self.entity_lists_layout.setContentsMargins(0, 0, 0, 0)  # doesn't work
 
     # ^ List widgets =================================================
     # endregion
