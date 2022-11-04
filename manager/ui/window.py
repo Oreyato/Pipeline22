@@ -8,6 +8,7 @@ from Qt.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QApplic
 
 # import manager.conf.conf_ui as conf_ui
 from manager import conf, core, engine
+from manager.ui.browser.entity_part_list import *
 
 from PySide2 import QtGui, QtCore
 
@@ -258,7 +259,21 @@ class Window(QMainWindow):
 
     # ^ Buttons ======================================================
     # endregion ======================================================
-    #region Tables ===================================================
+    # region List widgets ============================================
+    # v List widgets =================================================
+    def init_list_widget(self, data_list):
+
+        # Create list widgets
+        list_widget = EntityPartList("TestA", self, self.UserRole)
+
+        # Put them under the right layout
+        self.entity_lists_layout.addWidget(list_widget)
+
+        pass
+
+    # ^ List widgets =================================================
+    # endregion
+    # region Tables ==================================================
     # v Tables =======================================================
     def add_table_widget_item(self, parent, sid, label, row, column=1):
         # Create a table widget item
@@ -280,6 +295,8 @@ class Window(QMainWindow):
         self.t_resume.selectRow(current_row)
 
     def fill_table(self, data_list):
+        self.init_list_widget(data_list)  # todo for test purpose
+
         # Fill table
         for i in range(len(data_list)):
             # Get the current dictionary
@@ -342,6 +359,8 @@ class Window(QMainWindow):
                 self.t_resume.setItem(i, 5, last_item)
 
     def init_files_table(self, data_list):
+
+
         # Turn the table to a non-editable one
         # todo We should need to do it just once
         self.t_resume.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
