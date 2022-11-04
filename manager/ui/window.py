@@ -277,7 +277,6 @@ class Window(QMainWindow):
         for key in keys:
             # Create list widgets
             list_widget = EntityPartList(key, self, self.UserRole, entities)
-
             # Put them under the right layout
             parent_layout.addWidget(list_widget)
 
