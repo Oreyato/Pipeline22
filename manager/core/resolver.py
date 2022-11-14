@@ -17,16 +17,17 @@ project_path = Path(conf.pipeline_path) / project_name
 root = lucidity.Template('root', str(project_path).replace(os.sep, "/"))
 resolver = {root.name: root}
 
+assets_template = lucidity.Template('asset',
+                                    '{@root}/{type}/{category}/{name}/{task}/v{versionNb}/{name}_{state}.{ext}',
+                                    template_resolver=resolver, anchor=lucidity.Template.ANCHOR_END)
+shots_template = lucidity.Template('shot',
+                                   '{@root}/{type}/sq{sqNb}/sh{shNb}/{task}/v{versionNb}/sh{shNb}_{state}.{ext}',
+                                   template_resolver=resolver, anchor=lucidity.Template.ANCHOR_END)
 general_template = lucidity.Template('general',
                                      '{@root}/{type}',
                                      template_resolver=resolver)
 
-assets_template = lucidity.Template('asset',
-                                    '{@root}/{type}/{category}/{name}/{task}/v{versionNb}/{name}_{state}.{ext}',
-                                    template_resolver=resolver)
-shots_template = lucidity.Template('shot',
-                                   '{@root}/{type}/sq{sqNb}/sh{shNb}/{task}/v{versionNb}/sh{shNb}_{state}.{ext}',
-                                   template_resolver=resolver)
+templates = [shots_template, assets_template, general_template]
 
 #                                                                ║
 # ^ Templates ===================================================╝
@@ -39,19 +40,11 @@ def parse(pathP):
     From a path, identify a template and parse data
 
     :return: data
-    """
-    path = pathP
+    """ 
 
-    type = general_template.parse(path)
+    data = lucidity.parse(pathP, templates)
+    return data[0]
 
-    if type.get('type') == 'assets':
-        data = assets_template.parse(path)
-        return data
-    elif type.get('type') == 'shots':
-        data = shots_template.parse(path)
-        return data
-
-    pass
 
 
 def format(dataP):
@@ -61,14 +54,8 @@ def format(dataP):
     :return: filepath (string)
     """
 
-    if dataP.get('type') == 'assets':
-        path = assets_template.format(dataP)
-        return path
-    elif dataP.get('type') == 'shots':
-        path = shots_template.format(dataP)
-        return path
-
-    pass
+    path = lucidity.format(dataP, templates)
+    return path[0]
 
 
 # v Parse and format functions                                   ║

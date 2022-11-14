@@ -1,5 +1,12 @@
 from pathlib import Path
 
+# v Credentials =================================================
+# School shotgun
+sg_link = "https://artfx.shotgunstudio.com"
+sg_login = "test_td"
+sg_key = "uqtcaegzgsqzDf6ttkz%lkgfw"
+
+# ^ Credentials =================================================
 # v Paths =======================================================
 ui_path = Path(__file__).parent.parent / "ui" / "qt" / "window.ui"
 pipeline_path = Path('D:/TD4/Paul/Pipeline')
