@@ -6,31 +6,6 @@ from pathlib import Path
 
 from manager.core.fs import file_search as fsearch
 
-
-# v Templates ===================================================╗
-#                                                                ║
-
-project_name = conf.projects.get("micromovie")
-
-project_path = Path(conf.pipeline_path) / project_name
-
-root = lucidity.Template('root', str(project_path).replace(os.sep, "/"))
-resolver = {root.name: root}
-
-assets_template = lucidity.Template('asset',
-                                    '{@root}/{type}/{category}/{name}/{task}/v{versionNb}/{name}_{state}.{ext}',
-                                    template_resolver=resolver, anchor=lucidity.Template.ANCHOR_END)
-shots_template = lucidity.Template('shot',
-                                   '{@root}/{type}/sq{sqNb}/sh{shNb}/{task}/v{versionNb}/sh{shNb}_{state}.{ext}',
-                                   template_resolver=resolver, anchor=lucidity.Template.ANCHOR_END)
-general_template = lucidity.Template('general',
-                                     '{@root}/{type}',
-                                     template_resolver=resolver)
-
-templates = [shots_template, assets_template, general_template]
-
-#                                                                ║
-# ^ Templates ===================================================╝
 # v =============================================================╗
 # v Parse and format functions                                   ║
 
@@ -40,9 +15,9 @@ def parse(pathP):
     From a path, identify a template and parse data
 
     :return: data
-    """ 
+    """
 
-    data = lucidity.parse(pathP, templates)
+    data = lucidity.parse(pathP, conf.templates)
     return data[0]
 
 
@@ -54,7 +29,7 @@ def format(dataP):
     :return: filepath (string)
     """
 
-    path = lucidity.format(dataP, templates)
+    path = lucidity.format(dataP, conf.templates)
     return path[0]
 
 

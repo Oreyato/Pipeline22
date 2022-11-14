@@ -122,6 +122,9 @@ class EntityPartList(QtWidgets.QWidget):
 
         return self.list_widget.selectedItems()
 
+    def close(self):
+        self.deleteLater()
+
 
 # Create a "main" to Key the class
 if __name__ == "__main__":
@@ -149,6 +152,7 @@ if __name__ == "__main__":
     UserRole = QtCore.Qt.UserRole
 
     ep = EntityPartList("KeyA", window, UserRole, entities)
+
     ep.show()
 
     app.exec_()

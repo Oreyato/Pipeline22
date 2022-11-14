@@ -269,6 +269,17 @@ class Window(QMainWindow):
         # Get the parent layout
         parent_layout = self.entity_lists_layout
 
+        # Empty layout ===== NE FONCTIONNE PAS ======
+        count = parent_layout.count()
+        if count >= 1:
+            item = parent_layout.itemAt(count)
+            if item is not None:
+                widget = item.widget()
+                parent_layout.removeWidget(item)
+                widget.deleteLater()
+                widget.close()
+        # Empty layout ==============================
+
         # Get <all> entities - TEMP
         entities = []
         for data in data_list:
@@ -372,8 +383,6 @@ class Window(QMainWindow):
                 self.t_resume.setItem(i, 5, last_item)
 
     def init_files_table(self, data_list):
-
-
         # Turn the table to a non-editable one
         # todo We should need to do it just once
         self.t_resume.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
