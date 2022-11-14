@@ -20,7 +20,11 @@ general_file_pattern = '{type}/*/*/{task}/v*/*_{state}.{ext}'
 # v Projects and types ==========================================
 projects = {
     "<Project>": "Placeholder",
-    "micromovie": "MMOVIE"
+    "micromovie": "MMOVIE",
+    "td_test": {
+        "sg_name": "TD4_Pipeline_Workshop_project_2022",
+        "sg_id": 1095
+    }
 }
 
 types = ["<Type>", "assets", "shots"]
