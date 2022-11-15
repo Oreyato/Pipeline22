@@ -1,16 +1,10 @@
-import glob
-from pathlib import Path
-
-import Qt
 from Qt import QtWidgets, QtCompat
-from Qt.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QApplication, QTableWidget, QTableWidgetItem, \
-    QCheckBox, QLineEdit, QPushButton, QTableWidgetItem
+from Qt.QtWidgets import QMainWindow, QTableWidgetItem
 
-# import manager.conf.conf_ui as conf_ui
 from manager import conf, core, engine
 from manager.ui.browser.entity_part_list import *
 
-from PySide2 import QtGui, QtCore
+from PySide2 import QtCore
 
 # v =============================================================╗
 # v Window class                                                 ║
@@ -184,7 +178,8 @@ class Window(QMainWindow):
             self.rm_software_names_elem(str(check_box_text))
 
         # Update the data
-        updt_data = list(core.get_entities(self.projects_cb.currentText(), self.software_names, self.types_cb.currentText()))
+        updt_data = list(
+            core.get_entities(self.projects_cb.currentText(), self.software_names, self.types_cb.currentText()))
         # Update the table
         self.init_files_table(updt_data)
 

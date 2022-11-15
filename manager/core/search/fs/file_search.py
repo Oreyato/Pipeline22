@@ -16,7 +16,7 @@ def init_data_list(project_name, soft_programs=[""]):
     :param soft_programs: Needs a list of software
     :return: yield a list
     """
-    project_path = Path(conf.pipeline_path) / conf.projects.get(project_name)
+    project_path = Path(conf.pipeline_path) / conf.projects.get(project_name).get("name")
 
     data_list = []
     soft_files = []
