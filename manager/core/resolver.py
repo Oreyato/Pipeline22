@@ -73,7 +73,7 @@ def get_entities(project_name, soft_programs=[""], selected_type='asset'):
     :param filtersP: Filter what entities you want
     :return: yield a list
     """
-    project_path = Path(conf.pipeline_path) / conf.projects.get(project_name)
+    project_path = Path(conf.pipeline_path) / conf.projects.get(project_name).get("name")
     project_path = str(project_path).replace(os.sep, "/")
 
     entities = []

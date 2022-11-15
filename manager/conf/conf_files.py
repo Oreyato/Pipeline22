@@ -12,10 +12,12 @@ sg_key = "uqtcaegzgsqzDf6ttkz%lkgfw"
 # ^ Credentials =================================================
 # v Projects and types ==========================================
 projects = {
-    "<Project>": "Placeholder",
-    "micromovie": "MMOVIE",
-    "td_test": {
-        "sg_name": "TD4_Pipeline_Workshop_project_2022",
+    "<Project>": {
+        "name": "Placeholder",
+        "sg_id": None
+    },
+    "micromovie": {
+        "name": "MMOVIE",
         "sg_id": 1095
     }
 }
@@ -49,7 +51,10 @@ asset_file_pattern = 'assets/*/*/*/v*/*.{ext}'
 general_file_pattern = '{type}/*/*/{task}/v*/*_{state}.{ext}'
 
 # Lucidity =============================
-root = lucidity.Template('root', str(Path(pipeline_path) / projects.get("micromovie")).replace(os.sep, "/"))
+default_project = "micromovie"
+current_project_name = projects.get(default_project).get("name")
+
+root = lucidity.Template('root', str(Path(pipeline_path) / current_project_name).replace(os.sep, "/"))  # todo
 resolver = {root.name: root}
 
 assets_template = lucidity.Template('asset',

@@ -33,7 +33,7 @@ if __name__ == '__main__':
     sg = get_shotgun()
     print(sg)
 
-    project_id = conf.projects.get("td_test").get("sg_id")
+    project_id = conf.projects.get("micromovie").get("sg_id")
 
     sg_files = get_shotgun_files(project_id, "Asset")
     print(sg_files)
