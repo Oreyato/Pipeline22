@@ -10,6 +10,19 @@ sg_login = "test_td"
 sg_key = "uqtcaegzgsqzDf6ttkz%lkgfw"
 
 # ^ Credentials =================================================
+# v Dictionaries ================================================
+references = {
+    'assets': 'assets',
+    'shots': 'shots'
+}
+
+# Shotgrid
+sg_translation = {
+    references.get('assets'): 'Asset',
+    references.get('shots'): 'Shot'
+}
+
+# ^ Dictionaries ================================================
 # v Projects and types ==========================================
 projects = {
     "<Project>": {
@@ -22,11 +35,11 @@ projects = {
     }
 }
 
-types = ["<Type>", "assets", "shots"]
+types = ["<Type>", references.get('assets'), references.get('shots')]
 
 table_labels = {
-    "assets": ["Category", "Name", "Task", "Vers. nb", "State", "File name"],
-    "shots": ["Sequence nb", "Shot nb", "Task", "Vers. nb", "State", "File name"]
+    references.get('assets'): ["Category", "Name", "Task", "Vers. nb", "State", "File name"],
+    references.get('shots'): ["Sequence nb", "Shot nb", "Task", "Vers. nb", "State", "File name"]
 }
 
 # ^ Projects and types ==========================================

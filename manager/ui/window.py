@@ -1,7 +1,12 @@
 from Qt import QtWidgets, QtCompat
 from Qt.QtWidgets import QMainWindow, QTableWidgetItem
 
+from manager.utils.exception import PipelineException
+
 from manager import conf, core, engine
+from manager.core import search
+from manager.core.search import resolver
+
 from manager.ui.browser.entity_part_list import *
 
 from PySide2 import QtCore
@@ -93,7 +98,7 @@ class Window(QMainWindow):
             current_type = self.types_cb.currentText()
 
             # Retrieve the data corresponding to the content found above
-            data_list = list(core.get_entities(current_project, self.software_names, current_type))
+            data_list = list(search.get_entities(current_project, self.software_names, current_type))
             # Update the table
             self.init_files_table(data_list)
 
@@ -179,7 +184,7 @@ class Window(QMainWindow):
 
         # Update the data
         updt_data = list(
-            core.get_entities(self.projects_cb.currentText(), self.software_names, self.types_cb.currentText()))
+            search.get_entities(self.projects_cb.currentText(), self.software_names, self.types_cb.currentText()))
         # Update the table
         self.init_files_table(updt_data)
 
@@ -259,8 +264,11 @@ class Window(QMainWindow):
     def init_list_widget(self, data_list):
         # ~ layout.indexOf() see documentation
 
-        # Get keys
-        keys = data_list[0][0].keys()
+        keys = []
+        if len(data_list) > 0:
+            # Get keys
+            keys = data_list[0][0].keys()
+
         # Get the parent layout
         parent_layout = self.entity_lists_layout
 
@@ -340,7 +348,7 @@ class Window(QMainWindow):
                 # last_item.data(UserRole)
 
                 qt_tab_item_software = QTableWidgetItem(data_list[i][1])
-                qt_tab_item_address = QTableWidgetItem(core.format(entity))
+                qt_tab_item_address = QTableWidgetItem(resolver.format(entity))
 
                 # Fill the table with the elements
                 self.t_resume.setItem(i, 0, qt_tab_item_category)
