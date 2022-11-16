@@ -1,15 +1,15 @@
-import glob
-from pathlib import Path
-
-import Qt
 from Qt import QtWidgets, QtCompat
-from Qt.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QApplication, QTableWidget, QTableWidgetItem, \
-    QCheckBox, QLineEdit, QPushButton, QTableWidgetItem
+from Qt.QtWidgets import QMainWindow, QTableWidgetItem
 
-# import manager.conf.conf_ui as conf_ui
+from manager.utils.exception import PipelineException
+
 from manager import conf, core, engine
+from manager.core import search
+from manager.core.search import resolver
 
-from PySide2 import QtGui, QtCore
+from manager.ui.browser.entity_part_list import *
+
+from PySide2 import QtCore
 
 # v =============================================================╗
 # v Window class                                                 ║
@@ -98,7 +98,7 @@ class Window(QMainWindow):
             current_type = self.types_cb.currentText()
 
             # Retrieve the data corresponding to the content found above
-            data_list = list(core.get_entities(current_project, self.software_names, current_type))
+            data_list = list(search.get_entities(current_project, self.software_names, current_type))
             # Update the table
             self.init_files_table(data_list)
 
@@ -183,7 +183,8 @@ class Window(QMainWindow):
             self.rm_software_names_elem(str(check_box_text))
 
         # Update the data
-        updt_data = list(core.get_entities(self.projects_cb.currentText(), self.software_names, self.types_cb.currentText()))
+        updt_data = list(
+            search.get_entities(self.projects_cb.currentText(), self.software_names, self.types_cb.currentText()))
         # Update the table
         self.init_files_table(updt_data)
 
@@ -258,7 +259,48 @@ class Window(QMainWindow):
 
     # ^ Buttons ======================================================
     # endregion ======================================================
-    #region Tables ===================================================
+    # region List widgets ============================================
+    # v List widgets =================================================
+    def init_list_widget(self, data_list):
+        # ~ layout.indexOf() see documentation
+
+        keys = []
+        if len(data_list) > 0:
+            # Get keys
+            keys = data_list[0][0].keys()
+
+        # Get the parent layout
+        parent_layout = self.entity_lists_layout
+
+        # Empty layout ===== NE FONCTIONNE PAS ======
+        count = parent_layout.count()
+        if count >= 1:
+            item = parent_layout.itemAt(count)
+            if item is not None:
+                widget = item.widget()
+                parent_layout.removeWidget(item)
+                widget.deleteLater()
+                widget.close()
+        # Empty layout ==============================
+
+        # Get <all> entities - TEMP
+        entities = []
+        for data in data_list:
+            entities.append(data[0])
+
+        for key in keys:
+            # Create list widgets
+            list_widget = EntityPartList(key, self, self.UserRole, entities)
+            # Put them under the right layout
+            parent_layout.addWidget(list_widget)
+
+        # Change layout spacing
+        self.entity_lists_layout.setSpacing(2)  # doesn't work
+        self.entity_lists_layout.setContentsMargins(0, 0, 0, 0)  # doesn't work
+
+    # ^ List widgets =================================================
+    # endregion
+    # region Tables ==================================================
     # v Tables =======================================================
     def add_table_widget_item(self, parent, sid, label, row, column=1):
         # Create a table widget item
@@ -280,6 +322,8 @@ class Window(QMainWindow):
         self.t_resume.selectRow(current_row)
 
     def fill_table(self, data_list):
+        self.init_list_widget(data_list)  # todo for test purpose
+
         # Fill table
         for i in range(len(data_list)):
             # Get the current dictionary
@@ -304,7 +348,7 @@ class Window(QMainWindow):
                 # last_item.data(UserRole)
 
                 qt_tab_item_software = QTableWidgetItem(data_list[i][1])
-                qt_tab_item_address = QTableWidgetItem(core.format(entity))
+                qt_tab_item_address = QTableWidgetItem(resolver.format(entity))
 
                 # Fill the table with the elements
                 self.t_resume.setItem(i, 0, qt_tab_item_category)

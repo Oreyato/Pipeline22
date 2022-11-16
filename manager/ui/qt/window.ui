@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>857</width>
-    <height>596</height>
+    <width>688</width>
+    <height>492</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -190,6 +190,13 @@
        </widget>
       </item>
       <item>
+       <layout class="QHBoxLayout" name="entity_lists_layout">
+        <property name="spacing">
+         <number>6</number>
+        </property>
+       </layout>
+      </item>
+      <item>
        <spacer name="verticalSpacer">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -272,7 +279,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>857</width>
+     <width>688</width>
      <height>21</height>
     </rect>
    </property>
