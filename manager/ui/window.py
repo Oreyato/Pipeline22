@@ -101,6 +101,8 @@ class Window(QMainWindow):
             data_list = list(search.get_entities(current_project, self.software_names, current_type))
             # Update the table
             self.init_files_table(data_list)
+            # Update the list widget
+            self.init_list_widget(data_list)  # todo for test purpose
 
     # ^ Dropdown menus ===============================================
     #endregion =======================================================
@@ -322,8 +324,6 @@ class Window(QMainWindow):
         self.t_resume.selectRow(current_row)
 
     def fill_table(self, data_list):
-        self.init_list_widget(data_list)  # todo for test purpose
-
         # Fill table
         for i in range(len(data_list)):
             # Get the current dictionary
@@ -414,6 +414,7 @@ class Window(QMainWindow):
 
 # v Window class                                                 ║
 # ^ =============================================================╝
+# region Out of Window ==========================================
 # v =============================================================╗
 # v Launch                                                       ║
 def open_window():
@@ -434,3 +435,4 @@ if __name__ == '__main__':
 
 # ^ Main                                                         ║
 # ^ =============================================================╝
+# endregion =====================================================
