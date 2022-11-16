@@ -6,6 +6,13 @@ from Qt.QtWidgets import QLayout, QVBoxLayout, QMainWindow, QApplication, QLabel
 from Qt import QtWidgets, QtCompat
 
 
+def clear_layout(layout):
+    for i in reversed(range(layout.count())):
+        widget_to_remove = layout.itemAt(i).widget
+        layout.removeWidget(widget_to_remove)
+        widget_to_remove.deleteLater()
+
+
 class EntityPartList(QtWidgets.QWidget):
 
     def __init__(self, label_p, window_p, user_role_p, entities_p=[]):
