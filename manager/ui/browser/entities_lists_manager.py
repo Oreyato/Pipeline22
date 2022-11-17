@@ -1,26 +1,42 @@
 from pprint import pprint
 
 from manager.ui.browser.objects_manager import ObjectsListManager
+from manager.ui.browser.ep_lyt.entity_part_layout import EntityPartLayout
 
 
-class ListWidgetsManager(ObjectsListManager):
+class EntitiesListsManager(ObjectsListManager):
     def __init__(self):
         # Call the parent constructor
-        super().__init__()
-
+        super(EntitiesListsManager, self).__init__()
+        # Attributes init ======================
+        self.selected_lw_index = 0
 
     # v =============================================================╗
-    # v Widgets management methods                                   ║
+    # v List management methods                                      ║
+    def init_lws_list(self):
+        pass
 
+    def empty_list(self, index):
+        """
+        :type index: int
+        """
 
+        pass
 
-    # ^ Widgets management methods                                   ║
+    def fill_list(self, index):
+        """
+        :type index: int
+        """
+
+        pass
+
+    # ^ List management methods                                      ║
     # ^ =============================================================╝
-
 # v =============================================================╗
 # v Main                                                         ║
+
 if __name__ == "__main__":
-    lwm = ListWidgetsManager()
+    lwm = EntitiesListsManager()
     pprint(lwm.objs)
 
     pprint(lwm.max_index)
