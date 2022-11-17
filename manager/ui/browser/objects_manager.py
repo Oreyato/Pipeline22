@@ -7,19 +7,19 @@ class ObjectsListManager:
     def __init__(self):
         # Attributes init ======================
         # Create list widgets list
-        self.objs = []
+        self._objs = []
 
-        self.max_index = -1
+        self._max_index = -1
 
     # v =============================================================╗
     # v Objects management methods                                   ║
     def append_obj(self, obj):
-        self.objs.append(obj)
-        self.max_index = self.max_index + 1
+        self._objs.append(obj)
+        self._max_index = self._max_index + 1
 
     def insert_obj(self, obj, index):
-        self.objs.insert(index, obj)
-        self.max_index = self.max_index + 1
+        self._objs.insert(index, obj)
+        self._max_index = self._max_index + 1
 
     def remove_obj_by_name(self, obj_name):
         obj = self.get_obj_by_name(obj_name)
@@ -28,14 +28,26 @@ class ObjectsListManager:
             print("remove_obj_by_name() - Please enter a proper name")
             pass
         else:
-            self.objs.remove(obj)
-            self.max_index = self.max_index - 1
+            self._objs.remove(obj)
+            self._max_index = self._max_index - 1
 
     def pop_obj(self, index):
-        if PipelineException.index_test(self.max_index, index, "pop_obj") is not -1:
-            self.objs.pop(index)
+        if PipelineException.index_test(self._max_index, index, "pop_obj") is not -1:
+            self._objs.pop(index)
 
     # ^ Objects management methods                                   ║
+    # ^ =============================================================╝
+    # v =============================================================╗
+    # v Getters setters                                              ║
+    @property
+    def objs(self):
+        return self._objs
+
+    @property
+    def max_index(self):
+        return self._max_index
+
+    # v Getters setters                                              ║
     # ^ =============================================================╝
     # v =============================================================╗
     # v Utils methods                                                ║
@@ -45,7 +57,7 @@ class ObjectsListManager:
         :rtype: int
         """
         try:
-            index = self.objs.index(obj_name)
+            index = self._objs.index(obj_name)
             return index
         except ValueError as e:
             print(f"Pipeline exception - obj_index(): {e}")
@@ -56,8 +68,8 @@ class ObjectsListManager:
         :type index: int
         :returns: list widget
         """
-        if PipelineException.index_test(self.max_index, index, "get_obj_by_index") is not -1:
-            obj = self.objs[index]
+        if PipelineException.index_test(self._max_index, index, "get_obj_by_index") is not -1:
+            obj = self._objs[index]
             return obj
 
     def get_obj_by_name(self, obj_name):
@@ -71,7 +83,7 @@ class ObjectsListManager:
             if index == -1:
                 raise PipelineException("wrong index")
             else:
-                obj = self.objs[index]
+                obj = self._objs[index]
                 return obj
         except PipelineException as e:
             print(f"Pipeline exception - get_obj_by_name(): {e}")

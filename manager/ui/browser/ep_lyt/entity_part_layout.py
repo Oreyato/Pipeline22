@@ -6,7 +6,7 @@ from Qt import QtWidgets, QtCompat
 from manager import utils
 
 class EntityPartLayout(QtWidgets.QWidget):
-    def __init__(self, window_p, user_role_p, label_p, entities_p = []):
+    def __init__(self, window_p, user_role_p, label_p, entities_p=[]):
         """
         :param window_p: Window ref
         :param user_role_p: Qt UserRole
@@ -58,7 +58,6 @@ class EntityPartLayout(QtWidgets.QWidget):
 
         # Create list widget
         self.__list_widget = self.create_list_widget(base_name)
-
         self.fill_list()
 
         # Add the widgets inside the layouts
@@ -78,16 +77,31 @@ class EntityPartLayout(QtWidgets.QWidget):
 
     # region Getters / Setters
     # v Getters / Setters ===============
-    def get_layout(self):
+    @property  # Works like a getter
+    def layout(self):
         return self.__layout
 
-    def get_is_selected(self):
+    # If I wanted a setter, I would write it like that
+    '''
+    @layout.setter
+    def layout(self, layout_p):
+        self.__layout = layout_p
+    '''
+
+    @property
+    def label(self):
+        return self.__label
+
+    @property
+    def is_selected(self):
         return self.__is_selected
 
-    def get_is_active(self):
+    @property
+    def is_active(self):
         return self.__is_active
 
-    def get_selected_item(self):
+    @property
+    def selected_item(self):
         return self.selected_item
 
     def reset_is_active(self):

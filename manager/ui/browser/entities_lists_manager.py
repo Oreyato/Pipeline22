@@ -3,25 +3,33 @@ from pprint import pprint
 import Qt as Qt
 import Qt.QtCore as QtCore
 from Qt import QtWidgets, QtCompat
-from Qt.QtWidgets import QMainWindow
+from Qt.QtWidgets import QMainWindow, QHBoxLayout
 
 from manager.ui.browser.objects_manager import ObjectsListManager
 from manager.ui.browser.ep_lyt.entity_part_layout import EntityPartLayout
+from manager import conf
 
 
 class EntitiesListsManager(ObjectsListManager):
-    def __init__(self):
+    def __init__(self, window_p, user_role_p, labels_p):
         # Call the parent constructor
         super(EntitiesListsManager, self).__init__()
         # Attributes init ======================
-        self.selected_lw_index = 0
+        self.__window = window_p
+        self.__user_role = user_role_p
+        self.__labels = labels_p
 
-        self.objs = []
+        self.__selected_lw_index = 0
+
+        # Init
+        self.init_lws_list()
 
     # v =============================================================╗
     # v List management methods                                      ║
     def init_lws_list(self):
-        pass
+        for label in self.__labels:
+            epl = EntityPartLayout(self.__window, self.__user_role, label)
+            self.append_obj(epl)
 
     def fill_list(self, index):
         """
@@ -42,7 +50,7 @@ class EntitiesListsManager(ObjectsListManager):
     # v =============================================================╗
     # v Entity part layout management                                ║
     def active_layout(self):
-        is_active_index = self.selected_lw_index
+        is_active_index = self.__selected_lw_index
 
         # Parcourir la liste des lw de 0 au selected_lw_index
         for i, lw in enumerate(self.objs):
@@ -72,8 +80,6 @@ if __name__ == "__main__":
     window = QMainWindow()
     UserRole = QtCore.Qt.UserRole
 
-    # v List widgets creation ========================================
-    # List widget 0 ========================
     entities = [{"KeyA": "ValueA1",
                  "KeyB": "ValueB1",
                  "KeyC": "ValueC1",
@@ -91,25 +97,17 @@ if __name__ == "__main__":
                  }
                 ]
 
-    epl = EntityPartLayout(window, UserRole, "KeyB", entities)
-    # ^ List widgets creation ========================================
+    layout = QHBoxLayout()
 
-    lwm = EntitiesListsManager()
-    pprint(lwm.objs)
+    labels = conf.table_labels.get('shots')
+    lwm = EntitiesListsManager(window, UserRole, labels)
 
-    pprint(lwm.max_index)
+    for obj in lwm.objs:
+        layout.addWidget(obj)
 
-    lwm.append_obj(epl)
-    pprint(lwm.objs)
+    window.setLayout(layout)
 
-    lwm.remove_obj_by_name("patrick")
-    pprint(lwm.objs)
-
-    lwm.get_obj_by_name("patrick")  # print "None" when an exception is raised
-    lwm.get_obj_by_index(1)
-    pprint(lwm.objs)
-
-    epl.show()
+    window.show()
 
     app.exec_()
 
