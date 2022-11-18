@@ -1,1 +1,1 @@
-from manager.ui.browser.entity_part_list import EntityPartList
+from manager.ui.browser.OUTDATED_entity_part_list import EntityPartList

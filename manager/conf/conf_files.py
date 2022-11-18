@@ -41,6 +41,17 @@ table_labels = {
     references.get('assets'): ["Category", "Name", "Task", "Vers. nb", "State", "File name"],
     references.get('shots'): ["Sequence nb", "Shot nb", "Task", "Vers. nb", "State", "File name"]
 }
+labels_to_lu_templates = {
+    'Category': 'category',
+    'Name': 'name',
+    'Task': 'task',
+    'Vers. nb': 'versionNb',
+    'State': 'state',
+    'File name': 'ext',
+
+    'Sequence nb': 'sqNb',
+    'Shot nb': 'shNb'
+}
 
 # ^ Projects and types ==========================================
 # v Software and extensions =====================================
