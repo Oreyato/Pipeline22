@@ -27,6 +27,42 @@ class EntityPartList(QtWidgets.QWidget):
         # Wait for inputs
         self.connect()
 
+    def init_list(self):
+        # Prepare base name
+        base_name = f'{self.label}_ent_part'
+
+        # v Create layout ================================================
+        # Prepare layout name
+        layout_name = f'{base_name}_layout'
+        # Create layout
+        layout = QVBoxLayout()
+        # Modify layout name
+        layout.setObjectName(layout_name)
+        # ^ Create layout ================================================
+        # v Create label =================================================
+        # Prepare label widget name
+        label_name = f'{base_name}_label'
+        # Create label widget
+        entity_part_label = QLabel(self.window)
+        # Modify label name
+        entity_part_label.setObjectName(label_name)
+        # Set its text
+        entity_part_label.setText(self.label)
+        # Set its alignment
+        entity_part_label.setAlignment(QtCore.Qt.AlignCenter)
+        # ^ Create label =================================================
+        # Create list widget
+        self.list_widget = self.create_list_widget(base_name)
+
+        # Add the widgets inside the layouts
+        layout.addWidget(entity_part_label)
+        layout.addWidget(self.list_widget)
+
+        # Update attribute value
+        self.layout = layout
+        # Update the current layout
+        self.setLayout(layout)
+
     def create_list_widget(self, base_name_p):
         # Prepare list widget name
         list_name = f'{base_name_p}_list'
@@ -73,42 +109,6 @@ class EntityPartList(QtWidgets.QWidget):
             entity_part_list.addItem(list_item)
 
         return entity_part_list
-
-    def init_list(self):
-        # Prepare base name
-        base_name = f'{self.label}_ent_part'
-
-        # v Create layout ================================================
-        # Prepare layout name
-        layout_name = f'{base_name}_layout'
-        # Create layout
-        layout = QVBoxLayout()
-        # Modify layout name
-        layout.setObjectName(layout_name)
-        # ^ Create layout ================================================
-        # v Create label =================================================
-        # Prepare label widget name
-        label_name = f'{base_name}_label'
-        # Create label widget
-        entity_part_label = QLabel(self.window)
-        # Modify label name
-        entity_part_label.setObjectName(label_name)
-        # Set its text
-        entity_part_label.setText(self.label)
-        # Set its alignment
-        entity_part_label.setAlignment(QtCore.Qt.AlignCenter)
-        # ^ Create label =================================================
-        # Create list widget
-        self.list_widget = self.create_list_widget(base_name)
-
-        # Add the widgets inside the layouts
-        layout.addWidget(entity_part_label)
-        layout.addWidget(self.list_widget)
-
-        # Update attribute value
-        self.layout = layout
-        # Update the current layout
-        self.setLayout(layout)
 
     def get_layout(self):
         return self.layout

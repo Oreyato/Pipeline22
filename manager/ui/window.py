@@ -7,7 +7,7 @@ from manager import conf, core, engine
 from manager.core import search
 from manager.core.search import resolver
 
-from manager.ui.browser.entity_part_list import *
+from manager.ui.browser.OUTDATED_entity_part_list import *
 
 from PySide2 import QtCore
 

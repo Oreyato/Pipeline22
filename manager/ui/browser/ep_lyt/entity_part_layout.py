@@ -4,9 +4,10 @@ from Qt.QtWidgets import QLayout, QVBoxLayout, QMainWindow, QApplication, QLabel
 from Qt import QtWidgets, QtCompat
 
 from manager import utils
+from manager import conf
 
 class EntityPartLayout(QtWidgets.QWidget):
-    def __init__(self, window_p, user_role_p, label_p, entities_p=[]):
+    def __init__(self, window_p, user_role_p, label_p, translated_label_p, entities_p=[]):
         """
         :param window_p: Window ref
         :param user_role_p: Qt UserRole
@@ -20,6 +21,7 @@ class EntityPartLayout(QtWidgets.QWidget):
         self.__window = window_p
         self.__user_role = user_role_p
         self.__label = label_p
+        self.__translated_label = translated_label_p
         self.__entities = entities_p
 
         self.__unique_entities = []
@@ -38,6 +40,7 @@ class EntityPartLayout(QtWidgets.QWidget):
 
     # v =============================================================╗
     # v Methods                                                      ║
+    # region Initialisations
     # v Initialisations =================
     def init_layout(self):
         # Prepare base name
@@ -75,6 +78,7 @@ class EntityPartLayout(QtWidgets.QWidget):
 
         return entity_part_list
 
+    # endregion Initialisations
     # region Getters / Setters
     # v Getters / Setters ===============
     @property  # Works like a getter
@@ -102,7 +106,7 @@ class EntityPartLayout(QtWidgets.QWidget):
 
     @property
     def selected_item(self):
-        return self.selected_item
+        return self.__selected_item
 
     def reset_is_active(self):
         self.__is_active = False
@@ -141,7 +145,7 @@ class EntityPartLayout(QtWidgets.QWidget):
             # Keep track of the existence or not of a value
             exist = False
 
-            dict_value = entity[self.__label]
+            dict_value = entity.get(self.__translated_label)
 
             # Browse the list that stores all known values
             for unique_value in unique_values:
@@ -158,7 +162,7 @@ class EntityPartLayout(QtWidgets.QWidget):
         for entity in self.__unique_entities:
             list_item = QListWidgetItem()
             list_item.setData(self.__user_role, entity)
-            list_item.setText(entity[self.__label])
+            list_item.setText(entity[self.__translated_label])
             self.__list_widget.addItem(list_item)
 
     def fill_list(self):
@@ -201,7 +205,7 @@ if __name__ == "__main__":
 
     UserRole = QtCore.Qt.UserRole
 
-    ep = EntityPartLayout(window, UserRole, "KeyB")
+    ep = EntityPartLayout(window, UserRole, "KeyB", "KeyB")
     ep.set_entities(entities)
 
     ep.show()
