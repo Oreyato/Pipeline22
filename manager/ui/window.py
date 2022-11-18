@@ -5,6 +5,7 @@ from manager.utils.exception import PipelineException
 
 from manager import conf, core, engine
 from manager.core import search
+
 from manager.core.search import resolver
 
 from manager.ui.browser.OUTDATED_entity_part_list import *

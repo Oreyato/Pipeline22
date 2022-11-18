@@ -28,7 +28,67 @@ class EntitiesListsManager(ObjectsListManager):
 
     # v =============================================================╗
     # v List management methods                                      ║
-    def __translate_label(self, label_p):
+    def init_lws_list(self):
+        for label in self.__labels:
+            translated_label = self.__translate_label(label)
+
+            epl = EntityPartLayout(self, self.__window, self.__user_role, label, translated_label)
+            self.__parent_layout.addWidget(epl)
+            self.append_obj(epl)
+
+        self.fill_list(0, self.__f_entities)
+
+    def fill_list(self, index_p, entities_p):
+        """
+        :type index_p: int
+        :param index_p:
+        :param entities_p:
+        """
+        self._objs[index_p].set_entities(entities_p)
+
+        pass
+
+    def empty_list(self, index_p):
+        """
+        :type index_p: int
+        """
+        self._objs[index_p].empty_list()
+
+    # ^ List management methods                                      ║
+    # ^ =============================================================╝
+    # v =============================================================╗
+    # v Entity part layout management                                ║
+    def active_layout(self):
+        active_index = self.__selected_lw_index
+
+        # Browse the list widget list and search for the active lw
+        for i, lw in enumerate(self.objs):
+            if lw.is_active:
+                active_index = i
+                lw.reset_is_active()
+
+        # If the active lw is not the right-most one
+        if active_index is not self.__selected_lw_index:
+            # Empty all lw to the active_index
+            for i in range(active_index + 1, self.__selected_lw_index + 1):
+                self.objs[i].empty_list()
+
+        # Update lw to the right
+        # Récupérer les bonnes entités > filtre avec l'entité contenue dans le data de l'élément sélectionné
+        # Get filtered entity
+        entities_test = test_asset_entities
+        # Update right widget
+        # Update right widget
+        self.fill_list(active_index + 1, entities_test)
+        self.__selected_lw_index = active_index + 1
+
+
+    # v Entity part layout management                                ║
+    # ^ =============================================================╝
+    # v =============================================================╗
+    # v Utils                                                        ║
+    @staticmethod
+    def __translate_label(label_p):
         tmp_label = conf.labels_to_lu_templates.get(label_p)
 
         if tmp_label is not None:
@@ -36,59 +96,11 @@ class EntitiesListsManager(ObjectsListManager):
         else:
             return label_p
 
-    def init_lws_list(self):
-        for label in self.__labels:
-            translated_label = self.__translate_label(label)
-
-            epl = EntityPartLayout(self.__window, self.__user_role, label, translated_label)
-            self.__parent_layout.addWidget(epl)
-            self.append_obj(epl)
-
-        self.fill_list(0, first_entities)
-
-    def fill_list(self, index_p, entities_p):
-        """
-        :type index_p: int
-        """
-        self._objs[index_p].set_entities(entities_p)
-
-        pass
-
-    def empty_list(self, index):
-        """
-        :type index: int
-        """
-
-        pass
-
-    # ^ List management methods                                      ║
-    # ^ =============================================================╝
-    # v =============================================================╗
-    # v Entity part layout management                                ║
-    def active_layout(self):
-        is_active_index = self.__selected_lw_index
-
-        # Parcourir la liste des lw de 0 au selected_lw_index
-        for i, lw in enumerate(self.objs):
-            # Si un lw est is_active
-            if lw.get_is_active():
-                # Mettre is_active_index à son index
-                is_active_index = i
-                # Mettre is_active de ce lw à False
-                lw.reset_is_active()
-
-
-        # Si is_active_index et selected_lw_index ont la même valeur
-            # Mettre à jour le lw de droite
-        # Sinon
-            # Vider tous les lw jusqu'au lw à la position is_active_index
-
-        pass
-
-    # v Entity part layout management                                ║
+    # v Utils                                                        ║
     # ^ =============================================================╝
 # v =============================================================╗
 # v Main                                                         ║
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication()
@@ -99,7 +111,8 @@ if __name__ == "__main__":
     test_asset_entities = [
         {'category': 'cameras', 'ext': 'ma', 'name': 'turn', 'state': 'work', 'task': 'rigging', 'type': 'assets', 'versionNb': '001'},
         {'category': 'props', 'ext': 'ma', 'name': 'dirt_car_01', 'state': 'work', 'task': 'modeling', 'type': 'assets', 'versionNb': '001'},
-        {'category': 'props', 'ext': 'ma', 'name': 'dirt_car_01', 'state': 'work', 'task': 'modeling', 'type': 'assets', 'versionNb': '002'}
+        {'category': 'props', 'ext': 'ma', 'name': 'dirt_car_01', 'state': 'work', 'task': 'modeling', 'type': 'assets', 'versionNb': '002'},
+        {'category': 'props', 'ext': 'ma', 'name': 'dirt_car_01', 'state': 'work', 'task': 'modeling', 'type': 'assets', 'versionNb': '003'}
     ]
     first_entities = [
         {'category': 'cameras'},
