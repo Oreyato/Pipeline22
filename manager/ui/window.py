@@ -1,3 +1,8 @@
+import lucidity
+import os
+from pathlib import Path
+from pprint import pprint
+
 from Qt import QtWidgets, QtCompat
 from Qt.QtWidgets import QMainWindow, QTableWidgetItem
 
@@ -68,6 +73,29 @@ class Window(QMainWindow):
         # Click on "Quit" button
         self.pb_quit.clicked.connect(self.do_quit)
 
+    @staticmethod
+    def init_lucidity_templates(current_project_p, current_type_p):
+        # Init lucidity templates
+        root = str(Path(conf.pipeline_path) / current_project_p).replace(os.sep, "/")
+
+        templates = []
+
+        templates_array = conf.lucidity_templates.get(current_type_p)
+
+        for tmpl_part in templates_array:
+            arg = [root, templates_array.get(tmpl_part)]
+            tmpl_arg = '/'.join(arg)
+
+            tmpl = lucidity.Template(tmpl_part,
+                                     tmpl_arg,
+                                     template_resolver=resolver,
+                                     anchor=lucidity.Template.ANCHOR_END)
+
+            templates.append(tmpl)
+
+        conf.templates = templates
+        pprint(conf.templates)
+
     #region Dropdown menus ==========================================
     # v Dropdown menus ===============================================
     def init_dropdowns(self):
@@ -97,6 +125,11 @@ class Window(QMainWindow):
             # Get the content of the two combo boxes
             current_project = self.projects_cb.currentText()
             current_type = self.types_cb.currentText()
+            project_folder_name = conf.projects.get(current_project).get('name')
+
+            pprint(conf.templates)
+            print('============================================')
+            self.init_lucidity_templates(project_folder_name, current_type)
 
             # Retrieve the data corresponding to the content found above
             data_list = list(search.get_entities(current_project, self.software_names, current_type))

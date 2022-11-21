@@ -10,9 +10,7 @@ from manager.core.search import resolver
 
 
 class FilesystemSearchSystem(BaseSearchSystem):
-    def __init__(self):
-        pass
-
+    @staticmethod
     def get_entities(project_name_p, soft_programs_p=[""], selected_type_p='asset'):
         """
         Get files from the right project and right software along with the software they come from
@@ -41,7 +39,39 @@ class FilesystemSearchSystem(BaseSearchSystem):
 
         return entities
 
+    @staticmethod
+    def new_get_entities(filters_p):
+        """
+        Get files from the right project and right software along with the software they come from
+
+        :param filters_p: dictionary working as a filter
+        :return: entities list
+        """
+        entities = []
+
+        soft_programs = filters_p.get('soft programs')
+
+        for software in soft_programs:
+            # Get files addresses
+            files_addresses = list(fs_search.new_get_file_addresses(software, filters_p))
+
+            for file_address in files_addresses:
+                str_f_address = str(file_address).replace(os.sep, "/")
+                data = resolver.parse(str_f_address)
+                file_datas = data
+                entities.append(file_datas)
+
+        return entities
+
 
 if __name__ == "__main__":
-    fss = FilesystemSearchSystem()
-    print(fss)
+    filters = {
+        'project': 'micromovie',
+        'type': 'assets',
+        'soft programs': ['Maya'],
+        'category': 'props'
+    }
+
+    entities = FilesystemSearchSystem.new_get_entities(filters)
+
+    pprint(entities)
