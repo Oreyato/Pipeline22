@@ -9,6 +9,7 @@ from manager.ui.browser.objects_manager import ObjectsListManager
 from manager.ui.browser.ep_lyt.entity_part_layout import EntityPartLayout
 from manager import conf
 
+from manager.core.search import entities
 
 class EntitiesListsManager(ObjectsListManager):
     def __init__(self, window_p, user_role_p, parent_layout_p, labels_p, first_entities_p):
@@ -58,7 +59,7 @@ class EntitiesListsManager(ObjectsListManager):
     # ^ =============================================================╝
     # v =============================================================╗
     # v Entity part layout management                                ║
-    def active_layout(self):
+    def active_layout(self, entity_p):
         active_index = self.__selected_lw_index
 
         # Browse the list widget list and search for the active lw
@@ -77,7 +78,8 @@ class EntitiesListsManager(ObjectsListManager):
         # Récupérer les bonnes entités > filtre avec l'entité contenue dans le data de l'élément sélectionné
         # Get filtered entity
         entities_test = test_asset_entities
-        # Update right widget
+        entities_test = entities.new_get_entities(entity_p)
+
         # Update right widget
         self.fill_list(active_index + 1, entities_test)
         self.__selected_lw_index = active_index + 1
@@ -115,9 +117,9 @@ if __name__ == "__main__":
         {'category': 'props', 'ext': 'ma', 'name': 'dirt_car_01', 'state': 'work', 'task': 'modeling', 'type': 'assets', 'versionNb': '003'}
     ]
     first_entities = [
-        {'category': 'cameras'},
-        {'category': 'props'},
-        {'category': 'props'}
+        {'soft programs': ['Maya'], 'project': 'micromovie', 'type': 'asset', 'category': 'cameras'},
+        {'soft programs': ['Maya'], 'project': 'micromovie', 'type': 'asset', 'category': 'props'},
+        {'soft programs': ['Maya'], 'project': 'micromovie', 'type': 'asset', 'category': 'props'}
     ]
 
     layout = QHBoxLayout()

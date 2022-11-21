@@ -130,7 +130,10 @@ class EntityPartLayout(QtWidgets.QWidget):
             print(f'Selected \"{self.__list_widget.selectedItems()[0].data(self.__user_role)}\"')
 
         self.__current_item = self.__list_widget.selectedItems()
-        self.__parent.active_layout()
+
+        entity = self.__list_widget.selectedItems()[0].data(self.__user_role)
+
+        self.__parent.active_layout(entity)
 
     def connect(self):
         self.__list_widget.itemClicked.connect(self.select_item)

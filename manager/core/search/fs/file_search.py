@@ -107,15 +107,10 @@ def new_get_file_addresses(software_p, filters_p):
 
     # Get files that have one of the allowed extensions
     # ==v== CAN EASILY BE IMPROVED ==v==
-    for ext in extensions:
-        if selected_type == conf.types[1]:
-            asset_pattern = conf.asset_file_pattern.format(ext=ext)
-            found = Path(project_path).rglob(rglob_param)
-            generators.append(found)
-        elif selected_type == conf.types[2]:
-            shot_pattern = conf.shot_file_pattern.format(ext=ext)
-            found = Path(project_path).rglob(shot_pattern)
-            generators.append(found)
+    # for ext in extensions:
+
+    found = Path(project_path).rglob(rglob_param)
+    generators.append(found)
 
     for g in generators:
         for f in g:
