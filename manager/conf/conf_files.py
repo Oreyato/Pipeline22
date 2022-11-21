@@ -115,7 +115,7 @@ lucidity_templates = {
     },
     'shots': {
         'ext': '{type}/sq{sqNb}/sh{shNb}/{task}/v{versionNb}/sh{shNb}_{state}.{ext}',
-        'state': '/{type}/sq{sqNb}/sh{shNb}/{task}/v{versionNb}/sh{shNb}_{state}',
+        'state': '{type}/sq{sqNb}/sh{shNb}/{task}/v{versionNb}/sh{shNb}_{state}',
         'versionNb': '{type}/sq{sqNb}/sh{shNb}/{task}/v{versionNb}',
         'task': '{type}/sq{sqNb}/sh{shNb}/{task}',
         'shNb': '{type}/sq{sqNb}/sh{shNb}',
