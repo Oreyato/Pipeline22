@@ -65,11 +65,15 @@ class FilesystemSearchSystem(BaseSearchSystem):
 
 
 if __name__ == "__main__":
+    from manager import utils
+    utils.init_lucidity_templates('MMOVIE', 'assets')
+
     filters = {
         'project': 'micromovie',
         'type': 'assets',
         'soft programs': ['Maya'],
-        'category': 'props'
+        'category': 'props',
+        'name': 'dirt_car_01'
     }
 
     entities = FilesystemSearchSystem.new_get_entities(filters)

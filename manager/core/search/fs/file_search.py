@@ -138,7 +138,8 @@ def get_file_name_from_path(f_path):
 # v Tests                                                        ║
 
 if __name__ == '__main__':
-    # data_list = list(init_data_list("micromovie", ["Maya"]))
+    from manager import utils
+    utils.init_lucidity_templates('MMOVIE', 'assets')
 
     filters = {
         'project': 'micromovie',
