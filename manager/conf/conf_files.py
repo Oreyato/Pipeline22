@@ -41,6 +41,10 @@ table_labels = {
     references.get('assets'): ["Category", "Name", "Task", "Vers. nb", "State", "File name"],
     references.get('shots'): ["Sequence nb", "Shot nb", "Task", "Vers. nb", "State", "File name"]
 }
+tables_order = {
+    'assets': ['type', 'category', 'name', 'task', 'versionNb', 'state', 'ext'],
+    'shots': ['type', 'sqNb', 'shNb', 'task', 'versionNb', 'state', 'ext']
+}
 labels_to_lu_templates = {
     'Project': 'project',
     'Type': 'type',

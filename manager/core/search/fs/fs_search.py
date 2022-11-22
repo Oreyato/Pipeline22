@@ -40,7 +40,7 @@ class FilesystemSearchSystem(BaseSearchSystem):
         return entities
 
     @staticmethod
-    def new_get_entities(filters_p):
+    def new_get_entities(filters_p={}):
         """
         Get files from the right project and right software along with the software they come from
 

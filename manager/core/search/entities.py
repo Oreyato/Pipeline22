@@ -19,7 +19,7 @@ def get_entities(project_name_p, soft_programs_p=[""], selected_type_p='asset'):
     return entities
 
 
-def new_get_entities(filters_p={}):
+def new_get_entities(filters_p):
     fs_entities = []
     sg_entities = []
 
@@ -27,10 +27,10 @@ def new_get_entities(filters_p={}):
 
     if condition == "a":
         from manager.core.search.sg_api.sg_search import ShotgridSearchSystem
-        fs_entities = ShotgridSearchSystem.new_get_entities(filters_p)
+        sg_entities = ShotgridSearchSystem.new_get_entities(filters_p)
     elif condition == "b":
         from manager.core.search.fs.fs_search import FilesystemSearchSystem
-        sg_entities = FilesystemSearchSystem.new_get_entities(filters_p)
+        fs_entities = FilesystemSearchSystem.new_get_entities(filters_p)
 
     entities = fs_entities + sg_entities
 

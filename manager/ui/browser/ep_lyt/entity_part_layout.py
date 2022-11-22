@@ -131,7 +131,8 @@ class EntityPartLayout(QtWidgets.QWidget):
 
         self.__current_item = self.__list_widget.selectedItems()
 
-        entity = self.__list_widget.selectedItems()[0].data(self.__user_role)
+        entity_str = self.__list_widget.selectedItems()[0].data(self.__user_role)
+        entity = eval(entity_str)
 
         self.__parent.active_layout(entity)
 
@@ -171,8 +172,10 @@ class EntityPartLayout(QtWidgets.QWidget):
 
             for entity in self.__unique_entities:
                 list_item = QListWidgetItem()
-                list_item.setData(self.__user_role, entity)
+                print(entity)
+                list_item.setData(self.__user_role, str(entity))
                 list_item.setText(entity[self.__translated_label])
+                print(f'{list_item.text()} | {list_item.data(self.__user_role)}')
                 self.__list_widget.addItem(list_item)
 
     def fill_list(self):

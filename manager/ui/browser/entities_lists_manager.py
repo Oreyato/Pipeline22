@@ -117,9 +117,9 @@ if __name__ == "__main__":
         {'category': 'props', 'ext': 'ma', 'name': 'dirt_car_01', 'state': 'work', 'task': 'modeling', 'type': 'assets', 'versionNb': '003'}
     ]
     first_entities = [
-        {'soft programs': ['Maya'], 'project': 'micromovie', 'type': 'asset', 'category': 'cameras'},
-        {'soft programs': ['Maya'], 'project': 'micromovie', 'type': 'asset', 'category': 'props'},
-        {'soft programs': ['Maya'], 'project': 'micromovie', 'type': 'asset', 'category': 'props'}
+        {'soft programs': ['Maya'], 'project': 'micromovie', 'type': 'assets', 'category': 'cameras'},
+        {'soft programs': ['Maya'], 'project': 'micromovie', 'type': 'assets', 'category': 'props'},
+        {'soft programs': ['Maya'], 'project': 'micromovie', 'type': 'assets', 'category': 'props'}
     ]
 
     layout = QHBoxLayout()
