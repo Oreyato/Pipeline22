@@ -32,7 +32,7 @@ class ObjectsListManager:
             self._max_index = self._max_index - 1
 
     def pop_obj(self, index):
-        if PipelineException.index_test(self._max_index, index, "pop_obj") is not -1:
+        if PipelineException.index_test(self._max_index, index, "pop_obj") != -1:
             self._objs.pop(index)
 
     # ^ Objects management methods                                   ║
@@ -68,7 +68,7 @@ class ObjectsListManager:
         :type index: int
         :returns: list widget
         """
-        if PipelineException.index_test(self._max_index, index, "get_obj_by_index") is not -1:
+        if PipelineException.index_test(self._max_index, index, "get_obj_by_index") != -1:
             obj = self._objs[index]
             return obj
 

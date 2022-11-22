@@ -126,7 +126,7 @@ class EntityPartLayout(QtWidgets.QWidget):
         self.__is_selected = True
         self.__is_active = True
 
-        if len(self.__list_widget.selectedItems()) is not 0:
+        if len(self.__list_widget.selectedItems()) != 0:
             print(f'Selected \"{self.__list_widget.selectedItems()[0].data(self.__user_role)}\"')
 
         self.__current_item = self.__list_widget.selectedItems()
@@ -167,7 +167,7 @@ class EntityPartLayout(QtWidgets.QWidget):
         self.__unique_entities = unique_entities
 
     def __populate_widget_list(self):
-        if len(self.__unique_entities) is not 0:
+        if len(self.__unique_entities) != 0:
             self.__list_widget.setEnabled(True)
 
             for entity in self.__unique_entities:

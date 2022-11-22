@@ -76,7 +76,8 @@ turn_point = "versionNb"
 
 # Classic paths ========================
 ui_path = Path(__file__).parent.parent / "ui" / "qt" / "window.ui"
-pipeline_path = Path('D:/TD4/Paul/Pipeline')
+# pipeline_path = Path('D:/TD4/Paul/Pipeline')
+pipeline_path = Path('F:/Cours/Y004/Prog/Pipeline')
 
 shot_file_pattern = 'shots/sq*/sh*/*/v*/sh*_*.{ext}'
 shot_file_split_pattern = {

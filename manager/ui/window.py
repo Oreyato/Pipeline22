@@ -95,7 +95,7 @@ class Window(QMainWindow):
 
     def are_dropdowns_set(self):
         # Check if both the project and the type have been set
-        if self.projects_cb.currentIndex() is not 0 and self.types_cb.currentIndex() is not 0:
+        if self.projects_cb.currentIndex() != 0 and self.types_cb.currentIndex() != 0:
             # Get the content of the two combo boxes
             current_project = self.projects_cb.currentText()
             current_type = self.types_cb.currentText()

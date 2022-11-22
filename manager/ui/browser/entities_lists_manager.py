@@ -75,9 +75,8 @@ class EntitiesListsManager(ObjectsListManager):
                 self.objs[i].empty_list()
 
         # Update lw to the right
-        # Récupérer les bonnes entités > filtre avec l'entité contenue dans le data de l'élément sélectionné
         # Get filtered entity
-        entities_test = test_asset_entities
+        # entities_test = test_asset_entities
         entities_test = entities.new_get_entities(entity_p)
 
         # Update right widget
@@ -109,6 +108,9 @@ if __name__ == "__main__":
 
     window = QWidget()
     UserRole = QtCore.Qt.UserRole
+
+    from manager import utils
+    utils.init_lucidity_templates('MMOVIE', 'assets')
 
     test_asset_entities = [
         {'category': 'cameras', 'ext': 'ma', 'name': 'turn', 'state': 'work', 'task': 'rigging', 'type': 'assets', 'versionNb': '001'},

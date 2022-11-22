@@ -58,8 +58,8 @@ class FilesystemSearchSystem(BaseSearchSystem):
             for file_address in files_addresses:
                 str_f_address = str(file_address).replace(os.sep, "/")
                 data = resolver.parse(str_f_address)
-                file_datas = data
-                entities.append(file_datas)
+                data.update({'soft programs': [software]}, {'project': })
+                entities.append(data)
 
         return entities
 
