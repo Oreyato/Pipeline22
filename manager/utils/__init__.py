@@ -32,7 +32,7 @@ def init_lucidity_templates(current_project_p, current_type_p):
         templates.append(tmpl)
 
     conf.templates = templates
-    pprint(conf.templates)
+    print('Init Lucidity templates')
 
 
 if __name__ == "__main__":

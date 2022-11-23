@@ -100,6 +100,7 @@ def new_get_file_addresses(software_p, filters_p):
     pprint(shorten_filters)
     shorten_filters.append('*')
 
+
     rglob_param = '/'.join(shorten_filters)
     pprint(rglob_param)
 
@@ -109,6 +110,7 @@ def new_get_file_addresses(software_p, filters_p):
     # ==v== CAN EASILY BE IMPROVED ==v==
     # for ext in extensions:
 
+    #todo SOLVE RGLOB ISSUE
     found = Path(project_path).rglob(rglob_param)
     generators.append(found)
 

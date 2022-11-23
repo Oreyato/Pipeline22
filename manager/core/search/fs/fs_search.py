@@ -50,6 +50,7 @@ class FilesystemSearchSystem(BaseSearchSystem):
         entities = []
 
         soft_programs = filters_p.get('soft programs')
+        current_project = filters_p.get('project')
 
         for software in soft_programs:
             # Get files addresses
@@ -57,8 +58,11 @@ class FilesystemSearchSystem(BaseSearchSystem):
 
             for file_address in files_addresses:
                 str_f_address = str(file_address).replace(os.sep, "/")
-                data = resolver.parse(str_f_address)
-                data.update({'soft programs': [software]}, {'project': })
+                data = {
+                    'soft programs': [software],
+                    'project': current_project
+                }
+                data.update(resolver.parse(str_f_address))
                 entities.append(data)
 
         return entities

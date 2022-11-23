@@ -59,6 +59,25 @@ class EntitiesListsManager(ObjectsListManager):
     # ^ =============================================================╝
     # v =============================================================╗
     # v Entity part layout management                                ║
+    def __sort_entities(self, entities_p):
+        sorted_entities = []
+
+        for entity in entities_p:
+            entity_type = entity.get('type')
+            sorted_entity = {
+                'soft programs': entity.get('soft programs'),
+                'project': entity.get('project')
+            }
+
+            for table_key in conf.tables_order.get(entity_type):
+                for key in entity.keys():
+                    if key == table_key:
+                        sorted_entity.update({key: entity.get(key)})
+
+            sorted_entities.append(sorted_entity)
+
+        return sorted_entities
+
     def active_layout(self, entity_p):
         active_index = self.__selected_lw_index
 
@@ -76,11 +95,10 @@ class EntitiesListsManager(ObjectsListManager):
 
         # Update lw to the right
         # Get filtered entity
-        # entities_test = test_asset_entities
-        entities_test = entities.new_get_entities(entity_p)
+        entities_to_sort = entities.new_get_entities(entity_p)
 
         # Update right widget
-        self.fill_list(active_index + 1, entities_test)
+        self.fill_list(active_index + 1, self.__sort_entities(entities_to_sort))
         self.__selected_lw_index = active_index + 1
 
 

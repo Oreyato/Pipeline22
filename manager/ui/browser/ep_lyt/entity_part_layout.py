@@ -172,11 +172,11 @@ class EntityPartLayout(QtWidgets.QWidget):
 
             for entity in self.__unique_entities:
                 list_item = QListWidgetItem()
-                print(entity)
                 list_item.setData(self.__user_role, str(entity))
                 list_item.setText(entity[self.__translated_label])
-                print(f'{list_item.text()} | {list_item.data(self.__user_role)}')
                 self.__list_widget.addItem(list_item)
+
+            print('Populated widget list')
 
     def fill_list(self):
         self.__remove_entity_duplicates()
