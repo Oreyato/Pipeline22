@@ -76,8 +76,8 @@ turn_point = "versionNb"
 
 # Classic paths ========================
 ui_path = Path(__file__).parent.parent / "ui" / "qt" / "window.ui"
-# pipeline_path = Path('D:/TD4/Paul/Pipeline')
-pipeline_path = Path('F:/Cours/Y004/Prog/Pipeline')
+pipeline_path = Path('D:/TD4/Paul/Pipeline')
+# pipeline_path = Path('F:/Cours/Y004/Prog/Pipeline')
 
 shot_file_pattern = 'shots/sq*/sh*/*/v*/sh*_*.{ext}'
 shot_file_split_pattern = {
@@ -110,22 +110,22 @@ templates = [shots_template, assets_template, general_template]
 
 lucidity_templates = {
     'assets': {
-        'ext': '{type}/{category}/{name}/{task}/v{versionNb}/{name}_{state}.{ext}',
-        'state': '{type}/{category}/{name}/{task}/v{versionNb}/{name}_{state}',
-        'versionNb': '{type}/{category}/{name}/{task}/v{versionNb}',
-        'task': '{type}/{category}/{name}/{task}',
-        'name': '{type}/{category}/{name}',
-        'category': '{type}/{category}',
-        'type': '{type}'
+        'ext': r'{type:assets}/{category}/{name}/{task}/{versionNb:(v\d\d\d)}/{name}_{state:(publish|work)}.{ext}',
+        'state': r'{type:assets}/{category}/{name}/{task}/{versionNb:(v\d\d\d)}/{name}_{state:(publish|work)}',
+        'versionNb': r'{type:assets}/{category}/{name}/{task}/{versionNb:(v\d\d\d)}',
+        'task': '{type:assets}/{category}/{name}/{task:(modeling|rigging|surfacing)}',
+        'name': '{type:assets}/{category}/{name}',
+        'category': '{type:assets}/{category}',
+        'type': '{type:assets}'
     },
     'shots': {
-        'ext': '{type}/sq{sqNb}/sh{shNb}/{task}/v{versionNb}/sh{shNb}_{state}.{ext}',
-        'state': '{type}/sq{sqNb}/sh{shNb}/{task}/v{versionNb}/sh{shNb}_{state}',
-        'versionNb': '{type}/sq{sqNb}/sh{shNb}/{task}/v{versionNb}',
-        'task': '{type}/sq{sqNb}/sh{shNb}/{task}',
-        'shNb': '{type}/sq{sqNb}/sh{shNb}',
-        'sqNb': '{type}/sq{sqNb}',
-        'type': '{type}'
+        'ext': '{type:shots}/sq{sqNb}/sh{shNb}/{task}/v{versionNb}/sh{shNb}_{state=(publish|work)}.{ext}',
+        'state': '{type:shots}/sq{sqNb}/sh{shNb}/{task}/v{versionNb}/sh{shNb}_{state=(publish|work)}',
+        'versionNb': '{type:shots}/sq{sqNb}/sh{shNb}/{task}/v{versionNb}',
+        'task': '{type:shots}/sq{sqNb}/sh{shNb}/{task}',
+        'shNb': '{type:shots}/sq{sqNb}/sh{shNb}',
+        'sqNb': '{type:shots}/sq{sqNb}',
+        'type': '{type:shots}'
     }
 }
 

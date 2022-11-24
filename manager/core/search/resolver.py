@@ -11,9 +11,12 @@ def parse(path_p):
 
     :return: data
     """
-
-    data = lucidity.parse(path_p, conf.templates)
-    return data[0]
+    try:
+        data = lucidity.parse(path_p, conf.templates)
+        return data[0]
+    except lucidity.error.ParseError as e:
+        print(e)
+        return {}
 
 
 def format(data_p):

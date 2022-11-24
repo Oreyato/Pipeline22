@@ -62,8 +62,11 @@ class FilesystemSearchSystem(BaseSearchSystem):
                     'soft programs': [software],
                     'project': current_project
                 }
-                data.update(resolver.parse(str_f_address))
-                entities.append(data)
+
+                entity = resolver.parse(str_f_address)
+                if len(entity.keys()) != 0:
+                    data.update(entity)
+                    entities.append(data)
 
         return entities
 
