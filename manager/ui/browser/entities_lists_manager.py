@@ -11,6 +11,26 @@ from manager import conf
 
 from manager.core.search import entities
 
+
+def sort_entities(entities_p):
+    sorted_entities = []
+
+    for entity in entities_p:
+        entity_type = entity.get('type')
+        sorted_entity = {
+            'soft programs': entity.get('soft programs'),
+            'project': entity.get('project')
+        }
+
+        for table_key in conf.tables_order.get(entity_type):
+            for key in entity.keys():
+                if key == table_key:
+                    sorted_entity.update({key: entity.get(key)})
+
+        sorted_entities.append(sorted_entity)
+
+    return sorted_entities
+
 class EntitiesListsManager(ObjectsListManager):
     def __init__(self, window_p, user_role_p, parent_layout_p, labels_p, first_entities_p):
         # Call the parent constructor
@@ -59,25 +79,6 @@ class EntitiesListsManager(ObjectsListManager):
     # ^ =============================================================╝
     # v =============================================================╗
     # v Entity part layout management                                ║
-    def __sort_entities(self, entities_p):
-        sorted_entities = []
-
-        for entity in entities_p:
-            entity_type = entity.get('type')
-            sorted_entity = {
-                'soft programs': entity.get('soft programs'),
-                'project': entity.get('project')
-            }
-
-            for table_key in conf.tables_order.get(entity_type):
-                for key in entity.keys():
-                    if key == table_key:
-                        sorted_entity.update({key: entity.get(key)})
-
-            sorted_entities.append(sorted_entity)
-
-        return sorted_entities
-
     def active_layout(self, entity_p):
         active_index = self.__selected_lw_index
 
@@ -98,7 +99,7 @@ class EntitiesListsManager(ObjectsListManager):
         entities_to_sort = entities.new_get_entities(entity_p)
 
         # Update right widget
-        self.fill_list(active_index + 1, self.__sort_entities(entities_to_sort))
+        self.fill_list(active_index + 1, sort_entities(entities_to_sort))
         self.__selected_lw_index = active_index + 1
 
 
@@ -130,22 +131,15 @@ if __name__ == "__main__":
     from manager import utils
     utils.init_lucidity_templates('MMOVIE', 'assets')
 
-    test_asset_entities = [
-        {'category': 'cameras', 'ext': 'ma', 'name': 'turn', 'state': 'work', 'task': 'rigging', 'type': 'assets', 'versionNb': '001'},
-        {'category': 'props', 'ext': 'ma', 'name': 'dirt_car_01', 'state': 'work', 'task': 'modeling', 'type': 'assets', 'versionNb': '001'},
-        {'category': 'props', 'ext': 'ma', 'name': 'dirt_car_01', 'state': 'work', 'task': 'modeling', 'type': 'assets', 'versionNb': '002'},
-        {'category': 'props', 'ext': 'ma', 'name': 'dirt_car_01', 'state': 'work', 'task': 'modeling', 'type': 'assets', 'versionNb': '003'}
-    ]
-    first_entities = [
-        {'soft programs': ['Maya'], 'project': 'micromovie', 'type': 'assets', 'category': 'cameras'},
-        {'soft programs': ['Maya'], 'project': 'micromovie', 'type': 'assets', 'category': 'props'},
-        {'soft programs': ['Maya'], 'project': 'micromovie', 'type': 'assets', 'category': 'props'}
-    ]
+    test_filter = {'soft programs': ['Maya'], 'project': 'micromovie', 'type': 'assets'}
+    from manager.core.search.fs.fs_search import FilesystemSearchSystem
+    fs_entities = FilesystemSearchSystem.new_get_entities(test_filter)
+    sorted_entities = sort_entities(fs_entities)
 
     layout = QHBoxLayout()
 
     labels = conf.table_labels.get('assets')
-    lwm = EntitiesListsManager(window, UserRole, layout, labels, first_entities)
+    lwm = EntitiesListsManager(window, UserRole, layout, labels, sorted_entities)
 
     window.setLayout(layout)
 

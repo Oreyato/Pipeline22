@@ -120,12 +120,12 @@ lucidity_templates = {
         'type': '{type:assets}'
     },
     'shots': {
-        'ext': '{type:shots}/sq{sqNb}/sh{shNb}/{task}/v{versionNb}/sh{shNb}_{state=(publish|work)}.{ext}',
-        'state': '{type:shots}/sq{sqNb}/sh{shNb}/{task}/v{versionNb}/sh{shNb}_{state=(publish|work)}',
-        'versionNb': '{type:shots}/sq{sqNb}/sh{shNb}/{task}/v{versionNb}',
-        'task': '{type:shots}/sq{sqNb}/sh{shNb}/{task}',
-        'shNb': '{type:shots}/sq{sqNb}/sh{shNb}',
-        'sqNb': '{type:shots}/sq{sqNb}',
+        'ext': r'{type:shots}/{sqNb:(sq\d\d\d)}/{shNb:(sh\d\d\d)}/{task}/{versionNb:(v\d\d\d)}/{shNb:(sh\d\d\d)}_{state=(publish|work)}.{ext}',
+        'state': r'{type:shots}/{sqNb:(sq\d\d\d)}/{shNb:(sh\d\d\d)}/{task}/{versionNb:(v\d\d\d)}/{shNb:(sh\d\d\d)}_{state=(publish|work)}',
+        'versionNb': r'{type:shots}/{sqNb:(sq\d\d\d)}/{shNb:(sh\d\d\d)}/{task}/{versionNb:(v\d\d\d)}',
+        'task': r'{type:shots}/{sqNb:(sq\d\d\d)}/{shNb:(sh\d\d\d)}/{task}',
+        'shNb': r'{type:shots}/{sqNb:(sq\d\d\d)}/{shNb:(sh\d\d\d)}',
+        'sqNb': r'{type:shots}/{sqNb:(sq\d\d\d)}',
         'type': '{type:shots}'
     }
 }
