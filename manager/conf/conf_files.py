@@ -1,13 +1,14 @@
 from pathlib import Path
+from manager.p import private_conf
 
 import os
 import lucidity
 
 # v Credentials =================================================
 # School shotgun
-sg_link = "https://artfx.shotgunstudio.com"
-sg_login = "test_td"
-sg_key = "uqtcaegzgsqzDf6ttkz%lkgfw"
+sg_link = private_conf.sg_link
+sg_login = private_conf.sg_login
+sg_key = private_conf.sg_key
 
 # ^ Credentials =================================================
 # v Dictionaries ================================================
