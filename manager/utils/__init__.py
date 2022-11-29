@@ -29,6 +29,7 @@ def init_lucidity_templates(current_project_p, current_type_p):
                                  tmpl_arg,
                                  anchor=lucidity.Template.ANCHOR_END)
 
+        print(tmpl)
         templates.append(tmpl)
 
     conf.templates = templates
@@ -36,4 +37,4 @@ def init_lucidity_templates(current_project_p, current_type_p):
 
 
 if __name__ == "__main__":
-    init_lucidity_templates('MMOVIE', 'assets')
+    init_lucidity_templates('MMOVIE', 'shots')

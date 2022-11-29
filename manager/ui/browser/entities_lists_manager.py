@@ -7,6 +7,8 @@ from Qt.QtWidgets import QWidget, QMainWindow, QHBoxLayout
 
 from manager.ui.browser.objects_manager import ObjectsListManager
 from manager.ui.browser.ep_lyt.entity_part_layout import EntityPartLayout
+from manager.ui.browser.ep_lyt.entity_file_name_layout import EntityFileNameLayout
+
 from manager import conf
 
 from manager.core.search import entities
@@ -15,21 +17,24 @@ from manager.core.search import entities
 def sort_entities(entities_p):
     sorted_entities = []
 
-    for entity in entities_p:
-        entity_type = entity.get('type')
-        sorted_entity = {
-            'soft programs': entity.get('soft programs'),
-            'project': entity.get('project')
-        }
+    if len(entities_p) != 0:
+        for entity in entities_p:
+            entity_type = entity.get('type')
+            sorted_entity = {
+                'soft programs': entity.get('soft programs'),
+                'project': entity.get('project')
+            }
 
-        for table_key in conf.tables_order.get(entity_type):
-            for key in entity.keys():
-                if key == table_key:
-                    sorted_entity.update({key: entity.get(key)})
+            for table_key in conf.tables_order.get(entity_type):
+                for key in entity.keys():
+                    if key == table_key:
+                        sorted_entity.update({key: entity.get(key)})
 
-        sorted_entities.append(sorted_entity)
+            sorted_entities.append(sorted_entity)
 
-    return sorted_entities
+        return sorted_entities
+    else:
+        return []
 
 class EntitiesListsManager(ObjectsListManager):
     def __init__(self, window_p, user_role_p, parent_layout_p, labels_p, first_entities_p):
@@ -57,6 +62,12 @@ class EntitiesListsManager(ObjectsListManager):
             self.__parent_layout.addWidget(epl)
             self.append_obj(epl)
 
+        # Init last element (file's name)
+        epl = EntityFileNameLayout(self, self.__window, self.__user_role, "File name", "file name")
+        self.__parent_layout.addWidget(epl)
+        self.append_obj(epl)
+
+        # Fill first element
         self.fill_list(0, self.__f_entities)
 
     def fill_list(self, index_p, entities_p):
@@ -94,14 +105,31 @@ class EntitiesListsManager(ObjectsListManager):
             for i in range(active_index + 1, self.__selected_lw_index + 1):
                 self.objs[i].empty_list()
 
-        # Update lw to the right
-        # Get filtered entity
-        entities_to_sort = entities.new_get_entities(entity_p)
+        # If the active lw is not at the last index
+        if active_index != len(self.__labels) - 1:
+            # Update lw to the right
+            # Get filtered entity
+            entities_to_sort = entities.new_get_entities(entity_p)
 
-        # Update right widget
-        self.fill_list(active_index + 1, sort_entities(entities_to_sort))
-        self.__selected_lw_index = active_index + 1
+            # Update right widget
+            self.fill_list(active_index + 1, sort_entities(entities_to_sort))
+            self.__selected_lw_index = active_index + 1
+        else:
+            entity_test = {'soft programs': ['Maya'], 'project': 'micromovie', 'type': 'assets', 'category': 'props', 'name': 'dirt_car_01', 'task': 'modeling', 'versionNb': 'v001'}
 
+            cropped_entity = entity_p
+            cropped_entity.pop('ext')
+            cropped_entity.pop('state')
+
+            entities_to_sort = entities.new_get_entities(cropped_entity)
+            _sorted_entities = sort_entities(entities_to_sort)
+
+            print(f'Entity: {entity_p}')
+            print(f'Entities to sort: {entities_to_sort}')
+            print(f'Sorted entities: {_sorted_entities}')
+
+            self.fill_list(active_index + 1, _sorted_entities)
+            self.__selected_lw_index = active_index + 1
 
     # v Entity part layout management                                ║
     # ^ =============================================================╝
@@ -128,17 +156,19 @@ if __name__ == "__main__":
     window = QWidget()
     UserRole = QtCore.Qt.UserRole
 
-    from manager import utils
-    utils.init_lucidity_templates('MMOVIE', 'assets')
+    _type = 'assets'
 
-    test_filter = {'soft programs': ['Maya'], 'project': 'micromovie', 'type': 'assets'}
+    from manager import utils
+    utils.init_lucidity_templates('MMOVIE', _type)
+
+    test_filter = {'soft programs': ['Maya'], 'project': 'micromovie', 'type': _type}
     from manager.core.search.fs.fs_search import FilesystemSearchSystem
     fs_entities = FilesystemSearchSystem.new_get_entities(test_filter)
     sorted_entities = sort_entities(fs_entities)
 
     layout = QHBoxLayout()
 
-    labels = conf.table_labels.get('assets')
+    labels = conf.table_labels.get(_type)
     lwm = EntitiesListsManager(window, UserRole, layout, labels, sorted_entities)
 
     window.setLayout(layout)

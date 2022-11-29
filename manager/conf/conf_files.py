@@ -39,8 +39,8 @@ projects = {
 types = ["<Type>", references.get('assets'), references.get('shots')]
 
 table_labels = {
-    references.get('assets'): ["Category", "Name", "Task", "Vers. nb", "State", "File name"],
-    references.get('shots'): ["Sequence nb", "Shot nb", "Task", "Vers. nb", "State", "File name"]
+    references.get('assets'): ["Category", "Name", "Task", "Vers. nb", "State"],
+    references.get('shots'): ["Sequence nb", "Shot nb", "Task", "Vers. nb", "State"]
 }
 tables_order = {
     'assets': ['type', 'category', 'name', 'task', 'versionNb', 'state', 'ext'],
@@ -120,8 +120,8 @@ lucidity_templates = {
         'type': '{type:assets}'
     },
     'shots': {
-        'ext': r'{type:shots}/{sqNb:(sq\d\d\d)}/{shNb:(sh\d\d\d)}/{task}/{versionNb:(v\d\d\d)}/{shNb:(sh\d\d\d)}_{state=(publish|work)}.{ext}',
-        'state': r'{type:shots}/{sqNb:(sq\d\d\d)}/{shNb:(sh\d\d\d)}/{task}/{versionNb:(v\d\d\d)}/{shNb:(sh\d\d\d)}_{state=(publish|work)}',
+        'ext': r'{type:shots}/{sqNb:(sq\d\d\d)}/{shNb:(sh\d\d\d)}/{task}/{versionNb:(v\d\d\d)}/{shNb:(sh\d\d\d)}_{state:(publish|work)}.{ext}',
+        'state': r'{type:shots}/{sqNb:(sq\d\d\d)}/{shNb:(sh\d\d\d)}/{task}/{versionNb:(v\d\d\d)}/{shNb:(sh\d\d\d)}_{state:(publish|work)}',
         'versionNb': r'{type:shots}/{sqNb:(sq\d\d\d)}/{shNb:(sh\d\d\d)}/{task}/{versionNb:(v\d\d\d)}',
         'task': r'{type:shots}/{sqNb:(sq\d\d\d)}/{shNb:(sh\d\d\d)}/{task}',
         'shNb': r'{type:shots}/{sqNb:(sq\d\d\d)}/{shNb:(sh\d\d\d)}',

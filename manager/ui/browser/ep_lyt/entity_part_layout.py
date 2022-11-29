@@ -18,26 +18,26 @@ class EntityPartLayout(QtWidgets.QWidget):
         # Call the parent constructor
         super(EntityPartLayout, self).__init__()
         # Attributes init ======================
-        self.__parent = parent_p
-        self.__window = window_p
-        self.__user_role = user_role_p
-        self.__label = label_p
-        self.__translated_label = translated_label_p
-        self.__entities = entities_p
+        self._parent = parent_p
+        self._window = window_p
+        self._user_role = user_role_p
+        self._label = label_p
+        self._translated_label = translated_label_p
+        self._entities = entities_p
 
-        self.__unique_entities = []
+        self._unique_entities = []
 
-        self.__layout = None
-        self.__list_widget = None
+        self._layout = None
+        self._list_widget = None
 
-        self.__current_item = None
-        self.__is_selected = False
-        self.__is_active = False
+        self._current_item = None
+        self._is_selected = False
+        self._is_active = False
 
         # Initialize
         self.init_layout()
 
-        self.connect()
+        self._connect()
 
     # v =============================================================╗
     # v Methods                                                      ║
@@ -45,7 +45,7 @@ class EntityPartLayout(QtWidgets.QWidget):
     # v Initialisations =================
     def init_layout(self):
         # Prepare base name
-        base_name = f'{self.__label}_ent_part'
+        base_name = f'{self._label}_ent_part'
 
         # v Create layout ================================================
         layout_name = f'{base_name}_layout'
@@ -54,21 +54,21 @@ class EntityPartLayout(QtWidgets.QWidget):
         # ^ Create layout ================================================
         # v Create label =================================================
         label_name = f'{base_name}_label'
-        entity_part_label = QLabel(self.__window)
+        entity_part_label = QLabel(self._window)
         entity_part_label.setObjectName(label_name)
-        entity_part_label.setText(self.__label)
+        entity_part_label.setText(self._label)
         entity_part_label.setAlignment(QtCore.Qt.AlignCenter)
         # ^ Create label =================================================
 
         # Create list widget
-        self.__list_widget = self.create_list_widget(base_name)
+        self._list_widget = self.create_list_widget(base_name)
         self.fill_list()
 
         # Add the widgets inside the layouts
         layout.addWidget(entity_part_label)
-        layout.addWidget(self.__list_widget)
+        layout.addWidget(self._list_widget)
 
-        self.__layout = layout
+        self._layout = layout
         self.setLayout(layout)
 
     def create_list_widget(self, base_name_p):
@@ -85,36 +85,36 @@ class EntityPartLayout(QtWidgets.QWidget):
     # v Getters / Setters ===============
     @property  # Works like a getter
     def layout(self):
-        return self.__layout
+        return self._layout
 
     # If I wanted a setter, I would write it like that
     '''
     @layout.setter
     def layout(self, layout_p):
-        self.__layout = layout_p
+        self._layout = layout_p
     '''
 
     @property
     def label(self):
-        return self.__label
+        return self._label
 
     @property
     def is_selected(self):
-        return self.__is_selected
+        return self._is_selected
 
     @property
     def is_active(self):
-        return self.__is_active
+        return self._is_active
 
     @property
     def selected_item(self):
-        return self.__selected_item
+        return self._selected_item
 
     def reset_is_active(self):
-        self.__is_active = False
+        self._is_active = False
 
     def set_entities(self, entities_p):
-        self.__entities = entities_p
+        self._entities = entities_p
 
         self.empty_list()
         self.fill_list()
@@ -123,37 +123,37 @@ class EntityPartLayout(QtWidgets.QWidget):
     # region Selected item
     # v Selected item ===================
     def select_item(self):
-        self.__is_selected = True
-        self.__is_active = True
+        self._is_selected = True
+        self._is_active = True
 
-        if len(self.__list_widget.selectedItems()) != 0:
-            print(f'Selected \"{self.__list_widget.selectedItems()[0].data(self.__user_role)}\"')
+        if len(self._list_widget.selectedItems()) != 0:
+            print(f'Selected \"{self._list_widget.selectedItems()[0].data(self._user_role)}\"')
 
-        self.__current_item = self.__list_widget.selectedItems()
+        self._current_item = self._list_widget.selectedItems()
 
-        entity_str = self.__list_widget.selectedItems()[0].data(self.__user_role)
+        entity_str = self._list_widget.selectedItems()[0].data(self._user_role)
         entity = eval(entity_str)
 
-        self.__parent.active_layout(entity)
+        self._parent.active_layout(entity)
 
-    def connect(self):
-        self.__list_widget.itemClicked.connect(self.select_item)
+    def _connect(self):
+        self._list_widget.itemClicked.connect(self.select_item)
 
     # endregion Selected item
     # region Management
     # v Management ======================
-    def __remove_entity_duplicates(self):
+    def _remove_entity_duplicates(self):
         # Remove entities duplicates ===========
         # Prepare the lists
         unique_values = []
         unique_entities = []
 
         # Browse the entities list
-        for entity in self.__entities:
+        for entity in self._entities:
             # Keep track of the existence or not of a value
             exist = False
 
-            dict_value = entity.get(self.__translated_label)
+            dict_value = entity.get(self._translated_label)
 
             # Browse the list that stores all known values
             for unique_value in unique_values:
@@ -164,27 +164,27 @@ class EntityPartLayout(QtWidgets.QWidget):
                 unique_values.append(dict_value)
                 unique_entities.append(entity)
 
-        self.__unique_entities = unique_entities
+        self._unique_entities = unique_entities
 
-    def __populate_widget_list(self):
-        if len(self.__unique_entities) != 0:
-            self.__list_widget.setEnabled(True)
+    def _populate_widget_list(self):
+        if len(self._unique_entities) != 0:
+            self._list_widget.setEnabled(True)
 
-            for entity in self.__unique_entities:
+            for entity in self._unique_entities:
                 list_item = QListWidgetItem()
-                list_item.setData(self.__user_role, str(entity))
-                list_item.setText(entity[self.__translated_label])
-                self.__list_widget.addItem(list_item)
+                list_item.setData(self._user_role, str(entity))
+                list_item.setText(entity[self._translated_label])
+                self._list_widget.addItem(list_item)
 
             print('Populated widget list')
 
     def fill_list(self):
-        self.__remove_entity_duplicates()
-        self.__populate_widget_list()
+        self._remove_entity_duplicates()
+        self._populate_widget_list()
 
     def empty_list(self):
-        self.__list_widget.clear()
-        self.__list_widget.setEnabled(False)
+        self._list_widget.clear()
+        self._list_widget.setEnabled(False)
 
     def close(self):
         pass
