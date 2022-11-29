@@ -115,18 +115,20 @@ class EntitiesListsManager(ObjectsListManager):
             self.fill_list(active_index + 1, sort_entities(entities_to_sort))
             self.__selected_lw_index = active_index + 1
         else:
-            entity_test = {'soft programs': ['Maya'], 'project': 'micromovie', 'type': 'assets', 'category': 'props', 'name': 'dirt_car_01', 'task': 'modeling', 'versionNb': 'v001'}
-
-            cropped_entity = entity_p
+            # Remove ext and state that are confusing the search system
+            cropped_entity = entity_p.copy()
             cropped_entity.pop('ext')
             cropped_entity.pop('state')
 
-            entities_to_sort = entities.new_get_entities(cropped_entity)
-            _sorted_entities = sort_entities(entities_to_sort)
+            retrieved_entities = entities.new_get_entities(cropped_entity)
+            entities_to_sort = []
 
-            print(f'Entity: {entity_p}')
-            print(f'Entities to sort: {entities_to_sort}')
-            print(f'Sorted entities: {_sorted_entities}')
+            # Remove entities that do not correspond to the selected state
+            for entity in retrieved_entities:
+                if entity.get('state') == entity_p.get('state'):
+                    entities_to_sort.append(entity)
+
+            _sorted_entities = sort_entities(entities_to_sort)
 
             self.fill_list(active_index + 1, _sorted_entities)
             self.__selected_lw_index = active_index + 1

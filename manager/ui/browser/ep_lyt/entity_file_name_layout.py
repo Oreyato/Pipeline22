@@ -31,6 +31,21 @@ class EntityFileNameLayout(EntityPartLayout):
 
             print('Populated widget list')
 
+    def select_item(self):
+        self._is_selected = True
+        self._is_active = True
+
+        if len(self._list_widget.selectedItems()) != 0:
+            print("=== SELECTED ===")
+            print(f'{self._list_widget.selectedItems()[0].data(self._user_role)}')
+
+        self._current_item = self._list_widget.selectedItems()
+
+        entity_str = self._list_widget.selectedItems()[0].data(self._user_role)
+        entity = eval(entity_str)
+
+
+        # self._parent.active_layout(entity)
 
 if __name__ == "__main__":
     pass
