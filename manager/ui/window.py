@@ -1,14 +1,18 @@
+from pprint import pprint
+
 from Qt import QtWidgets, QtCompat
-from Qt.QtWidgets import QMainWindow, QTableWidgetItem
+from Qt.QtWidgets import QMainWindow, QTableWidgetItem, QHBoxLayout
 
 from manager.utils.exception import PipelineException
 
-from manager import conf, core, engine
+from manager import conf, core, engine, utils
 from manager.core import search
 
 from manager.core.search import resolver
 
 from manager.ui.browser.OUTDATED_entity_part_list import *
+from manager.ui.browser.entities_lists_manager import EntitiesListsManager
+from manager.ui.browser.entities_lists_manager import sort_entities
 
 from PySide2 import QtCore
 
@@ -83,7 +87,7 @@ class Window(QMainWindow):
         # Set index to the placeholder
         # self.projects_cb.setCurrentIndex(-1)
 
-        # Types == ==============================
+        # Types =================================
         # Clear the test variables
         self.types_cb.clear()
         # Get all possible types
@@ -93,17 +97,23 @@ class Window(QMainWindow):
 
     def are_dropdowns_set(self):
         # Check if both the project and the type have been set
-        if self.projects_cb.currentIndex() is not 0 and self.types_cb.currentIndex() is not 0:
+        if self.projects_cb.currentIndex() != 0 and self.types_cb.currentIndex() != 0:
             # Get the content of the two combo boxes
             current_project = self.projects_cb.currentText()
             current_type = self.types_cb.currentText()
+            project_folder_name = conf.projects.get(current_project).get('name')
+
+            # Init lucidity templates
+            utils.init_lucidity_templates(project_folder_name, current_type)
 
             # Retrieve the data corresponding to the content found above
             data_list = list(search.get_entities(current_project, self.software_names, current_type))
             # Update the table
-            self.init_files_table(data_list)
+            # self.init_files_table(data_list)
             # Update the list widget
-            self.init_list_widget(data_list)  # todo for test purpose
+            # self.init_list_widget(data_list)
+            # Update the new list widget
+            self.new_init_list_widget(current_project, current_type)
 
     # ^ Dropdown menus ===============================================
     #endregion =======================================================
@@ -264,6 +274,23 @@ class Window(QMainWindow):
     # endregion ======================================================
     # region List widgets ============================================
     # v List widgets =================================================
+    def new_init_list_widget(self, current_project_p, current_type_p):
+        utils.clear_layout(self.new_entity_lists_layout)
+
+        test_filter = {'soft programs': ['Maya'], 'project': current_project_p, 'type': current_type_p}
+
+        utils.init_lucidity_templates(conf.projects.get(current_project_p).get('name'), current_type_p)
+
+        #temp
+        from manager.core.search.fs.fs_search import FilesystemSearchSystem
+        fs_entities = FilesystemSearchSystem.new_get_entities(test_filter)
+        sorted_entities = sort_entities(fs_entities)
+
+        layout = self.new_entity_lists_layout
+        labels = conf.table_labels.get(current_type_p)
+        lwm = EntitiesListsManager(self.window, self.UserRole, layout, labels, sorted_entities)
+
+
     def init_list_widget(self, data_list):
         # ~ layout.indexOf() see documentation
 

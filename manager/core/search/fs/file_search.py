@@ -1,3 +1,6 @@
+import os
+from pprint import pprint
+
 from manager import conf
 from pathlib import Path
 
@@ -52,6 +55,7 @@ def get_file_addresses(project_path, software, selected_type='asset'):
     # print(f"Allowed extensions: {extensions}")
 
     # Get files that have one of the allowed extensions
+    # ==v== CAN EASILY BE IMPROVED ==v==
     for ext in extensions:
         if selected_type == conf.types[1]:
             asset_pattern = conf.asset_file_pattern.format(ext=ext)
@@ -61,6 +65,54 @@ def get_file_addresses(project_path, software, selected_type='asset'):
             shot_pattern = conf.shot_file_pattern.format(ext=ext)
             found = Path(project_path).rglob(shot_pattern)
             generators.append(found)
+
+    for g in generators:
+        for f in g:
+            yield f
+
+
+def new_get_file_addresses(software_p, filters_p):
+    """
+    Get files addresses from the right project and right software
+
+    :param software_p: Selected software
+    :param filters_p: Dictionary
+    :return: yield a generator
+    """
+    generators = []
+    extensions = []
+
+    # Get project path
+    project_name = filters_p.get('project')
+    project_path = Path(conf.pipeline_path) / conf.projects.get(project_name).get("name")
+    project_path = str(project_path).replace(os.sep, "/")
+
+    # Get selected software extensions
+    extensions.extend(conf.software_programs.get(software_p))
+
+    selected_type = filters_p.get('type')
+
+    # v Prepare the rglob parameter ==================================
+    # Shorten the list
+    filters_p.pop('project')
+    filters_p.pop('soft programs')
+    shorten_filters = list(filters_p.values())
+    pprint(shorten_filters)
+    shorten_filters.append('*')
+
+
+    rglob_param = '/'.join(shorten_filters)
+    pprint(rglob_param)
+
+    # ^ Prepare the rglob parameter ==================================
+
+    # Get files that have one of the allowed extensions
+    # ==v== CAN EASILY BE IMPROVED ==v==
+    # for ext in extensions:
+
+    #todo SOLVE RGLOB ISSUE
+    found = Path(project_path).rglob(rglob_param)
+    generators.append(found)
 
     for g in generators:
         for f in g:
@@ -83,7 +135,19 @@ def get_file_name_from_path(f_path):
 # v Tests                                                        ║
 
 if __name__ == '__main__':
-    data_list = list(init_data_list("micromovie", ["Maya"]))
+    from manager import utils
+    utils.init_lucidity_templates('MMOVIE', 'assets')
+
+    filters = {
+        'project': 'micromovie',
+        'type': 'assets',
+        'soft programs': ['Maya'],
+        'category': 'props',
+        'name': 'dirt_car_01'
+    }
+
+    addresses = list(new_get_file_addresses('Maya', filters))
+    pprint(addresses)
 
 # ^ Tests                                                        ║
 # ^ =============================================================╝

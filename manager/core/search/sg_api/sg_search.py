@@ -17,7 +17,7 @@ class ShotgridSearchSystem(BaseSearchSystem):
 
         return entities
 
-
+    @staticmethod
     def get_entities(self, project_name_p, soft_programs_p=[""], selected_type_p='asset'):
         """
         Get files from the right project and right software along with the software they come from

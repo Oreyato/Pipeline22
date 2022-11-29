@@ -10,9 +10,7 @@ from manager.core.search import resolver
 
 
 class FilesystemSearchSystem(BaseSearchSystem):
-    def __init__(self):
-        pass
-
+    @staticmethod
     def get_entities(project_name_p, soft_programs_p=[""], selected_type_p='asset'):
         """
         Get files from the right project and right software along with the software they come from
@@ -41,7 +39,50 @@ class FilesystemSearchSystem(BaseSearchSystem):
 
         return entities
 
+    @staticmethod
+    def new_get_entities(filters_p={}):
+        """
+        Get files from the right project and right software along with the software they come from
+
+        :param filters_p: dictionary working as a filter
+        :return: entities list
+        """
+        entities = []
+
+        soft_programs = filters_p.get('soft programs')
+        current_project = filters_p.get('project')
+
+        for software in soft_programs:
+            # Get files addresses
+            files_addresses = list(fs_search.new_get_file_addresses(software, filters_p))
+
+            for file_address in files_addresses:
+                str_f_address = str(file_address).replace(os.sep, "/")
+                data = {
+                    'soft programs': [software],
+                    'project': current_project
+                }
+
+                entity = resolver.parse(str_f_address)
+                if len(entity.keys()) != 0:
+                    data.update(entity)
+                    entities.append(data)
+
+        return entities
+
 
 if __name__ == "__main__":
-    fss = FilesystemSearchSystem()
-    print(fss)
+    from manager import utils
+    utils.init_lucidity_templates('MMOVIE', 'assets')
+
+    filters = {
+        'project': 'micromovie',
+        'type': 'assets',
+        'soft programs': ['Maya'],
+        'category': 'props',
+        'name': 'dirt_car_01'
+    }
+
+    entities = FilesystemSearchSystem.new_get_entities(filters)
+
+    pprint(entities)
