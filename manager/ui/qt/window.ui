@@ -197,6 +197,13 @@
        </layout>
       </item>
       <item>
+       <layout class="QHBoxLayout" name="new_entity_lists_layout">
+        <property name="spacing">
+         <number>6</number>
+        </property>
+       </layout>
+      </item>
+      <item>
        <spacer name="verticalSpacer">
         <property name="orientation">
          <enum>Qt::Vertical</enum>

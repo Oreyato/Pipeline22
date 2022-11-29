@@ -36,5 +36,12 @@ def init_lucidity_templates(current_project_p, current_type_p):
     print('Init Lucidity templates')
 
 
+def clear_layout(layout):
+    for i in reversed(range(layout.count())):
+        widget_to_remove = layout.itemAt(i).widget()
+        layout.removeWidget(widget_to_remove)  # remove it from the layout list
+        widget_to_remove.deleteLater()  # remove it from the gui  # setParent(None)
+
+
 if __name__ == "__main__":
     init_lucidity_templates('MMOVIE', 'shots')

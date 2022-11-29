@@ -54,7 +54,7 @@ class EntityPartLayout(QtWidgets.QWidget):
         # ^ Create layout ================================================
         # v Create label =================================================
         label_name = f'{base_name}_label'
-        entity_part_label = QLabel(self._window)
+        entity_part_label = QLabel()
         entity_part_label.setObjectName(label_name)
         entity_part_label.setText(self._label)
         entity_part_label.setAlignment(QtCore.Qt.AlignCenter)
