@@ -58,9 +58,6 @@ class Window(QMainWindow):
         self.projects_cb.currentIndexChanged.connect(self.are_dropdowns_set)
         self.types_cb.currentIndexChanged.connect(self.are_dropdowns_set)
 
-        # Click somewhere on the table
-        self.t_resume.clicked.connect(self.select_whole_row)
-
         # Click one of the dynamic checkboxes
         for i in range(len(self.software_checkboxes)):
             self.software_checkboxes[i].clicked.connect(self.do_soft_cb_click)
@@ -106,13 +103,7 @@ class Window(QMainWindow):
             # Init lucidity templates
             utils.init_lucidity_templates(project_folder_name, current_type)
 
-            # Retrieve the data corresponding to the content found above
-            data_list = list(search.get_entities(current_project, self.software_names, current_type))
-            # Update the table
-            # self.init_files_table(data_list)
-            # Update the list widget
-            # self.init_list_widget(data_list)
-            # Update the new list widget
+            # Update list widget
             self.new_init_list_widget(current_project, current_type)
 
     # ^ Dropdown menus ===============================================
@@ -275,7 +266,7 @@ class Window(QMainWindow):
     # region List widgets ============================================
     # v List widgets =================================================
     def new_init_list_widget(self, current_project_p, current_type_p):
-        utils.clear_layout(self.new_entity_lists_layout)
+        utils.clear_layout(self.entity_lists_layout)
 
         test_filter = {'soft programs': ['Maya'], 'project': current_project_p, 'type': current_type_p}
 
@@ -286,7 +277,7 @@ class Window(QMainWindow):
         fs_entities = FilesystemSearchSystem.new_get_entities(test_filter)
         sorted_entities = sort_entities(fs_entities)
 
-        layout = self.new_entity_lists_layout
+        layout = self.entity_lists_layout
         labels = conf.table_labels.get(current_type_p)
         lwm = EntitiesListsManager(self.window, self.UserRole, layout, labels, sorted_entities)
 

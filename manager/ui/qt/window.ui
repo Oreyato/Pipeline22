@@ -71,7 +71,7 @@
           <property name="sizeHint" stdset="0">
            <size>
             <width>40</width>
-            <height>20</height>
+            <height>10</height>
            </size>
           </property>
          </spacer>
@@ -96,6 +96,12 @@
              </property>
              <item>
               <widget class="QCheckBox" name="pl_software">
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>20</height>
+                </size>
+               </property>
                <property name="text">
                 <string>pl_software</string>
                </property>
@@ -115,7 +121,7 @@
             <property name="sizeHint" stdset="0">
              <size>
               <width>40</width>
-              <height>20</height>
+              <height>0</height>
              </size>
             </property>
            </spacer>
@@ -138,69 +144,38 @@
        </layout>
       </item>
       <item>
-       <widget class="QTableWidget" name="t_resume">
-        <property name="minimumSize">
-         <size>
-          <width>309</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="alternatingRowColors">
-         <bool>true</bool>
-        </property>
-        <property name="cornerButtonEnabled">
-         <bool>false</bool>
-        </property>
-        <property name="rowCount">
-         <number>0</number>
-        </property>
-        <property name="columnCount">
-         <number>3</number>
-        </property>
-        <attribute name="horizontalHeaderCascadingSectionResizes">
-         <bool>false</bool>
-        </attribute>
-        <attribute name="horizontalHeaderDefaultSectionSize">
-         <number>80</number>
-        </attribute>
-        <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
-         <bool>false</bool>
-        </attribute>
-        <attribute name="horizontalHeaderStretchLastSection">
-         <bool>false</bool>
-        </attribute>
-        <attribute name="verticalHeaderStretchLastSection">
-         <bool>false</bool>
-        </attribute>
-        <column>
-         <property name="text">
-          <string>Name</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Software</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Full Address</string>
-         </property>
-        </column>
-       </widget>
-      </item>
-      <item>
        <layout class="QHBoxLayout" name="entity_lists_layout">
         <property name="spacing">
          <number>6</number>
         </property>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="new_entity_lists_layout">
-        <property name="spacing">
-         <number>6</number>
-        </property>
+        <item>
+         <widget class="QLineEdit" name="lineEdit">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>500</width>
+            <height>250</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>PLEASE SELECT A PROJECT AND A TYPE</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
       <item>
