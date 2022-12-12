@@ -330,8 +330,9 @@ class Window(QMainWindow):
 
     # ^ List widgets =================================================
     # endregion
-    # region Tables ==================================================
+    # region Tables - NOT USED ANYMORE ===============================
     # v Tables =======================================================
+    """ OLDER SYSTEM - NOT USED ANYMORE
     def add_table_widget_item(self, parent, sid, label, row, column=1):
         # Create a table widget item
         item = QtWidgets.QTableWidgetItem() #todo test
@@ -436,7 +437,7 @@ class Window(QMainWindow):
 
         # Resize table automatically
         self.t_resume.resizeColumnsToContents()
-
+    """
     # ^ Tables =======================================================
     # endregion ======================================================
 
