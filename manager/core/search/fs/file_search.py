@@ -136,18 +136,22 @@ def get_file_name_from_path(f_path):
 
 if __name__ == '__main__':
     from manager import utils
-    utils.init_lucidity_templates('MMOVIE', 'assets')
+    #utils.init_lucidity_templates('MMOVIE', 'assets')
 
     filters = {
         'project': 'micromovie',
         'type': 'assets',
-        'soft programs': ['Maya'],
+        'soft_programs': ['Maya'],
         'category': 'props',
         'name': 'dirt_car_01'
     }
 
-    addresses = list(new_get_file_addresses('Maya', filters))
-    pprint(addresses)
+    # pattern = '{type}/{category}/{name}/{soft_programs}'
+    # rglob_param = pattern.format(**filters_p)
+    # pprint(rglob_param)
+
+   #  addresses = list(new_get_file_addresses('Maya', filters))
+    #pprint(addresses)
 
 # ^ Tests                                                        ║
 # ^ =============================================================╝
