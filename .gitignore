@@ -1,2 +1,5 @@
 manager/__pycache__
 manager/p/
+
+.idea/
+__pycache__/
