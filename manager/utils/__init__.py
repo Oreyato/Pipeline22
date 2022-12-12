@@ -6,16 +6,9 @@ from pprint import pprint
 from manager import conf
 
 
-def clear_layout(layout):
-    for i in reversed(range(layout.count())):
-        widget_to_remove = layout.itemAt(i).widget
-        layout.removeWidget(widget_to_remove)
-        widget_to_remove.deleteLater()
-
-
 def init_lucidity_templates(current_project_p, current_type_p):
     # Init lucidity templates
-    root = str(Path(conf.pipeline_path) / current_project_p).replace(os.sep, "/")
+    root = str(Path(conf.project_root) / current_project_p).replace(os.sep, "/")
 
     templates = []
 

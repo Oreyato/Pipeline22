@@ -62,7 +62,7 @@ labels_to_lu_templates = {
 
 # ^ Projects and types ==========================================
 # v Software and extensions =====================================
-software_programs = {
+software_list = {
     "Maya": ["ma", "mb"],
     "Houdini": ["hipnc"],
     "Nuke": ["nk"],
@@ -77,8 +77,7 @@ turn_point = "versionNb"
 
 # Classic paths ========================
 ui_path = Path(__file__).parent.parent / "ui" / "qt" / "window.ui"
-pipeline_path = Path('D:/TD4/Paul/Pipeline')
-# pipeline_path = Path('F:/Cours/Y004/Prog/Pipeline')
+project_root = Path('D:/TD4/Paul/Pipeline')
 
 shot_file_pattern = 'shots/sq*/sh*/*/v*/sh*_*.{ext}'
 shot_file_split_pattern = {
@@ -94,7 +93,7 @@ general_file_pattern = '{type}/*/*/{task}/v*/*_{state}.{ext}'
 default_project = "micromovie"
 current_project_name = projects.get(default_project).get("name")
 
-root = lucidity.Template('root', str(Path(pipeline_path) / current_project_name).replace(os.sep, "/"))  # todo
+root = lucidity.Template('root', str(Path(project_root) / current_project_name).replace(os.sep, "/"))  # todo
 resolver = {root.name: root}
 
 assets_template = lucidity.Template('asset',

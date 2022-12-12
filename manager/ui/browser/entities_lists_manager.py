@@ -164,8 +164,8 @@ if __name__ == "__main__":
     utils.init_lucidity_templates('MMOVIE', _type)
 
     test_filter = {'soft programs': ['Maya'], 'project': 'micromovie', 'type': _type}
-    from manager.core.search.fs.fs_search import FilesystemSearchSystem
-    fs_entities = FilesystemSearchSystem.new_get_entities(test_filter)
+    from manager.core.search.fs.file_search import FilesystemSearch
+    fs_entities = FilesystemSearch.new_get_entities(test_filter)
     sorted_entities = sort_entities(fs_entities)
 
     layout = QHBoxLayout()

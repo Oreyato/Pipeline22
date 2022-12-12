@@ -36,7 +36,7 @@ class Window(QMainWindow):
         # Create a list that will contain software to show
         self.software_names = []
         # Populate it with all possible software
-        for software in conf.software_programs:
+        for software in conf.software_list:
             self.software_names.append(software)
 
         # Init drop down menus
@@ -115,7 +115,7 @@ class Window(QMainWindow):
         soft_programs_layout = self.pl_software.parentWidget()
 
         # Get all possible software
-        software_names = list(conf.software_programs.keys())
+        software_names = list(conf.software_list.keys())
         # Remplace its caption
         self.pl_software.setText("None")
         # Remplace its name
@@ -164,7 +164,7 @@ class Window(QMainWindow):
                 for check_box in self.software_checkboxes:
                     check_box.setChecked(True)
                 # Fill the software_names all software names from the config file
-                for key in conf.software_programs.keys():
+                for key in conf.software_list.keys():
                     self.software_names.append(str(key))
                 # Change its text to "None"
                 self.sender().setText("None")
@@ -207,13 +207,13 @@ class Window(QMainWindow):
         if active_cell is not None:
             # Get current row
             current_row = self.t_resume.currentRow()
-            # Get the "Full Address" column
+            # Get the "Full Path" column
             path_column = self.t_resume.indexFromItem(self.t_resume.findItems("D:", QtCore.Qt.MatchContains)[0]).column()
-            # Get the selected row linked address
-            address = self.t_resume.item(current_row, path_column).text()
-            print(address)
+            # Get the selected row linked path
+            path = self.t_resume.item(current_row, path_column).text()
+            print(path)
             # Open file
-            self.engine.open_file_from_path(address)
+            self.engine.open_file_from_path(path)
         # If not, returns an error - a window would be better
         else:
             print('Please select an item before clicking the \"Open\" button')
@@ -280,8 +280,8 @@ class Window(QMainWindow):
         utils.init_lucidity_templates(conf.projects.get(current_project_p).get('name'), current_type_p)
 
         #temp --> later we would like to select either fs or sg
-        from manager.core.search.fs.fs_search import FilesystemSearchSystem
-        fs_entities = FilesystemSearchSystem.new_get_entities(test_filter)
+        from manager.core.search.fs.file_search import FilesystemSearch
+        fs_entities = FilesystemSearch.new_get_entities(test_filter)
         sorted_entities = sort_entities(fs_entities)
 
         # Init entities lists
@@ -377,7 +377,7 @@ class Window(QMainWindow):
                 # last_item.data(UserRole)
 
                 qt_tab_item_software = QTableWidgetItem(data_list[i][1])
-                qt_tab_item_address = QTableWidgetItem(resolver.format(entity))
+                qt_tab_item_path = QTableWidgetItem(resolver.format(entity))
 
                 # Fill the table with the elements
                 self.t_resume.setItem(i, 0, qt_tab_item_category)
@@ -389,7 +389,7 @@ class Window(QMainWindow):
 
                 '''
                 self.t_resume.setItem(i, 1, qt_tab_item_software)
-                self.t_resume.setItem(i, 2, qt_tab_item_address)
+                self.t_resume.setItem(i, 2, qt_tab_item_path)
                 '''
 
             if item_type == 'shots':
