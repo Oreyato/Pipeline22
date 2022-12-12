@@ -186,11 +186,13 @@ class Window(QMainWindow):
         else:
             self.rm_software_names_elem(str(check_box_text))
 
+        """ OLDER SYSTEM - NOT USED ANYMORE
         # Update the data
         updt_data = list(
             search.get_entities(self.projects_cb.currentText(), self.software_names, self.types_cb.currentText()))
         # Update the table
         self.init_files_table(updt_data)
+        """
 
     # ^ Checkboxes ===================================================
     # endregion ======================================================
