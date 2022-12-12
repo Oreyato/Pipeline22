@@ -186,12 +186,12 @@ class Window(QMainWindow):
         else:
             self.rm_software_names_elem(str(check_box_text))
 
-        """ OLDER SYSTEM - NOT USED ANYMORE
+        """ OLD SYSTEM - NOT USED ANYMORE
         # Update the data
         updt_data = list(
             search.get_entities(self.projects_cb.currentText(), self.software_names, self.types_cb.currentText()))
         # Update the table
-        self.init_files_table(updt_data)
+        self.init_files_table(updt_data)     
         """
 
     # ^ Checkboxes ===================================================
@@ -199,6 +199,7 @@ class Window(QMainWindow):
     # region Buttons =================================================
     # v Buttons ======================================================
     def do_open(self):
+        """ OLD SYSTEM - NOT USED ANYMORE
         # Get current cell
         active_cell = self.t_resume.currentItem()
 
@@ -216,6 +217,7 @@ class Window(QMainWindow):
         # If not, returns an error - a window would be better
         else:
             print('Please select an item before clicking the \"Open\" button')
+        """
 
     def do_reference(self):
         print("Clicked on \"Reference\" button")
