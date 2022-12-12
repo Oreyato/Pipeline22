@@ -269,23 +269,27 @@ class Window(QMainWindow):
     # endregion ======================================================
     # region List widgets ============================================
     # v List widgets =================================================
+    #todo REFACTOR THIS FUNCTION
     def new_init_list_widget(self, current_project_p, current_type_p):
         utils.clear_layout(self.entity_lists_layout)
 
+        #todo Change "soft programs" into "checkbox's selected programs"
         test_filter = {'soft programs': ['Maya'], 'project': current_project_p, 'type': current_type_p}
 
+        # Load lucidity templates for the current project
         utils.init_lucidity_templates(conf.projects.get(current_project_p).get('name'), current_type_p)
 
-        #temp
+        #temp --> later we would like to select either fs or sg
         from manager.core.search.fs.fs_search import FilesystemSearchSystem
         fs_entities = FilesystemSearchSystem.new_get_entities(test_filter)
         sorted_entities = sort_entities(fs_entities)
 
+        # Init entities lists
         layout = self.entity_lists_layout
         labels = conf.table_labels.get(current_type_p)
         lwm = EntitiesListsManager(self.window, self.UserRole, layout, labels, sorted_entities)
 
-
+    """ OLDER SYSTEM - NOT USED ANYMORE
     def init_list_widget(self, data_list):
         # ~ layout.indexOf() see documentation
 
@@ -322,6 +326,7 @@ class Window(QMainWindow):
         # Change layout spacing
         self.entity_lists_layout.setSpacing(2)  # doesn't work
         self.entity_lists_layout.setContentsMargins(0, 0, 0, 0)  # doesn't work
+        """
 
     # ^ List widgets =================================================
     # endregion
