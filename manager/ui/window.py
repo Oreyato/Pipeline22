@@ -14,7 +14,7 @@ from manager.ui.browser.OUTDATED_entity_part_list import *
 from manager.ui.browser.entities_lists_manager import EntitiesListsManager
 from manager.ui.browser.entities_lists_manager import sort_entities
 
-from PySide2 import QtCore
+from Qt import QtCore
 
 # v =============================================================╗
 # v Window class                                                 ║
@@ -446,9 +446,17 @@ class Window(QMainWindow):
 # region Out of Window ==========================================
 # v =============================================================╗
 # v Launch                                                       ║
+
 def open_window():
     w = Window()
     w.show()
+
+
+def open_app():
+    app = QtWidgets.QApplication()
+    open_window()
+    app.exec_()
+
 
 # v Launch                                                       ║
 # ^ =============================================================╝
@@ -456,11 +464,7 @@ def open_window():
 # v Main                                                         ║
 
 if __name__ == '__main__':
-    app = QtWidgets.QApplication()
-
-    open_window()
-
-    app.exec_()
+    open_app()
 
 # ^ Main                                                         ║
 # ^ =============================================================╝

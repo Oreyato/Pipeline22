@@ -1,0 +1,2 @@
+Lucidity==1.6.0
+shotgun_api3==3.3.4
