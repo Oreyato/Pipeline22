@@ -20,7 +20,13 @@ references = {
 # Shotgrid
 sg_translation = {
     references.get('assets'): 'Asset',
-    references.get('shots'): 'Shot'
+    'category': ['sg_asset_type', 'is'],
+    'name': ['code', 'is'],
+    'task': ['step', 'is'],
+
+    references.get('shots'): 'Shot',
+    'sqNb': ['code', 'starts_with'],
+    'shNb': ['code', 'ends_with']
 }
 
 # ^ Dictionaries ================================================
@@ -73,7 +79,7 @@ software_list = {
 # ^ Software and extensions =====================================
 # v Paths =======================================================
 # Turn point ===========================
-turn_point = "versionNb"
+use_fs = ["category", "sqNb"]
 
 # Classic paths ========================
 ui_path = Path(__file__).parent.parent / "ui" / "qt" / "window.ui"

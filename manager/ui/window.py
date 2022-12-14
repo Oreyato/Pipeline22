@@ -3,16 +3,12 @@ from pprint import pprint
 from Qt import QtWidgets, QtCompat
 from Qt.QtWidgets import QMainWindow, QTableWidgetItem, QHBoxLayout
 
-from manager.utils.exception import PipelineException
+from manager import conf, engine, utils
 
-from manager import conf, core, engine, utils
-from manager.core import search
-
-from manager.core.search import resolver
-
-from manager.ui.browser.OUTDATED_entity_part_list import *
 from manager.ui.browser.entities_lists_manager import EntitiesListsManager
 from manager.ui.browser.entities_lists_manager import sort_entities
+
+from manager.utils.decorators import execution_time
 
 from Qt import QtCore
 
@@ -270,6 +266,7 @@ class Window(QMainWindow):
     # region List widgets ============================================
     # v List widgets =================================================
     #todo REFACTOR THIS FUNCTION
+    @execution_time
     def new_init_list_widget(self, current_project_p, current_type_p):
         utils.clear_layout(self.entity_lists_layout)
 
@@ -279,15 +276,18 @@ class Window(QMainWindow):
         # Load lucidity templates for the current project
         utils.init_lucidity_templates(conf.projects.get(current_project_p).get('name'), current_type_p)
 
-        #temp --> later we would like to select either fs or sg
+        # Get entities --> later we would like to select either fs or sg with a checkbox
         from manager.core.search.fs.file_search import FilesystemSearch
-        fs_entities = FilesystemSearch.new_get_entities(test_filter)
-        sorted_entities = sort_entities(fs_entities)
+        found_entities = FilesystemSearch.new_get_entities(test_filter)
+        # from manager.core.search import entities
+        # found_entities = entities.new_get_entities(test_filter)
+
+        sorted_entities = sort_entities(found_entities)
 
         # Init entities lists
         layout = self.entity_lists_layout
         labels = conf.table_labels.get(current_type_p)
-        lwm = EntitiesListsManager(self.window, self.UserRole, layout, labels, sorted_entities)
+        EntitiesListsManager(self.window, self.UserRole, layout, labels, sorted_entities)
 
     """ OLDER SYSTEM - NOT USED ANYMORE
     def init_list_widget(self, data_list):

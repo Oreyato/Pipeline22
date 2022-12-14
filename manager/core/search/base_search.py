@@ -7,10 +7,6 @@ class BaseSearchSystem:
         return f"[{self.__class__.__name__}]"
 
     @staticmethod
-    def get_entities(project_name_p, soft_programs_p=[""], selected_type_p='asset'):
-        pass
-
-    @staticmethod
     def new_get_entities(filters_p):
         pass
 

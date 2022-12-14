@@ -1,6 +1,8 @@
 from shotgun_api3 import shotgun
 from manager import conf
 
+from pprint import pprint
+
 sg = None
 
 
@@ -36,7 +38,7 @@ if __name__ == '__main__':
     project_id = conf.projects.get("micromovie").get("sg_id")
 
     sg_files = get_shotgun_files(project_id, "Asset")
-    print(sg_files)
+    pprint(sg_files)
 
     pass
 
