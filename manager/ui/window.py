@@ -225,7 +225,7 @@ class Window(QMainWindow):
         print("Clicked on \"Build\" button")
 
     def do_quit(self):
-        app.exit()
+        self.close()
 
     def init_dyn_buttons(self):
         # Get placeholder lay-out
@@ -446,6 +446,7 @@ class Window(QMainWindow):
 # region Out of Window ==========================================
 # v =============================================================╗
 # v Launch                                                       ║
+
 
 def open_window():
     w = Window()

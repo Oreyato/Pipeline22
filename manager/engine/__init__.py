@@ -2,6 +2,7 @@ from manager.engine.base_engine import BaseEngine
 
 import sys
 
+
 def get_soft_name_from_path(f_path):
     # split the path
     split_path = f_path.split("\\")
@@ -15,14 +16,13 @@ def get_soft_name_from_path(f_path):
 
     return file_name
 
+
 def get():
     """
     Returns engine depending on the context
 
     :return:
     """
-    ### On va récupérer un critère et en fonction du critère, créer le bon engine -> suite de if en dur
-    ### Pas très élégant mais pourra être ref. plus tard
     current_exe_path = sys.executable
     software_name = get_soft_name_from_path(current_exe_path)
 
@@ -36,6 +36,9 @@ def get():
         from manager.engine.maya.maya_engine import MayaEngine
         selected = MayaEngine()
 
+    elif software_name == "houdini":
+        from manager.engine.houdini.houdini_engine import HoudiniEngine
+        selected = HoudiniEngine()
 
     print(f'Selected engine: {selected}')
 
