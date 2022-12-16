@@ -75,8 +75,14 @@ class EntityPartLayout(QtWidgets.QWidget):
         list_name = f'{base_name_p}_list'
         entity_part_list = QListWidget()
         entity_part_list.setObjectName(list_name)
-        entity_part_list.setAlternatingRowColors(True)
+        entity_part_list.setAlternatingRowColors(conf.altRowColors)
         entity_part_list.setEnabled(False)
+        # entity_part_list.setResizeMode(QListWidget.ResizeMode.Adjust)
+        # entity_part_list.setWordWrap(False)
+        # entity_part_list.setAutoScroll(True)
+        entity_part_list.adjustSize()
+        entity_part_list.setSizeAdjustPolicy(QListWidget.AdjustToContents)
+        #entity_part_list.setWrapping(True)
 
         return entity_part_list
 

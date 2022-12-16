@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>688</width>
-    <height>492</height>
+    <width>822</width>
+    <height>517</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,107 +21,62 @@
     <item row="0" column="0">
      <layout class="QVBoxLayout" name="Window_vLayout">
       <item>
-       <layout class="QHBoxLayout" name="drop_down_hLayout">
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="sizeConstraint">
+         <enum>QLayout::SetFixedSize</enum>
+        </property>
         <item>
-         <widget class="QComboBox" name="projects_cb">
-          <property name="editable">
-           <bool>false</bool>
-          </property>
-          <property name="currentIndex">
-           <number>0</number>
-          </property>
-          <property name="placeholderText">
-           <string/>
-          </property>
+         <layout class="QHBoxLayout" name="drop_down_hLayout">
           <item>
-           <property name="text">
-            <string>test_project</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-        <item>
-         <widget class="QComboBox" name="types_cb">
-          <property name="editable">
-           <bool>false</bool>
-          </property>
-          <property name="currentIndex">
-           <number>0</number>
-          </property>
-          <property name="placeholderText">
-           <string/>
-          </property>
-          <item>
-           <property name="text">
-            <string>assets</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>shots</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_4">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>10</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="softwares_cb_hLayout">
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_5">
-          <property name="spacing">
-           <number>6</number>
-          </property>
-          <item>
-           <widget class="QWidget" name="lt_software" native="true">
-            <layout class="QHBoxLayout" name="ly_software">
-             <property name="topMargin">
-              <number>2</number>
+           <widget class="QComboBox" name="projects_cb">
+            <property name="editable">
+             <bool>false</bool>
+            </property>
+            <property name="currentIndex">
+             <number>0</number>
+            </property>
+            <property name="placeholderText">
+             <string/>
+            </property>
+            <item>
+             <property name="text">
+              <string>test_project</string>
              </property>
-             <property name="bottomMargin">
-              <number>2</number>
-             </property>
-             <item>
-              <widget class="QCheckBox" name="pl_software">
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>20</height>
-                </size>
-               </property>
-               <property name="text">
-                <string>pl_software</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
+            </item>
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_2">
+           <widget class="QComboBox" name="types_cb">
+            <property name="editable">
+             <bool>false</bool>
+            </property>
+            <property name="currentIndex">
+             <number>0</number>
+            </property>
+            <property name="placeholderText">
+             <string/>
+            </property>
+            <item>
+             <property name="text">
+              <string>assets</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>shots</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_4">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Maximum</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
               <width>40</width>
-              <height>0</height>
+              <height>5</height>
              </size>
             </property>
            </spacer>
@@ -129,24 +84,95 @@
          </layout>
         </item>
         <item>
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
+         <layout class="QHBoxLayout" name="softwares_cb_hLayout">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <property name="spacing">
+             <number>6</number>
+            </property>
+            <item>
+             <widget class="QWidget" name="lt_software" native="true">
+              <layout class="QHBoxLayout" name="ly_software">
+               <property name="topMargin">
+                <number>2</number>
+               </property>
+               <property name="bottomMargin">
+                <number>2</number>
+               </property>
+               <item>
+                <widget class="QCheckBox" name="pl_software">
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>pl_software</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Maximum</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>0</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </item>
        </layout>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Maximum</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>50</width>
+          <height>10</height>
+         </size>
+        </property>
+       </spacer>
       </item>
       <item>
        <layout class="QHBoxLayout" name="entity_lists_layout">
         <property name="spacing">
          <number>6</number>
+        </property>
+        <property name="sizeConstraint">
+         <enum>QLayout::SetNoConstraint</enum>
         </property>
         <item>
          <widget class="QLineEdit" name="lineEdit">
@@ -161,8 +187,8 @@
           </property>
           <property name="minimumSize">
            <size>
-            <width>500</width>
-            <height>250</height>
+            <width>800</width>
+            <height>350</height>
            </size>
           </property>
           <property name="text">
@@ -184,12 +210,12 @@
          <enum>Qt::Vertical</enum>
         </property>
         <property name="sizeType">
-         <enum>QSizePolicy::Fixed</enum>
+         <enum>QSizePolicy::Maximum</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
           <width>50</width>
-          <height>20</height>
+          <height>10</height>
          </size>
         </property>
        </spacer>
@@ -261,7 +287,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>688</width>
+     <width>822</width>
      <height>21</height>
     </rect>
    </property>

@@ -44,8 +44,8 @@ class EntityFileNameLayout(EntityPartLayout):
         entity_str = self._list_widget.selectedItems()[0].data(self._user_role)
         entity = eval(entity_str)
 
-
         # self._parent.active_layout(entity)
+
 
 if __name__ == "__main__":
     pass

@@ -4,6 +4,11 @@ from manager.p import private_conf
 import os
 import lucidity
 
+# v Parameters ==================================================
+# Entity part layout
+altRowColors = True
+
+# ^ Parameters ==================================================
 # v Credentials =================================================
 # School shotgun
 sg_link = private_conf.sg_link
@@ -71,9 +76,7 @@ labels_to_lu_templates = {
 software_list = {
     "Maya": ["ma", "mb"],
     "Houdini": ["hipnc"],
-    "Nuke": ["nk"],
-    "Photoshop": ["psd"],
-    "AfterEffects": ["ae"]
+    "Nuke": ["nk"]
 }
 
 # ^ Software and extensions =====================================
